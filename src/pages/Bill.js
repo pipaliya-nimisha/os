@@ -8,7 +8,6 @@ function Bill() {
 
   const [bill, setBill] = useState(null);
 
-
   useEffect(() => {
 
     fetch("http://localhost:4000/tbl_order")
