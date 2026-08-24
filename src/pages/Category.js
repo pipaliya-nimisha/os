@@ -1,494 +1,473 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
 
-function Category() {
-
+export default function CategoryCRUD() {
   const [categories, setCategories] = useState([]);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
 
-  // Form Show / Hide
-  const [showForm, setShowForm] = useState(false);
+  const nameInputRef = useRef(null);
 
+  const loadData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:4000/tbl_category"
+      );
 
-  const getData = () => {
-
-    fetch("http://localhost:4000/tbl_category")
-
-      .then(res => res.json())
-
-      .then(data => {
-        setCategories(data);
-      });
-
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error loading categories:", error);
+    }
   };
 
-
   useEffect(() => {
-
-    getData();
-
+    loadData();
   }, []);
-
-
-  // Add Category
-  const addCategory = () => {
-
-    if (name === "" || description === "") {
-
-      alert("Please enter all details");
-
+  const addCategory = async () => {
+    if (!name.trim()) {
+      nameInputRef.current.focus();
       return;
     }
 
+    try {
+      await axios.post(
+        "http://localhost:4000/tbl_category",
+        {
+          name,
+          description
+        }
+      );
 
-    fetch("http://localhost:4000/tbl_category", {
+      alert("Category added successfully!");
 
-      method: "POST",
+      setName("");
+      setDescription("");
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+      loadData();
 
-      body: JSON.stringify({
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 0);
 
-        name: name,
-        description: description,
-        status: "Active"
+    } catch (error) {
+      console.error("Error adding category:", error);
+      alert("Error adding category!");
+    }
+  };
+  const deleteCategory = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this category?"
+    );
 
-      })
+    if (!confirmDelete) {
+      return;
+    }
 
-    })
+    try {
+      await axios.delete(
+        `http://localhost:4000/tbl_category/${id}`
+      );
 
-      .then(() => {
+      alert("Category deleted successfully!");
 
-        setName("");
-        setDescription("");
+      loadData();
 
-        setShowForm(false);
-
-        getData();
-
-      });
-
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Error deleting category!");
+    }
+  };
+  const startEdit = (
+    id,
+    currentName,
+    currentDescription
+  ) => {
+    setEditId(id);
+    setEditName(currentName);
+    setEditDescription(currentDescription);
   };
 
+  const saveEdit = async (id) => {
+    if (!editName.trim()) {
+      alert("Category name is required!");
+      return;
+    }
 
-  // Delete Category
-  const deleteCategory = (id) => {
+    try {
+      await axios.put(
+        `http://localhost:4000/tbl_category/${id}`,
+        {
+          id,
+          name: editName,
+          description: editDescription
+        }
+      );
 
-    fetch(
-      "http://localhost:4000/tbl_category/" + id,
-      {
-        method: "DELETE"
-      }
-    )
+      alert("Category updated successfully!");
 
-      .then(() => {
+      setEditId(null);
+      setEditName("");
+      setEditDescription("");
 
-        getData();
+      loadData();
 
-      });
-
+    } catch (error) {
+      console.error("Error updating category:", error);
+      alert("Error updating category!");
+    }
   };
-
-
-  // Edit Category
-  const editCategory = (item) => {
-
-    setEditId(item.id);
-
-    setName(item.name);
-
-    setDescription(item.description);
-
-    setShowForm(true);
-
-  };
-
-
-  // Update Category
-  const updateCategory = () => {
-
-    fetch(
-      "http://localhost:4000/tbl_category/" + editId,
-      {
-
-        method: "PUT",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-
-          id: editId,
-
-          name: name,
-
-          description: description,
-
-          status: "Active"
-
-        })
-
-      }
-
-    )
-
-      .then(() => {
-
-        setEditId(null);
-
-        setName("");
-
-        setDescription("");
-
-        setShowForm(false);
-
-        getData();
-
-      });
-
-  };
-
-
-  // Cancel Button
-  const cancelForm = () => {
-
-    setName("");
-
-    setDescription("");
-
-    setEditId(null);
-
-    setShowForm(false);
-
-  };
-
 
   return (
+    <div className="container-fluid p-0">
 
-    <div style={{ padding: "25px" }}>
+      <h3
+        className="fw-bold mb-4"
+        style={{ color: "#0f172a" }}
+      >
+        Manage Categories
+      </h3>
 
-      <h2>Category</h2>
+      <div
+        className="card border-0 shadow-sm p-4 mb-4"
+        style={{
+          borderRadius: "12px",
+          backgroundColor: "#ffffff"
+        }}
+      >
 
-      <p>Manage all categories</p>
+        <div className="row g-3 align-items-center">
+          <div className="col-md-5">
 
+            <input
+              ref={nameInputRef}
+              type="text"
+              className="form-control py-2 px-3"
+              placeholder="Enter new category name..."
+              value={name}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            />
 
-      {/* Add Category Button */}
+          </div>
 
-      {!showForm && (
+          <div className="col-md-4">
 
-        <button
-          onClick={() => setShowForm(true)}
-          style={addButton}
-        >
-          + Add Category
-        </button>
+            <input
+              type="text"
+              className="form-control py-2 px-3"
+              placeholder="Enter description..."
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            />
 
-      )}
+          </div>
 
-
-      <br />
-      <br />
-
-
-      {/* Category Form */}
-
-      {showForm && (
-
-        <div style={box}>
-
-          <h3>
-            {editId ? "Edit Category" : "Add Category"}
-          </h3>
-
-
-          <input
-            placeholder="Category Name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-            style={input}
-          />
-
-
-          <input
-            placeholder="Description"
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            style={input}
-          />
-
-
-          {editId ? (
-
-            <button
-              onClick={updateCategory}
-              style={button}
-            >
-              Update Category
-            </button>
-
-          ) : (
+          <div className="col-md-3 d-grid">
 
             <button
+              type="button"
+              className="btn text-white fw-semibold py-2"
               onClick={addCategory}
-              style={button}
+              style={{
+                backgroundColor: "#0d9488",
+                borderRadius: "8px",
+                boxShadow:
+                  "0 2px 6px rgba(13, 148, 136, 0.2)"
+              }}
             >
-              Save Category
+              + Add Category
             </button>
 
-          )}
-
-
-          <button
-            onClick={cancelForm}
-            style={cancelButton}
-          >
-            Cancel
-          </button>
+          </div>
 
         </div>
 
-      )}
+      </div>
 
+      <div
+        className="card border-0 shadow-sm overflow-hidden"
+        style={{
+          borderRadius: "12px",
+          backgroundColor: "#ffffff"
+        }}
+      >
 
-      <br />
+        <div className="table-responsive">
 
+          <table className="table align-middle mb-0">
 
-      {/* Category Table */}
+            <thead
+              style={{
+                backgroundColor: "#0f172a",
+                color: "#ffffff"
+              }}
+            >
 
-      <div style={box}>
+              <tr>
 
-        <h3>Category List</h3>
+                <th
+                  style={{
+                    width: "10%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  #
+                </th>
 
+                <th
+                  style={{
+                    width: "35%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Category Name
+                </th>
 
-        <table
-          border="1"
-          width="100%"
-          cellPadding="10"
-        >
+                <th
+                  style={{
+                    width: "30%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Description
+                </th>
 
-          <thead>
-
-            <tr>
-
-              <th>No</th>
-
-              <th>Category Name</th>
-
-              <th>Description</th>
-
-              <th>Status</th>
-
-              <th>Action</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            {categories.map((item, index) => (
-
-              <tr key={item.id}>
-
-                <td>
-                  {index + 1}
-                </td>
-
-                <td>
-                  {item.name}
-                </td>
-
-                <td>
-                  {item.description}
-                </td>
-
-                <td>
-                  {item.status}
-                </td>
-
-                <td>
-
-                  {/* Edit Button */}
-
-                  <button
-                    onClick={() =>
-                      editCategory(item)
-                    }
-                    style={editButton}
-                  >
-                    Edit
-                  </button>
-
-
-                  {/* Delete Button */}
-
-                  <button
-                    onClick={() =>
-                      deleteCategory(item.id)
-                    }
-                    style={deleteButton}
-                  >
-                    Delete
-                  </button>
-
-                </td>
+                <th
+                  style={{
+                    width: "25%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Actions
+                </th>
 
               </tr>
 
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
+              {categories.map((c, index) => (
+
+                <tr
+                  key={c.id}
+                  style={{
+                    borderBottom:
+                      "1px solid #f1f5f9"
+                  }}
+                >
+
+                  <td
+                    className="fw-semibold text-secondary"
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+                    {index + 1}
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === c.id ? (
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={editName}
+                        onChange={(e) =>
+                          setEditName(e.target.value)
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      />
+
+                    ) : (
+
+                      <span
+                        className="fw-medium"
+                        style={{
+                          color: "#334155"
+                        }}
+                      >
+                        {c.name}
+                      </span>
+
+                    )}
+
+                  </td>
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === c.id ? (
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={editDescription}
+                        onChange={(e) =>
+                          setEditDescription(
+                            e.target.value
+                          )
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      />
+
+                    ) : (
+
+                      <span
+                        className="fw-medium"
+                        style={{
+                          color: "#334155"
+                        }}
+                      >
+                        {c.description}
+                      </span>
+
+                    )}
+
+                  </td>
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === c.id ? (
+
+                      <>
+
+                        <button
+                          className="btn btn-sm text-white fw-semibold me-2"
+                          onClick={() =>
+                            saveEdit(c.id)
+                          }
+                          style={{
+                            backgroundColor: "#0d9488",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Save
+                        </button>
+
+                        <button
+                          className="btn btn-sm btn-light fw-semibold text-secondary border"
+                          onClick={() => {
+                            setEditId(null);
+                            setEditName("");
+                            setEditDescription("");
+                          }}
+                          style={{
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                      </>
+
+                    ) : (
+
+                      <>
+                        <button
+                          className="btn btn-sm me-2 fw-semibold"
+                          onClick={() =>
+                            startEdit(
+                              c.id,
+                              c.name,
+                              c.description
+                            )
+                          }
+                          style={{
+                            backgroundColor: "#ccfbf1",
+                            color: "#0f766e",
+                            border: "none",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        {/* Delete */}
+
+                        <button
+                          className="btn btn-sm fw-semibold"
+                          onClick={() =>
+                            deleteCategory(c.id)
+                          }
+                          style={{
+                            backgroundColor: "#fef2f2",
+                            color: "#dc2626",
+                            border: "none",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Delete
+                        </button>
+
+                      </>
+
+                    )}
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+              {categories.length === 0 && (
+
+                <tr>
+
+                  <td
+                    colSpan="4"
+                    className="text-center py-4 text-muted"
+                  >
+                    No categories found.
+                  </td>
+
+                </tr>
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
     </div>
-
   );
 }
-
-
-/* Box */
-
-const box = {
-
-  background: "white",
-
-  padding: "20px",
-
-  borderRadius: "10px"
-
-};
-
-
-/* Input */
-
-const input = {
-
-  padding: "10px",
-
-  margin: "5px",
-
-  border: "1px solid #ccc",
-
-  borderRadius: "5px",
-
-  width: "250px"
-
-};
-
-
-/* Add Category Button */
-
-const addButton = {
-
-  padding: "11px 18px",
-
-  background: "#6d28d9",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer"
-
-};
-
-
-/* Save / Update Button */
-
-const button = {
-
-  padding: "10px 15px",
-
-  background: "#6d28d9",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  margin: "5px"
-
-};
-
-
-/* Cancel Button */
-
-const cancelButton = {
-
-  padding: "10px 15px",
-
-  background: "#777",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  margin: "5px"
-
-};
-
-
-/* Edit Button */
-
-const editButton = {
-
-  padding: "8px 15px",
-
-  background: "#2196F3",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  marginRight: "10px"
-
-};
-
-
-/* Delete Button */
-
-const deleteButton = {
-
-  padding: "8px 15px",
-
-  background: "#dc3545",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer"
-
-};
-
-
-export default Category;

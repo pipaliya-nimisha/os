@@ -40,8 +40,7 @@ function Bill() {
     }
 
   };
-
-
+  
   return (
 
     <div style={{ padding: "25px" }}>

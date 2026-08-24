@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
 
-function Products() {
-
+export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -11,590 +11,720 @@ function Products() {
   const [stock, setStock] = useState("");
 
   const [editId, setEditId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [editPrice, setEditPrice] = useState("");
+  const [editStock, setEditStock] = useState("");
 
-  // Form Show / Hide
-  const [showForm, setShowForm] = useState(false);
+  const nameInputRef = useRef(null);
 
+  // Load Products
+  const loadProducts = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:4000/tbl_product"
+      );
 
-  // Get Products
-  const getProducts = () => {
-
-    fetch("http://localhost:4000/tbl_product")
-
-      .then(res => res.json())
-
-      .then(data => {
-        setProducts(data);
-      });
-
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error loading products:", error);
+    }
   };
 
+  // Load Categories
+  const loadCategories = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:4000/tbl_category"
+      );
 
-  // Get Categories
-  const getCategories = () => {
-
-    fetch("http://localhost:4000/tbl_category")
-
-      .then(res => res.json())
-
-      .then(data => {
-        setCategories(data);
-      });
-
+      setCategories(res.data);
+    } catch (error) {
+      console.error("Error loading categories:", error);
+    }
   };
-
 
   useEffect(() => {
-
-    getProducts();
-    getCategories();
-
+    loadProducts();
+    loadCategories();
   }, []);
 
-
   // Add Product
-  const addProduct = () => {
+  const addProduct = async () => {
 
     if (
-      name === "" ||
-      category === "" ||
-      price === "" ||
+      !name.trim() ||
+      !category ||
+      !price ||
       stock === ""
     ) {
-
-      alert("Please enter all details");
-
+      alert("Please fill all fields!");
+      nameInputRef.current.focus();
       return;
     }
 
+    try {
 
-    fetch("http://localhost:4000/tbl_product", {
+      await axios.post(
+        "http://localhost:4000/tbl_product",
+        {
+          name,
+          category,
+          price,
+          stock,
+          status: "Active"
+        }
+      );
 
-      method: "POST",
+      alert("Product added successfully!");
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+      setName("");
+      setCategory("");
+      setPrice("");
+      setStock("");
 
-      body: JSON.stringify({
+      loadProducts();
 
-        name: name,
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 0);
 
-        category: category,
+    } catch (error) {
 
-        price: price,
+      console.error("Error adding product:", error);
+      alert("Error adding product!");
 
-        stock: stock,
-
-        status: "Active"
-
-      })
-
-    })
-
-      .then(() => {
-
-        clearData();
-
-        setShowForm(false);
-
-        getProducts();
-
-      });
-
+    }
   };
-
 
   // Delete Product
-  const deleteProduct = (id) => {
+  const deleteProduct = async (id) => {
 
-    fetch(
-      "http://localhost:4000/tbl_product/" + id,
-      {
-        method: "DELETE"
-      }
-    )
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
 
-      .then(() => {
+    if (!confirmDelete) {
+      return;
+    }
 
-        getProducts();
+    try {
 
-      });
+      await axios.delete(
+        `http://localhost:4000/tbl_product/${id}`
+      );
+
+      alert("Product deleted successfully!");
+
+      loadProducts();
+
+    } catch (error) {
+
+      console.error("Error deleting product:", error);
+      alert("Error deleting product!");
+
+    }
+  };
+
+  // Start Edit
+  const startEdit = (
+    id,
+    currentName,
+    currentCategory,
+    currentPrice,
+    currentStock
+  ) => {
+
+    setEditId(id);
+    setEditName(currentName);
+    setEditCategory(currentCategory);
+    setEditPrice(currentPrice);
+    setEditStock(currentStock);
 
   };
 
+  // Save Edit
+  const saveEdit = async (id) => {
 
-  // Edit Product
-  const editProduct = (item) => {
+    if (
+      !editName.trim() ||
+      !editCategory ||
+      !editPrice ||
+      editStock === ""
+    ) {
+      alert("Please fill all fields!");
+      return;
+    }
 
-    setEditId(item.id);
+    try {
 
-    setName(item.name);
-
-    setCategory(item.category);
-
-    setPrice(item.price);
-
-    setStock(item.stock);
-
-    setShowForm(true);
-
-  };
-
-
-  // Update Product
-  const updateProduct = () => {
-
-    fetch(
-      "http://localhost:4000/tbl_product/" + editId,
-      {
-
-        method: "PUT",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-
-          id: editId,
-
-          name: name,
-
-          category: category,
-
-          price: price,
-
-          stock: stock,
-
+      await axios.put(
+        `http://localhost:4000/tbl_product/${id}`,
+        {
+          id,
+          name: editName,
+          category: editCategory,
+          price: editPrice,
+          stock: editStock,
           status: "Active"
+        }
+      );
 
-        })
+      alert("Product updated successfully!");
 
-      }
-    )
+      setEditId(null);
+      setEditName("");
+      setEditCategory("");
+      setEditPrice("");
+      setEditStock("");
 
-      .then(() => {
+      loadProducts();
 
-        clearData();
+    } catch (error) {
 
-        setShowForm(false);
+      console.error("Error updating product:", error);
+      alert("Error updating product!");
 
-        getProducts();
-
-      });
-
+    }
   };
-
-
-  // Clear Form
-  const clearData = () => {
-
-    setName("");
-
-    setCategory("");
-
-    setPrice("");
-
-    setStock("");
-
-    setEditId(null);
-
-  };
-
-
-  // Cancel Form
-  const cancelForm = () => {
-
-    clearData();
-
-    setShowForm(false);
-
-  };
-
 
   return (
+    <div className="container-fluid p-0">
 
-    <div style={{ padding: "25px" }}>
+      <h3
+        className="fw-bold mb-4"
+        style={{ color: "#0f172a" }}
+      >
+        Manage Products
+      </h3>
 
-      <h2>Products</h2>
+      {/* Add Product Form */}
 
-      <p>Manage all products</p>
+      <div
+        className="card border-0 shadow-sm p-4 mb-4"
+        style={{
+          borderRadius: "12px",
+          backgroundColor: "#ffffff"
+        }}
+      >
 
-
-      {/* Add Product Button */}
-
-      {!showForm && (
-
-        <button
-          onClick={() => setShowForm(true)}
-          style={addButton}
-        >
-          + Add Product
-        </button>
-
-      )}
-
-
-      <br />
-      <br />
-
-
-      {/* Product Form */}
-
-      {showForm && (
-
-        <div style={box}>
-
-          <h3>
-            {editId ? "Edit Product" : "Add Product"}
-          </h3>
-
+        <div className="row g-3 align-items-center">
 
           {/* Product Name */}
 
-          <input
-            placeholder="Product Name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-            style={input}
-          />
+          <div className="col-md-3">
 
+            <input
+              ref={nameInputRef}
+              type="text"
+              className="form-control py-2 px-3"
+              placeholder="Enter product name..."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            />
+
+          </div>
 
           {/* Category */}
 
-          <select
-            value={category}
-            onChange={(e) =>
-              setCategory(e.target.value)
-            }
-            style={input}
-          >
+          <div className="col-md-3">
 
-            <option value="">
-              Select Category
-            </option>
+            <select
+              className="form-select py-2 px-3"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            >
 
-            {categories.map(item => (
-
-              <option
-                key={item.id}
-                value={item.name}
-              >
-                {item.name}
+              <option value="">
+                Select Category
               </option>
 
-            ))}
+              {categories.map((item) => (
 
-          </select>
+                <option
+                  key={item.id}
+                  value={item.name}
+                >
+                  {item.name}
+                </option>
 
+              ))}
+
+            </select>
+
+          </div>
 
           {/* Price */}
 
-          <input
-            type="number"
-            placeholder="Price"
-            value={price}
-            onChange={(e) =>
-              setPrice(e.target.value)
-            }
-            style={input}
-          />
+          <div className="col-md-2">
 
+            <input
+              type="number"
+              className="form-control py-2 px-3"
+              placeholder="Price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            />
+
+          </div>
 
           {/* Stock */}
 
-          <input
-            type="number"
-            placeholder="Stock"
-            value={stock}
-            onChange={(e) =>
-              setStock(e.target.value)
-            }
-            style={input}
-          />
+          <div className="col-md-2">
 
+            <input
+              type="number"
+              className="form-control py-2 px-3"
+              placeholder="Stock"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              style={{
+                borderRadius: "8px",
+                borderColor: "#cbd5e1",
+                fontSize: "14px"
+              }}
+            />
 
-          {/* Save / Update */}
+          </div>
 
-          {editId ? (
+          {/* Add Button */}
 
-            <button
-              onClick={updateProduct}
-              style={button}
-            >
-              Update Product
-            </button>
-
-          ) : (
+          <div className="col-md-2 d-grid">
 
             <button
+              type="button"
+              className="btn text-white fw-semibold py-2"
               onClick={addProduct}
-              style={button}
+              style={{
+                backgroundColor: "#0d9488",
+                borderRadius: "8px"
+              }}
             >
-              Save Product
+              + Add Product
             </button>
 
-          )}
-
-
-          {/* Cancel */}
-
-          <button
-            onClick={cancelForm}
-            style={cancelButton}
-          >
-            Cancel
-          </button>
+          </div>
 
         </div>
 
-      )}
-
-
-      <br />
-
+      </div>
 
       {/* Product Table */}
 
-      <div style={box}>
+      <div
+        className="card border-0 shadow-sm overflow-hidden"
+        style={{
+          borderRadius: "12px",
+          backgroundColor: "#ffffff"
+        }}
+      >
 
-        <h3>Product List</h3>
+        <div className="table-responsive">
 
+          <table className="table align-middle mb-0">
 
-        <table
-          border="1"
-          width="100%"
-          cellPadding="10"
-        >
+            <thead
+              style={{
+                backgroundColor: "#0f172a",
+                color: "#ffffff"
+              }}
+            >
 
-          <thead>
+              <tr>
 
-            <tr>
+                <th
+                  style={{
+                    width: "7%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  #
+                </th>
 
-              <th>No</th>
+                <th
+                  style={{
+                    width: "20%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Product Name
+                </th>
 
-              <th>Product Name</th>
+                <th
+                  style={{
+                    width: "18%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Category
+                </th>
 
-              <th>Category</th>
+                <th
+                  style={{
+                    width: "12%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Price
+                </th>
 
-              <th>Price</th>
+                <th
+                  style={{
+                    width: "12%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Stock
+                </th>
 
-              <th>Stock</th>
+                <th
+                  style={{
+                    width: "12%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Status
+                </th>
 
-              <th>Status</th>
-
-              <th>Action</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            {products.map((item, index) => (
-
-              <tr key={item.id}>
-
-                <td>
-                  {index + 1}
-                </td>
-
-                <td>
-                  {item.name}
-                </td>
-
-                <td>
-                  {item.category}
-                </td>
-
-                <td>
-                  ₹{item.price}
-                </td>
-
-                <td>
-                  {item.stock}
-                </td>
-
-                <td>
-                  {item.status}
-                </td>
-
-                <td>
-
-                  {/* Edit Button */}
-
-                  <button
-                    onClick={() =>
-                      editProduct(item)
-                    }
-                    style={editButton}
-                  >
-                    Edit
-                  </button>
-
-
-                  {/* Delete Button */}
-
-                  <button
-                    onClick={() =>
-                      deleteProduct(item.id)
-                    }
-                    style={deleteButton}
-                  >
-                    Delete
-                  </button>
-
-                </td>
+                <th
+                  style={{
+                    width: "19%",
+                    padding: "14px 20px"
+                  }}
+                >
+                  Actions
+                </th>
 
               </tr>
 
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
+              {products.map((p, index) => (
+
+                <tr
+                  key={p.id}
+                  style={{
+                    borderBottom: "1px solid #f1f5f9"
+                  }}
+                >
+
+                  {/* Number */}
+
+                  <td
+                    className="fw-semibold text-secondary"
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+                    {index + 1}
+                  </td>
+
+                  {/* Product Name */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === p.id ? (
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={editName}
+                        onChange={(e) =>
+                          setEditName(e.target.value)
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      />
+
+                    ) : (
+
+                      <span
+                        className="fw-medium"
+                        style={{
+                          color: "#334155"
+                        }}
+                      >
+                        {p.name}
+                      </span>
+
+                    )}
+
+                  </td>
+
+                  {/* Category */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === p.id ? (
+
+                      <select
+                        className="form-select"
+                        value={editCategory}
+                        onChange={(e) =>
+                          setEditCategory(e.target.value)
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      >
+
+                        <option value="">
+                          Select Category
+                        </option>
+
+                        {categories.map((item) => (
+
+                          <option
+                            key={item.id}
+                            value={item.name}
+                          >
+                            {item.name}
+                          </option>
+
+                        ))}
+
+                      </select>
+
+                    ) : (
+
+                      <span
+                        className="fw-medium"
+                        style={{
+                          color: "#334155"
+                        }}
+                      >
+                        {p.category}
+                      </span>
+
+                    )}
+
+                  </td>
+
+                  {/* Price */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === p.id ? (
+
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={editPrice}
+                        onChange={(e) =>
+                          setEditPrice(e.target.value)
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      />
+
+                    ) : (
+
+                      <>₹{p.price}</>
+
+                    )}
+
+                  </td>
+
+                  {/* Stock */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === p.id ? (
+
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={editStock}
+                        onChange={(e) =>
+                          setEditStock(e.target.value)
+                        }
+                        style={{
+                          borderRadius: "6px",
+                          borderColor: "#0d9488"
+                        }}
+                      />
+
+                    ) : (
+
+                      p.stock
+
+                    )}
+
+                  </td>
+
+                  {/* Status */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    <span
+                      style={{
+                        color: "#0f766e",
+                        fontWeight: "600"
+                      }}
+                    >
+                      {p.status}
+                    </span>
+
+                  </td>
+
+                  {/* Actions */}
+
+                  <td
+                    style={{
+                      padding: "14px 20px"
+                    }}
+                  >
+
+                    {editId === p.id ? (
+
+                      <>
+
+                        <button
+                          className="btn btn-sm text-white fw-semibold me-2"
+                          onClick={() =>
+                            saveEdit(p.id)
+                          }
+                          style={{
+                            backgroundColor: "#0d9488",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Save
+                        </button>
+
+                        <button
+                          className="btn btn-sm btn-light fw-semibold text-secondary border"
+                          onClick={() => {
+                            setEditId(null);
+                            setEditName("");
+                            setEditCategory("");
+                            setEditPrice("");
+                            setEditStock("");
+                          }}
+                          style={{
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                      </>
+
+                    ) : (
+
+                      <>
+
+                        <button
+                          className="btn btn-sm me-2 fw-semibold"
+                          onClick={() =>
+                            startEdit(
+                              p.id,
+                              p.name,
+                              p.category,
+                              p.price,
+                              p.stock
+                            )
+                          }
+                          style={{
+                            backgroundColor: "#ccfbf1",
+                            color: "#0f766e",
+                            border: "none",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          className="btn btn-sm fw-semibold"
+                          onClick={() =>
+                            deleteProduct(p.id)
+                          }
+                          style={{
+                            backgroundColor: "#fef2f2",
+                            color: "#dc2626",
+                            border: "none",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Delete
+                        </button>
+
+                      </>
+
+                    )}
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+              {products.length === 0 && (
+
+                <tr>
+
+                  <td
+                    colSpan="7"
+                    className="text-center py-4 text-muted"
+                  >
+                    No products found.
+                  </td>
+
+                </tr>
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
     </div>
-
   );
 }
-
-
-/* Box */
-
-const box = {
-
-  background: "white",
-
-  padding: "20px",
-
-  borderRadius: "10px"
-
-};
-
-
-/* Input */
-
-const input = {
-
-  padding: "10px",
-
-  margin: "5px",
-
-  border: "1px solid #ccc",
-
-  borderRadius: "5px",
-
-  width: "200px"
-
-};
-
-
-/* Add Product Button */
-
-const addButton = {
-
-  padding: "11px 18px",
-
-  background: "#6d28d9",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer"
-
-};
-
-
-/* Save / Update Button */
-
-const button = {
-
-  padding: "10px 15px",
-
-  background: "#6d28d9",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  margin: "5px"
-
-};
-
-
-/* Cancel Button */
-
-const cancelButton = {
-
-  padding: "10px 15px",
-
-  background: "#777",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  margin: "5px"
-
-};
-
-
-/* Edit Button */
-
-const editButton = {
-
-  padding: "8px 15px",
-
-  background: "#2196F3",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer",
-
-  marginRight: "10px"
-
-};
-
-
-/* Delete Button */
-
-const deleteButton = {
-
-  padding: "8px 15px",
-
-  background: "#dc3545",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "5px",
-
-  cursor: "pointer"
-
-};
-
-
-export default Products;

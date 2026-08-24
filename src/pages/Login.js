@@ -1,142 +1,128 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
-
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-
-  const login = (e) => {
-
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    fetch(
-      "http://localhost:4000/tbl_admin?email=" +
-      email +
-      "&password=" +
-      password
-    )
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/tbl_admin?email=${email}&password=${password}`
+      );
 
-      .then(res => res.json())
+      if (res.data.length > 0) {
+        localStorage.setItem("auth", "true");
 
-      .then(data => {
+        alert("Login Successful");
 
-        if (data.length > 0) {
-
-          localStorage.setItem(
-            "admin",
-            JSON.stringify(data[0])
-          );
-
-          navigate("/dashboard");
-
-        } else {
-
-          alert("Invalid Email or Password");
-
-        }
-
-      });
-
+        navigate("/category");
+      } else {
+        alert("Invalid Email or Password only Admin can login");
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      alert("Server error. Please check JSON Server.");
+      window.location.reload();
+    }
   };
 
-
   return (
-
     <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#6d28d9"
-      }}
+      className="container d-flex justify-content-center align-items-center vh-100"
+      style={{ backgroundColor: "#f1f5f9" }}
     >
-
       <div
+        className="card shadow p-4"
         style={{
-          width: "380px",
-          background: "white",
-          padding: "35px",
-          borderRadius: "15px",
-          boxShadow: "0 5px 20px #333"
+          width: "350px",
+          borderRadius: "16px",
+          border: "none",
         }}
       >
-
-        <h1 style={{ textAlign: "center" }}>
-          My Store
-        </h1>
-
-        <p style={{ textAlign: "center" }}>
+        <h3
+          className="text-center mb-4 fw-bold"
+          style={{ color: "#0f172a" }}
+        >
           Admin Login
-        </p>
+        </h3>
 
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label
+              className="form-label fw-semibold"
+              style={{ color: "#334155", fontSize: "14px" }}
+            >
+              Email
+            </label>
 
-        <form onSubmit={login}>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                padding: "10px 14px",
+                borderRadius: "8px",
+                border: "1px solid #cbd5e1",
+                fontSize: "14px",
+              }}
+              required
+            />
+          </div>
 
-          <label>Email</label>
+          <div className="mb-3">
+            <label
+              className="form-label fw-semibold"
+              style={{ color: "#334155", fontSize: "14px" }}
+            >
+              Password
+            </label>
 
-          <input
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            style={input}
-            required
-          />
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                padding: "10px 14px",
+                borderRadius: "8px",
+                border: "1px solid #cbd5e1",
+                fontSize: "14px",
+              }}
+              required
+            />
+          </div>
 
-
-          <label>Password</label>
-
-          <input
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            style={input}
-            required
-          />
-
-
-          <button type="submit" style={button}>
+          <button
+            type="submit"
+            className="btn w-100 fw-bold text-white"
+            style={{
+              padding: "11px",
+              borderRadius: "8px",
+              backgroundColor: "#0d9488",
+              border: "none",
+              fontSize: "15px",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "#0f766e";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "#0d9488";
+            }}
+          >
             Login
           </button>
-
         </form>
-
       </div>
-
     </div>
   );
 }
-
-
-const input = {
-  width: "100%",
-  padding: "11px",
-  margin: "8px 0 15px",
-  boxSizing: "border-box",
-  border: "1px solid #ccc",
-  borderRadius: "6px"
-};
-
-
-const button = {
-  width: "100%",
-  height: "45px",
-  background: "#6d28d9",
-  color: "white",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer"
-};
-
-
-export default Login;
