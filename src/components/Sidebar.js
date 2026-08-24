@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function Sidebar({ children }) {
+function Sidebar(props) {
   return (
     <div style={container}>
 
@@ -17,75 +17,45 @@ function Sidebar({ children }) {
           Management System
         </p>
 
-        <hr style={line} />
+        <hr />
 
-        <NavLink
-          to="/dashboard"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/dashboard" style={link}>
           🏠 Dashboard
         </NavLink>
 
-        <NavLink
-          to="/category"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/category" style={link}>
           📁 Category
         </NavLink>
 
-        <NavLink
-          to="/products"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/products" style={link}>
           📦 Products
         </NavLink>
 
-        <NavLink
-          to="/stock"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/stock" style={link}>
           📊 Stock
         </NavLink>
 
-        <NavLink
-          to="/orders"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/orders" style={link}>
           🛒 Orders
         </NavLink>
 
-        <NavLink
-          to="/order-status"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/order-status" style={link}>
           🔄 Order Status
         </NavLink>
 
-        <NavLink
-          to="/customers"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/customers" style={link}>
           👥 Customers
         </NavLink>
 
-        <NavLink
-          to="/bill"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/bill" style={link}>
           🧾 Generate Bill
         </NavLink>
 
-        <NavLink
-          to="/profile"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/profile" style={link}>
           👤 Profile
         </NavLink>
 
-        <NavLink
-          to="/logout"
-          style={({ isActive }) => (isActive ? activeLink : link)}
-        >
+        <NavLink to="/logout" style={link}>
           🚪 Logout
         </NavLink>
 
@@ -95,18 +65,14 @@ function Sidebar({ children }) {
 
       <div style={main}>
 
-        {/* Header */}
-
         <div style={header}>
-
           <b>☰ Admin Panel</b>
-
-          <span>👨‍💼 Admin</span>
-
+          <br />
+          👨‍💼 Admin
         </div>
 
         <div style={content}>
-          {children}
+          {props.children}
         </div>
 
       </div>
@@ -119,72 +85,49 @@ function Sidebar({ children }) {
 
 const container = {
   display: "flex",
-  minHeight: "100vh",
+  backgroundColor: "#FFFDF7"
 };
 
 const sidebar = {
   width: "220px",
-  background: "#134E4A",
+  backgroundColor: "#134E4A",
   color: "white",
-  padding: "20px 10px",
-  position: "fixed",
-  height: "100vh",
-  boxSizing: "border-box",
+  padding: "15px",
+  height: "100vh"
 };
 
 const title = {
-  textAlign: "center",
-  marginBottom: "5px",
+  textAlign: "center"
 };
 
 const subtitle = {
   textAlign: "center",
-  fontSize: "11px",
-  marginBottom: "15px",
-};
-
-const line = {
-  border: "1px solid #2DD4BF",
+  fontSize: "12px"
 };
 
 const main = {
-  marginLeft: "220px",
-  width: "calc(100% - 220px)",
-  background: "#FFFDF7",
-  minHeight: "100vh",
+  width: "100%",
+  backgroundColor: "#FFFDF7"
 };
 
 const header = {
-  background: "#FFFFFF",
-  padding: "18px 25px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  borderBottom: "1px solid #ddd",
+  backgroundColor: "white",
+  padding: "15px",
+  borderBottom: "1px solid gray"
 };
 
 const content = {
-  padding: "20px",
+  padding: "20px"
 };
 
 const link = {
   display: "block",
   color: "#E5E7EB",
+  backgroundColor: "#134E4A",
   textDecoration: "none",
-  padding: "12px 15px",
-  margin: "6px 0",
-  borderRadius: "6px",
-};
-
-const activeLink = {
-  display: "block",
-  background: "#FFFFFF",
-  color: "#0d9488",
-  textDecoration: "none",
-  padding: "12px 15px",
-  margin: "6px 0",
-  borderRadius: "6px",
-  fontWeight: "bold",
+  padding: "10px",
+  marginTop: "8px",
+  borderRadius: "5px"
 };
 
 export default Sidebar;
