@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Login() {
 
@@ -20,7 +21,7 @@ function Login() {
 
     // Login type check
     if (loginAs === "") {
-      alert("Please select Admin or Customer");
+      toast.error("Please select Admin or Customer");
       return;
     }
 
@@ -53,13 +54,14 @@ function Login() {
             JSON.stringify(admin)
           );
 
-          alert("Admin Login Successful");
+          toast.success("Admin Login Successful");
 
-          navigate("/admin/Dashboard");
+          // Admin Dashboard
+          navigate("/admin/dashboard");
 
         } else {
 
-          alert("Invalid Admin Email or Password");
+          toast.error("Invalid Admin Email or Password");
 
         }
       }
@@ -96,7 +98,7 @@ function Login() {
             "true"
           );
 
-          alert("Customer Login Successful");
+          toast.success("Customer Login Successful");
 
           // Customer Home Page
           navigate("/");
@@ -105,7 +107,7 @@ function Login() {
 
           // Email/password ખોટું હોય તો
           // Register First message
-          alert("Please Register First");
+          toast.error("Please Register First");
 
         }
       }
@@ -114,7 +116,7 @@ function Login() {
 
       console.error("Login Error:", error);
 
-      alert(
+      toast.error(
         "Server error. Please check JSON Server on port 4000."
       );
     }

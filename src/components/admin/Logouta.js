@@ -1,48 +1,21 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Logout() {
-
+function Logouta() {
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
+    // Remove admin login data
+    localStorage.removeItem("admin");
+    localStorage.removeItem("auth");
 
-    const admin = JSON.parse(localStorage.getItem("admin"));
-
-    if (admin) {
-
-      try {
-
-        const res = await fetch(
-          `http://localhost:4000/tbl_admin/${admin.id}`
-        );
-
-        const data = await res.json();
-
-        console.log("Logged in Admin:", data);
-
-        localStorage.removeItem("admin");
-
-        navigate("/login");
-
-      } catch (error) {
-
-        console.log("Error:", error);
-
-        localStorage.removeItem("admin");
-
-        navigate("/login");
-      }
-
-    } else {
-
-      navigate("/login");
-
-    }
+    // Go to login page
+    navigate("/login");
   };
 
   const handleCancel = () => {
-    navigate("/dashboard");
+    navigate("/admin/Dashboard");
   };
 
   const main = {
@@ -107,34 +80,36 @@ function Logout() {
   };
 
   return (
-
     <div style={main}>
-
       <div style={box}>
 
+        {/* Logout Icon */}
         <div style={icon}>
           <i className="fa-solid fa-right-from-bracket"></i>
         </div>
 
+        {/* Heading */}
         <h2
           style={{
             color: "#26364c",
-            margin: "0 0 10px"
+            margin: "0 0 10px",
           }}
         >
           Logout
         </h2>
 
+        {/* Message */}
         <p
           style={{
             color: "#98a2b1",
             fontSize: "14px",
-            marginBottom: "25px"
+            marginBottom: "25px",
           }}
         >
           Are you sure you want to logout?
         </p>
 
+        {/* Logout Button */}
         <button
           style={logoutBtn}
           onClick={handleLogout}
@@ -143,6 +118,7 @@ function Logout() {
           &nbsp; Yes, Logout
         </button>
 
+        {/* Cancel Button */}
         <button
           style={cancelBtn}
           onClick={handleCancel}
@@ -151,10 +127,9 @@ function Logout() {
         </button>
 
       </div>
-
     </div>
-
   );
 }
 
-export default Logout;
+export default Logouta;
+

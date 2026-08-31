@@ -32,6 +32,14 @@
       "city": "surat",
       "contactNo": "1236547892",
       "password": "p123"
+    },
+    {
+      "name": "wqe",
+      "email": "h@gmail.com",
+      "mobile": "232424",
+      "password": "h123",
+      "address": "ghgh",
+      "id": "USxs_53Qy50"
     }
   ],
   "tbl_category": [
@@ -114,5 +122,6 @@
     }
   ],
   "tbl_order_details": [],
-  "tbl_bill": []
+  "tbl_bill": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }

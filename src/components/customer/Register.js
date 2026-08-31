@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Register() {
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -17,11 +19,12 @@ function Register() {
 
     // Check all fields
     if (!name || !email || !mobile || !password || !address) {
-      alert("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
     try {
+
       // ==========================================
       // CHECK CUSTOMER ALREADY EXISTS
       // ==========================================
@@ -31,7 +34,7 @@ function Register() {
       );
 
       if (res.data.length > 0) {
-        alert("Email already registered");
+        toast.error("Email already registered");
         return;
       }
 
@@ -54,15 +57,16 @@ function Register() {
       // SUCCESS
       // ==========================================
 
-      alert("Registration successful. Please login.");
+      toast.success("Registration successful. Please login.");
 
       // Go to Customer Login page
       navigate("/customer-login");
 
     } catch (error) {
+
       console.error("Registration Error:", error);
 
-      alert(
+      toast.error(
         "Registration failed. Please check JSON Server on port 4000."
       );
     }

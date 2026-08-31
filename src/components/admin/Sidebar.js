@@ -77,8 +77,9 @@ function Sidebar({ children }) {
     marginRight: "8px"
   };
 
+  // Go to Logout Confirmation Page
   const handleLogout = () => {
-    navigate("/login");
+    navigate("/admin/logout");
   };
 
   return (

@@ -66,7 +66,7 @@ function Header() {
                       className="d-block fw-semibold"
                       style={{ color: "#0f766e" }}
                     >
-                      Account
+                      Login
                     </small>
                   </Link>
                 </div>
@@ -132,14 +132,6 @@ function Header() {
               style={{ color: "#0f766e" }}
             >
               Categories
-            </Link>
-
-            <Link
-              to="/contact"
-              className="nav-link fw-semibold px-4"
-              style={{ color: "#0f766e" }}
-            >
-              Contact
             </Link>
 
             <Link

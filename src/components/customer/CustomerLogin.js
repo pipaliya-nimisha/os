@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function CustomerLogin() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,22 +14,33 @@ function CustomerLogin() {
     e.preventDefault();
 
     try {
+
       const res = await axios.get(
         `http://localhost:4000/tbl_customer?email=${email}&password=${password}`
       );
 
       if (res.data.length > 0) {
+
         localStorage.setItem("userAuth", "true");
         localStorage.setItem("userName", email);
 
+        toast.success("Login Successful");
+
         // Login successful → Customer Home
         navigate("/");
+
       } else {
-        alert("Invalid email or password");
+
+        toast.error("Invalid email or password");
+
       }
+
     } catch (error) {
+
       console.error("Login Error:", error);
-      alert("Unable to connect to server.");
+
+      toast.error("Unable to connect to server.");
+
     }
   };
 
@@ -39,7 +52,9 @@ function CustomerLogin() {
         backgroundColor: "#f5f7fb",
       }}
     >
+
       <div className="container">
+
         <div className="row justify-content-center">
 
           <div className="col-md-5 col-lg-4">
@@ -59,7 +74,10 @@ function CustomerLogin() {
 
               <form onSubmit={handleLogin}>
 
+                {/* EMAIL */}
+
                 <div className="mb-3">
+
                   <label className="form-label fw-semibold">
                     Email
                   </label>
@@ -72,9 +90,14 @@ function CustomerLogin() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
+
                 </div>
 
+
+                {/* PASSWORD */}
+
                 <div className="mb-3">
+
                   <label className="form-label fw-semibold">
                     Password
                   </label>
@@ -87,28 +110,41 @@ function CustomerLogin() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+
                 </div>
+
+
+                {/* LOGIN BUTTON */}
 
                 <button
                   type="submit"
                   className="btn w-100 text-white fw-semibold py-2"
-                  style={{ backgroundColor: "#0f766e" }}
+                  style={{
+                    backgroundColor: "#0f766e",
+                  }}
                 >
                   Login
                 </button>
 
               </form>
 
+
+              {/* REGISTER */}
+
               <p className="text-center text-muted mt-4 mb-0">
+
                 Don't have an account?{" "}
 
                 <Link
                   to="/register"
                   className="fw-semibold text-decoration-none"
-                  style={{ color: "#0f766e" }}
+                  style={{
+                    color: "#0f766e",
+                  }}
                 >
                   Register
                 </Link>
+
               </p>
 
             </div>
@@ -116,7 +152,9 @@ function CustomerLogin() {
           </div>
 
         </div>
+
       </div>
+
     </div>
   );
 }

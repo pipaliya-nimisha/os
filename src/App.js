@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 // ================= ADMIN =================
 
@@ -33,10 +34,11 @@ function App() {
   return (
     <BrowserRouter>
 
+  <Toaster position="top-center" />
       <Routes>
 
         {/* ================================================= */}
-        {/*                 CUSTOMER PANEL                   */}
+        {/*                 CUSTOMER PANEL                    */}
         {/* ================================================= */}
 
         {/* Customer Home */}
