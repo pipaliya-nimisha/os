@@ -1,0 +1,118 @@
+{
+  "tbl_admin": [
+    {
+      "id": "1",
+      "name": "Devangi Rathod",
+      "email": "d@gmail.com",
+      "password": "d123",
+      "mobile": "9876543210",
+      "city": "surat"
+    },
+    {
+      "id": "2",
+      "name": "Nimisha Pipliya",
+      "email": "n@gmail.com",
+      "password": "n123",
+      "mobile": "9876543220"
+    },
+    {
+      "id": "3",
+      "name": "Jinal Dhandhukiya",
+      "email": "j@gmail.com",
+      "password": "j123",
+      "mobile": "9976543210"
+    }
+  ],
+  "tbl_customer": [
+    {
+      "id": "1",
+      "email": "p@gmail.com",
+      "fname": "Pranjal",
+      "lname": "Patel",
+      "city": "surat",
+      "contactNo": "1236547892",
+      "password": "p123"
+    }
+  ],
+  "tbl_category": [
+    {
+      "name": "Book",
+      "description": "Full Scape Pages",
+      "status": "Active",
+      "id": "F2w0ukT9lCc"
+    },
+    {
+      "name": "Pen",
+      "description": "Dark Color",
+      "status": "Active",
+      "id": "QGzY9B-Wmpw"
+    },
+    {
+      "name": "Pencil",
+      "description": "Extra Dark!!",
+      "status": "Active",
+      "id": "6nbT4xVuDSg"
+    },
+    {
+      "id": "I48Mxm38rY0",
+      "name": "Natraj Sharpener",
+      "description": "Pencil Sharping Tool"
+    }
+  ],
+  "tbl_product": [
+    {
+      "id": "oWkRLYkNgjY",
+      "name": "Natraj Sharpener",
+      "category": "Sharpener",
+      "price": "10",
+      "stock": "50",
+      "status": "Active"
+    },
+    {
+      "id": "JowbUUwgyiU",
+      "name": "Apsara Pencil",
+      "category": "Pencil",
+      "price": "8",
+      "stock": "0",
+      "status": "Out of Stock"
+    },
+    {
+      "name": "Sharpnar",
+      "category": "Natraj Sharpener",
+      "price": "6",
+      "stock": "8",
+      "status": "Active",
+      "id": "2vA92NtGGzo"
+    }
+  ],
+  "tbl_stock": [],
+  "tbl_cart": [],
+  "tbl_order": [
+    {
+      "id": "1",
+      "customerName": "Jinu",
+      "date": "25-08-2026",
+      "amount": 500,
+      "status": "Pending",
+      "payment": "COD"
+    },
+    {
+      "id": "2",
+      "customerName": "Nimisha",
+      "date": "25-08-2026",
+      "amount": 750,
+      "status": "Pending",
+      "payment": "Online"
+    },
+    {
+      "id": "3",
+      "customerName": "Devangi",
+      "date": "25-08-2026",
+      "amount": 750,
+      "status": "Confirmed",
+      "payment": "Online"
+    }
+  ],
+  "tbl_order_details": [],
+  "tbl_bill": []
+}

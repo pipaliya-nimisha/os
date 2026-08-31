@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
-function Sidebar(props) {
-
-  const [selected, setSelected] = useState("dashboard");
+function Sidebar({ children }) {
+  const navigate = useNavigate();
 
   const container = {
     display: "flex",
+    minHeight: "100vh",
     backgroundColor: "#FFFDF7"
   };
 
@@ -15,55 +15,76 @@ function Sidebar(props) {
     backgroundColor: "#134E4A",
     color: "white",
     padding: "15px",
-    height: "100vh"
+    minHeight: "100vh",
+    boxSizing: "border-box"
   };
 
   const title = {
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: "5px"
   };
 
   const subtitle = {
     textAlign: "center",
-    fontSize: "12px"
+    fontSize: "12px",
+    lineHeight: "1.5"
   };
 
   const main = {
-    width: "100%",
+    flex: 1,
     backgroundColor: "#FFFDF7"
   };
 
   const header = {
     backgroundColor: "white",
-    padding: "15px",
-    borderBottom: "1px solid gray"
+    padding: "15px 25px",
+    borderBottom: "1px solid #ddd",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  };
+
+  const headerRight = {
+    display: "flex",
+    alignItems: "center",
+    gap: "20px"
   };
 
   const content = {
     padding: "20px"
   };
 
-  const link = {
+  const link = ({ isActive }) => ({
     display: "block",
-    color: "#E5E7EB",
-    backgroundColor: "#134E4A",
+    color: isActive ? "#134E4A" : "#E5E7EB",
+    backgroundColor: isActive ? "white" : "#134E4A",
     textDecoration: "none",
     padding: "10px",
     marginTop: "8px",
     borderRadius: "5px"
+  });
+
+  const logoutButton = {
+    backgroundColor: "#0D9488",
+    color: "white",
+    border: "none",
+    padding: "8px 15px",
+    borderRadius: "5px",
+    cursor: "pointer"
   };
 
-  const activeLink = {
-    display: "block",
-    color: "#134E4A",
-    backgroundColor: "white",
-    textDecoration: "none",
-    padding: "10px",
-    marginTop: "8px",
-    borderRadius: "5px"
+  const menuItem = {
+    marginRight: "8px"
+  };
+
+  const handleLogout = () => {
+    navigate("/login");
   };
 
   return (
     <div style={container}>
+
+      {/* ================= SIDEBAR ================= */}
 
       <div style={sidebar}>
 
@@ -77,111 +98,127 @@ function Sidebar(props) {
 
         <hr />
 
+        {/* Dashboard */}
         <NavLink
-          to="/dashboard"
-          style={selected === "dashboard" ? activeLink : link}
-          onClick={() => setSelected("dashboard")}
+          to="/admin/dashboard"
+          style={link}
         >
-          <i className="fa-solid fa-house"></i> Dashboard
+          <i className="fa-solid fa-house" style={menuItem}></i>
+          Dashboard
         </NavLink>
 
+        {/* Category */}
         <NavLink
-          to="/category"
-          style={selected === "category" ? activeLink : link}
-          onClick={() => setSelected("category")}
+          to="/admin/category"
+          style={link}
         >
-          <i className="fa-solid fa-folder"></i> Category
+          <i className="fa-solid fa-folder" style={menuItem}></i>
+          Category
         </NavLink>
 
+        {/* Products */}
         <NavLink
-          to="/products"
-          style={selected === "products" ? activeLink : link}
-          onClick={() => setSelected("products")}
+          to="/admin/products"
+          style={link}
         >
-          <i className="fa-solid fa-box"></i> Products
+          <i className="fa-solid fa-box" style={menuItem}></i>
+          Products
         </NavLink>
 
+        {/* Stock */}
         <NavLink
-          to="/stock"
-          style={selected === "stock" ? activeLink : link}
-          onClick={() => setSelected("stock")}
+          to="/admin/stock"
+          style={link}
         >
-          <i className="fa-solid fa-chart-column"></i> Stock
+          <i className="fa-solid fa-chart-column" style={menuItem}></i>
+          Stock
         </NavLink>
 
+        {/* Orders */}
         <NavLink
-          to="/orders"
-          style={selected === "orders" ? activeLink : link}
-          onClick={() => setSelected("orders")}
+          to="/admin/orders"
+          style={link}
         >
-          <i className="fa-solid fa-cart-shopping"></i> Orders
+          <i className="fa-solid fa-cart-shopping" style={menuItem}></i>
+          Orders
         </NavLink>
 
+        {/* Order Status */}
         <NavLink
-          to="/order-status"
-          style={selected === "order-status" ? activeLink : link}
-          onClick={() => setSelected("order-status")}
+          to="/admin/order-status"
+          style={link}
         >
-          <i className="fa-solid fa-clock-rotate-left"></i> Order Status
+          <i
+            className="fa-solid fa-clock-rotate-left"
+            style={menuItem}
+          ></i>
+          Order Status
         </NavLink>
 
+        {/* Customers */}
         <NavLink
-          to="/customers"
-          style={selected === "customers" ? activeLink : link}
-          onClick={() => setSelected("customers")}
+          to="/admin/customers"
+          style={link}
         >
-          <i className="fa-solid fa-users"></i> Customers
+          <i className="fa-solid fa-users" style={menuItem}></i>
+          Customers
         </NavLink>
 
+        {/* Bill */}
         <NavLink
-          to="/bill"
-          style={selected === "bill" ? activeLink : link}
-          onClick={() => setSelected("bill")}
+          to="/admin/bill"
+          style={link}
         >
-          <i className="fa-solid fa-file-invoice"></i> Generate Bill
+          <i
+            className="fa-solid fa-file-invoice"
+            style={menuItem}
+          ></i>
+          Generate Bill
         </NavLink>
 
       </div>
 
+      {/* ================= MAIN ================= */}
+
       <div style={main}>
+
+        {/* Header */}
 
         <div style={header}>
 
           <b>☰ Admin Panel</b>
 
-          <span style={{ marginLeft: "900px" }}></span>
+          <div style={headerRight}>
 
-          <NavLink
-            to="/profile"
-            style={{
-              color: "#134E4A",
-              textDecoration: "none",
-              cursor: "pointer"
-            }}
-          >
-            <i className="fa-solid fa-user"></i> Profile
-          </NavLink>
+            {/* Profile */}
+            <NavLink
+              to="/admin/profile"
+              style={{
+                color: "#134E4A",
+                textDecoration: "none"
+              }}
+            >
+              <i className="fa-solid fa-user"></i>
+              {" "}Profile
+            </NavLink>
 
-          <span style={{ marginLeft: "50px" }}></span>
+            {/* Logout */}
+            <button
+              onClick={handleLogout}
+              style={logoutButton}
+            >
+              <i className="fa-solid fa-right-from-bracket"></i>
+              {" "}Logout
+            </button>
 
-          <button
-            onClick={() => window.location.href = "/logout"}
-            style={{
-              backgroundColor: "#0D9488",
-              color: "white",
-              border: "none",
-              padding: "8px 15px",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
-          >
-            <i className="fa-solid fa-right-from-bracket"></i> Logout
-          </button>
+          </div>
 
         </div>
 
+        {/* Page Content */}
+
         <div style={content}>
-          {props.children}
+          {children}
         </div>
 
       </div>
