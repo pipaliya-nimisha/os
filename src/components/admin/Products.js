@@ -190,15 +190,7 @@ export default function Products() {
 
   return (
     <div className="container-fluid p-0">
-
-      <h3
-        className="fw-bold mb-4"
-        style={{ color: "#0f172a" }}
-      >
-        Manage Products
-      </h3>
-
-      {/* Add Product Form */}
+      <h3 className="fw-bold mb-4" style={{ color: "#0f172a" }}>Manage Products</h3><hr />
 
       <div
         className="card border-0 shadow-sm p-4 mb-4"
@@ -209,9 +201,6 @@ export default function Products() {
       >
 
         <div className="row g-3 align-items-center">
-
-          {/* Product Name */}
-
           <div className="col-md-3">
 
             <input
@@ -229,8 +218,6 @@ export default function Products() {
             />
 
           </div>
-
-          {/* Category */}
 
           <div className="col-md-3">
 
@@ -264,8 +251,6 @@ export default function Products() {
 
           </div>
 
-          {/* Price */}
-
           <div className="col-md-2">
 
             <input
@@ -282,8 +267,6 @@ export default function Products() {
             />
 
           </div>
-
-          {/* Stock */}
 
           <div className="col-md-2">
 
@@ -302,8 +285,6 @@ export default function Products() {
 
           </div>
 
-          {/* Add Button */}
-
           <div className="col-md-2 d-grid">
 
             <button
@@ -319,12 +300,8 @@ export default function Products() {
             </button>
 
           </div>
-
         </div>
-
       </div>
-
-      {/* Product Table */}
 
       <div
         className="card border-0 shadow-sm overflow-hidden"
@@ -425,8 +402,6 @@ export default function Products() {
                   }}
                 >
 
-                  {/* Number */}
-
                   <td
                     className="fw-semibold text-secondary"
                     style={{
@@ -435,8 +410,6 @@ export default function Products() {
                   >
                     {index + 1}
                   </td>
-
-                  {/* Product Name */}
 
                   <td
                     style={{
@@ -473,8 +446,6 @@ export default function Products() {
                     )}
 
                   </td>
-
-                  {/* Category */}
 
                   <td
                     style={{
@@ -528,8 +499,6 @@ export default function Products() {
 
                   </td>
 
-                  {/* Price */}
-
                   <td
                     style={{
                       padding: "14px 20px"
@@ -558,9 +527,6 @@ export default function Products() {
                     )}
 
                   </td>
-
-                  {/* Stock */}
-
                   <td
                     style={{
                       padding: "14px 20px"
@@ -568,7 +534,6 @@ export default function Products() {
                   >
 
                     {editId === p.id ? (
-
                       <input
                         type="number"
                         className="form-control"
@@ -583,14 +548,10 @@ export default function Products() {
                       />
 
                     ) : (
-
                       p.stock
-
                     )}
 
                   </td>
-
-                  {/* Status */}
 
                   <td
                     style={{
@@ -608,8 +569,6 @@ export default function Products() {
                     </span>
 
                   </td>
-
-                  {/* Actions */}
 
                   <td
                     style={{
@@ -691,28 +650,17 @@ export default function Products() {
                         >
                           Delete
                         </button>
-
                       </>
 
                     )}
-
                   </td>
-
                 </tr>
-
               ))}
 
               {products.length === 0 && (
 
                 <tr>
-
-                  <td
-                    colSpan="7"
-                    className="text-center py-4 text-muted"
-                  >
-                    No products found.
-                  </td>
-
+                  <td colSpan="7" className="text-center py-4 text-muted"> No products found.</td>
                 </tr>
 
               )}
@@ -722,9 +670,7 @@ export default function Products() {
           </table>
 
         </div>
-
       </div>
-
     </div>
   );
 }

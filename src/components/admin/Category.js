@@ -125,13 +125,8 @@ export default function CategoryCRUD() {
   return (
     <div className="container-fluid p-0">
 
-      <h3
-        className="fw-bold mb-4"
-        style={{ color: "#0f172a" }}
-      >
-        Manage Categories
-      </h3>
-
+      <h3 className="fw-bold mb-4"style={{ color: "#0f172a" }}>Manage Categories</h3>
+      <hr />
       <div
         className="card border-0 shadow-sm p-4 mb-4"
         style={{

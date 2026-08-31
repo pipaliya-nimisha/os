@@ -102,13 +102,7 @@ export default function Stock() {
     <div className="container-fluid p-0">
 
       <h3
-        className="fw-bold mb-4"
-        style={{ color: "#0f172a" }}
-      >
-        Manage Stock
-      </h3>
-
-      {/* Stock Table */}
+        className="fw-bold mb-4" style={{ color: "#0f172a" }}>Manage Stock</h3> <hr />
 
       <div
         className="card border-0 shadow-sm overflow-hidden"
@@ -204,8 +198,6 @@ export default function Stock() {
                     }}
                   >
 
-                    {/* Number */}
-
                     <td
                       className="fw-semibold text-secondary"
                       style={{
@@ -214,8 +206,6 @@ export default function Stock() {
                     >
                       {index + 1}
                     </td>
-
-                    {/* Product Name */}
 
                     <td
                       style={{
@@ -234,8 +224,6 @@ export default function Stock() {
 
                     </td>
 
-                    {/* Category */}
-
                     <td
                       style={{
                         padding: "14px 20px"
@@ -252,8 +240,6 @@ export default function Stock() {
                       </span>
 
                     </td>
-
-                    {/* Current Stock */}
 
                     <td
                       style={{
@@ -293,8 +279,6 @@ export default function Stock() {
 
                     </td>
 
-                    {/* Status */}
-
                     <td
                       style={{
                         padding: "14px 20px"
@@ -316,8 +300,6 @@ export default function Stock() {
                       </span>
 
                     </td>
-
-                    {/* Action */}
 
                     <td
                       style={{

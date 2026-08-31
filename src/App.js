@@ -1,19 +1,36 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Category from "./pages/Category";
-import Products from "./pages/Products";
-import Stock from "./pages/Stock";
-import Orders from "./pages/Orders";
-import OrderStatus from "./pages/OrderStatus";
-import Bill from "./pages/Bill";
-import Customers from "./pages/Customers";
-import Profile from "./pages/Profile";
-import Logout from "./pages/Logout";
+// ================= COMMON LOGIN =================
 
-import Sidebar from "./components/Sidebar";
+import Login from "./components/admin/Login";
+
+// ================= ADMIN PANEL =================
+
+import Dashboard from "./components/admin/Dashboard";
+import AdminCategory from "./components/admin/Category";
+import Products from "./components/admin/Products";
+import Stock from "./components/admin/Stock";
+import Orders from "./components/admin/Orders";
+import OrderStatus from "./components/admin/OrderStatus";
+import Bill from "./components/admin/Bill";
+import Customers from "./components/admin/Customers";
+import Profile from "./components/admin/Profile";
+import Logout from "./components/admin/Logout";
+import Sidebar from "./components/admin/Sidebar";
+
+// ================= CUSTOMER PANEL =================
+
+import Home from "./components/customer/Home";
+import Product from "./components/customer/Product";
+import CustomerCategory from "./components/customer/Category";
+import Contact from "./components/customer/Contact";
+import Feedback from "./components/customer/Feedback";
+import Header from "./components/customer/Header";
+import Footer from "./components/customer/Footer";
+import Register from "./components/customer/Register";
+import CustomerLogin from "./components/customer/CustomerLogin";
+import Cart from "./components/customer/Cart";
 
 
 function App() {
@@ -24,12 +41,97 @@ function App() {
 
       <Routes>
 
-        {/* Login */}
+        {/* ========================================= */}
+        {/*             CUSTOMER HOME                 */}
+        {/* ========================================= */}
 
         <Route
           path="/"
-          element={<Login />}
+          element={
+            <>
+              <Header />
+              <Home />
+              <Footer />
+            </>
+          }
         />
+
+
+        {/* ========================================= */}
+        {/*             CUSTOMER PRODUCT              */}
+        {/* ========================================= */}
+
+        <Route
+          path="/product"
+          element={
+            <>
+              <Header />
+              <Product />
+              <Footer />
+            </>
+          }
+        />
+
+
+        {/* ========================================= */}
+        {/*             CUSTOMER CATEGORY             */}
+        {/* ========================================= */}
+
+        <Route
+          path="/category"
+          element={
+            <>
+              <Header />
+              <CustomerCategory />
+              <Footer />
+            </>
+          }
+        />
+
+
+        {/* ========================================= */}
+        {/*             CUSTOMER CONTACT              */}
+        {/* ========================================= */}
+
+        <Route
+          path="/contact"
+          element={
+            <>
+              <Header />
+              <Contact />
+              <Footer />
+            </>
+          }
+        />
+
+
+        {/* ========================================= */}
+        {/*             CUSTOMER FEEDBACK             */}
+        {/* ========================================= */}
+
+        <Route
+          path="/feedback"
+          element={
+            <>
+              <Header />
+              <Feedback />
+              <Footer />
+            </>
+          }
+        />
+
+
+        {/* ========================================= */}
+        {/*              COMMON LOGIN                 */}
+        {/* ========================================= */}
+
+        {/* 
+          Admin Login:
+          /login
+          
+          Admin select kare → Admin Dashboard
+          Customer select kare → Customer Home
+        */}
 
         <Route
           path="/login"
@@ -37,10 +139,63 @@ function App() {
         />
 
 
-        {/* Admin Pages */}
+        {/* ========================================= */}
+        {/*             CUSTOMER LOGIN                */}
+        {/* ========================================= */}
+
+        {/* 
+          Registration successful થયા પછી
+          direct Customer Login page open થશે.
+        */}
 
         <Route
-          path="/dashboard"
+          path="/customer-login"
+          element={<CustomerLogin />}
+        />
+
+
+        {/* ========================================= */}
+        {/*             CUSTOMER REGISTER             */}
+        {/* ========================================= */}
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+
+        {/* ========================================= */}
+        {/*              CUSTOMER CART                */}
+        {/* ========================================= */}
+
+        <Route
+          path="/cart"
+          element={
+            <>
+              <Header />
+              <Cart />
+              <Footer />
+            </>
+          }
+        />
+
+
+        {/* ========================================= */}
+        {/*                ADMIN LOGIN                */}
+        {/* ========================================= */}
+
+        <Route
+          path="/admin/login"
+          element={<Login />}
+        />
+
+
+        {/* ========================================= */}
+        {/*             ADMIN DASHBOARD               */}
+        {/* ========================================= */}
+
+        <Route
+          path="/admin/Dashboard"
           element={
             <Sidebar>
               <Dashboard />
@@ -49,18 +204,26 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*             ADMIN CATEGORY                */}
+        {/* ========================================= */}
+
         <Route
-          path="/category"
+          path="/admin/category"
           element={
             <Sidebar>
-              <Category />
+              <AdminCategory />
             </Sidebar>
           }
         />
 
 
+        {/* ========================================= */}
+        {/*             ADMIN PRODUCTS                */}
+        {/* ========================================= */}
+
         <Route
-          path="/products"
+          path="/admin/products"
           element={
             <Sidebar>
               <Products />
@@ -69,8 +232,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*               ADMIN STOCK                 */}
+        {/* ========================================= */}
+
         <Route
-          path="/stock"
+          path="/admin/stock"
           element={
             <Sidebar>
               <Stock />
@@ -79,8 +246,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*              ADMIN ORDERS                 */}
+        {/* ========================================= */}
+
         <Route
-          path="/orders"
+          path="/admin/orders"
           element={
             <Sidebar>
               <Orders />
@@ -89,8 +260,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*           ADMIN ORDER STATUS              */}
+        {/* ========================================= */}
+
         <Route
-          path="/order-status"
+          path="/admin/order-status"
           element={
             <Sidebar>
               <OrderStatus />
@@ -99,8 +274,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*                ADMIN BILL                 */}
+        {/* ========================================= */}
+
         <Route
-          path="/bill"
+          path="/admin/bill"
           element={
             <Sidebar>
               <Bill />
@@ -109,8 +288,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*             ADMIN CUSTOMERS               */}
+        {/* ========================================= */}
+
         <Route
-          path="/customers"
+          path="/admin/customers"
           element={
             <Sidebar>
               <Customers />
@@ -119,8 +302,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*              ADMIN PROFILE                */}
+        {/* ========================================= */}
+
         <Route
-          path="/profile"
+          path="/admin/profile"
           element={
             <Sidebar>
               <Profile />
@@ -129,8 +316,12 @@ function App() {
         />
 
 
+        {/* ========================================= */}
+        {/*              ADMIN LOGOUT                 */}
+        {/* ========================================= */}
+
         <Route
-          path="/logout"
+          path="/admin/logout"
           element={<Logout />}
         />
 
@@ -139,7 +330,6 @@ function App() {
     </BrowserRouter>
 
   );
-
 }
 
 
