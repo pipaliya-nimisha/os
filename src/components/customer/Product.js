@@ -1,314 +1,399 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-function Product() {
-  const [category, setCategory] = useState("");
+function Product({ selectedCategory }) {
+  const [category, setCategory] = useState(selectedCategory || "");
+  const [search, setSearch] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  const categories = [
-    "",
-    "Pens",
-    "Pencils",
-    "Notebooks",
-    "Office Supplies",
-    "Art Supplies",
-    "School Supplies",
-  ];
+  useEffect(() => {
+    getCategories();
+    getProducts();
+  }, []);
 
-  const products = [
-    {
-      id: 1,
-      name: "Premium Pen",
-      price: 120,
-      category: "Pens",
-      image: "/image/pen.jpg",
-      description: "Smooth writing premium ball pen",
-    },
-    {
-      id: 2,
-      name: "Graphite Pencil",
-      price: 10,
-      category: "Pencils",
-      image: "/image/pencil.jpg",
-      description: "High quality HB graphite pencil",
-    },
-    {
-      id: 3,
-      name: "Spiral Notebook",
-      price: 80,
-      category: "Notebooks",
-      image: "/image/notebook.jpg",
-      description: "A5 size spiral bound notebook",
-    },
-    {
-      id: 4,
-      name: "Highlighter",
-      price: 150,
-      category: "School Supplies",
-      image: "/image/highlighter.png",
-      description: "Set of 5 colorful highlighters",
-    },
-    {
-      id: 5,
-      name: "Scissors",
-      price: 60,
-      category: "Office Supplies",
-      image: "/image/scissors.jpg",
-      description: "Sharp office scissors",
-    },
-    {
-      id: 6,
-      name: "Glue Stick",
-      price: 40,
-      category: "School Supplies",
-      image: "/image/glue.jpg",
-      description: "Strong adhesive glue stick",
-    },
-    {
-      id: 7,
-      name: "Eraser",
-      price: 15,
-      category: "Pencils",
-      image: "/image/eraser.jpg",
-      description: "Soft writing eraser",
-    },
-    {
-      id: 8,
-      name: "Adhesive Tape",
-      price: 30,
-      category: "Office Supplies",
-      image: "/image/tape.jpg",
-      description: "Clear stationery tape",
-    },
-  ];
+  useEffect(() => {
+    setCategory(selectedCategory || "");
+  }, [selectedCategory]);
 
-  const filteredProducts = category
-    ? products.filter((item) => item.category === category)
-    : products;
+  const getCategories = async () => {
+    const res = await axios.get("http://localhost:4000/tbl_category");
+    setCategories(res.data);
+  };
 
-  const addToCart = (product) => {
-    alert(product.name + " added to cart");
+  const getProducts = async () => {
+    const res = await axios.get("http://localhost:4000/tbl_product");
+    setProducts(res.data);
+  };
+
+  const filteredProducts = products.filter((item) => {
+    const categoryMatch =
+      category === "" || item.category === category;
+
+    const searchMatch =
+      item.name.toLowerCase().includes(search.toLowerCase());
+
+    return categoryMatch && searchMatch;
+  });
+
+  const addToCart = async (product) => {
+    await axios.post("http://localhost:4000/tbl_cart", {
+      productId: product.id,
+      productName: product.name,
+      price: Number(product.price),
+      quantity: 1
+    });
+
+    toast.success(product.name + " added to cart");
   };
 
   return (
     <div>
       <style>{`
+        .product-page {
+          background: #f7fbfa;
+          min-height: 100vh;
+          padding: 50px 20px;
+        }
 
-.product-page{
-  width:100%;
-  background:white;
-  padding:30px 20px 50px;
-  box-sizing:border-box;
-}
+        .product-wrapper {
+          max-width: 1250px;
+          margin: auto;
+        }
 
-.product-heading{
-  margin-bottom:25px;
-}
+        .product-heading {
+          text-align: center;
+          margin-bottom: 30px;
+        }
 
-.product-heading h1{
-  margin:0;
-  color:#26384d;
-  font-size:34px;
-}
+        .product-heading h1 {
+          font-size: 38px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 8px;
+        }
 
-.product-heading p{
-  color:#38516b;
-  font-size:16px;
-  margin-top:10px;
-}
+        .product-heading p {
+          color: #64748b;
+          font-size: 16px;
+        }
 
-.product-container{
-  display:flex;
-  gap:25px;
-  align-items:flex-start;
-}
+        .search-box {
+          max-width: 600px;
+          margin: 0 auto 40px;
+        }
 
-.category-box{
-  width:240px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  padding:20px;
-  background:white;
-  box-sizing:border-box;
-}
+        .search-box input {
+          height: 48px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px 0 0 8px;
+          box-shadow: none;
+        }
 
-.category-box h2{
-  margin-top:0;
-  color:#075b66;
-}
+        .search-box input:focus {
+          border-color: #0f766e;
+          box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.1);
+        }
 
-.category-item{
-  width:100%;
-  padding:12px;
-  margin-bottom:5px;
-  border:none;
-  border-radius:5px;
-  background:white;
-  color:#42566d;
-  text-align:left;
-  cursor:pointer;
-  font-size:15px;
-}
+        .search-btn {
+          background: #0f766e;
+          color: white;
+          border: none;
+          padding: 0 22px;
+          border-radius: 0 8px 8px 0;
+          font-weight: 600;
+        }
 
-.category-item:hover{
-  background:#eef9f8;
-}
+        .product-container {
+          display: flex;
+          gap: 30px;
+          align-items: flex-start;
+        }
 
-.category-item.active{
-  background:#e9f7f6;
-  color:#087a79;
-  font-weight:bold;
-}
+        .category-box {
+          width: 230px;
+          background: white;
+          border-radius: 12px;
+          padding: 22px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+          flex-shrink: 0;
+        }
 
-.products-grid{
-  flex:1;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
+        .category-box h2 {
+          font-size: 21px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 18px;
+        }
 
-.product-card{
-  border:1px solid #ddd;
-  border-radius:8px;
-  background:white;
-  overflow:hidden;
-}
+        .category-item {
+          width: 100%;
+          border: none;
+          background: transparent;
+          text-align: left;
+          padding: 11px 14px;
+          margin-bottom: 7px;
+          border-radius: 7px;
+          color: #475569;
+          font-weight: 600;
+          cursor: pointer;
+        }
 
-.product-image{
-  width:100%;
-  height:170px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:white;
-}
+        .category-item:hover {
+          background: #e8f5f3;
+          color: #0f766e;
+        }
 
-.product-image img{
-  max-width:90%;
-  max-height:150px;
-  object-fit:contain;
-}
+        .category-item.active {
+          background: #0f766e;
+          color: white;
+        }
 
-.product-info{
-  padding:15px;
-}
-.product-info h3{
-  margin:0 0 10px;
-  color:#08756f;
-  font-size:19px;
-}
+        .products-grid {
+          flex: 1;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 22px;
+        }
 
-.product-info h4{
-  margin:0 0 10px;
-  color:#07816f;
-  font-size:18px;
-}
+        .product-card {
+          background: white;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+          transition: 0.3s;
+        }
 
-.product-info p{
-  color:#53677b;
-  font-size:14px;
-  min-height:40px;
-}
+        .product-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+        }
 
-.cart-btn{
-  background:#078a83;
-  color:white;
-  border:none;
-  padding:10px 15px;
-  border-radius:5px;
-  cursor:pointer;
-  font-size:14px;
-}
+        .product-image {
+          height: 190px;
+          background: #f8fafc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 15px;
+        }
 
-.cart-btn:hover{
-  background:#056e69;
-}
+        .product-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
 
-.no-product{
-  text-align:center;
-  padding:50px;
-  color:#52677d;
-}
+        .product-info {
+          padding: 18px;
+          text-align: center;
+        }
 
+        .product-info h3 {
+          font-size: 18px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 8px;
+        }
+
+        .product-info h4 {
+          color: #0f766e;
+          font-size: 20px;
+          font-weight: 700;
+          margin-bottom: 7px;
+        }
+
+        .product-info p {
+          color: #64748b;
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+
+        .cart-btn {
+          width: 100%;
+          border: none;
+          background: #0f766e;
+          color: white;
+          padding: 10px;
+          border-radius: 7px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .cart-btn:hover {
+          background: #0d625c;
+        }
+
+        .cart-btn:disabled {
+          background: #94a3b8;
+          cursor: not-allowed;
+        }
+
+        .no-product {
+          flex: 1;
+          background: white;
+          border-radius: 12px;
+          padding: 60px 20px;
+          text-align: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .no-product h3 {
+          color: #0f172a;
+          margin-bottom: 8px;
+        }
+
+        .no-product p {
+          color: #64748b;
+        }
+
+        @media (max-width: 1100px) {
+          .products-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 850px) {
+          .product-container {
+            flex-direction: column;
+          }
+
+          .category-box {
+            width: 100%;
+          }
+
+          .products-grid {
+            width: 100%;
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 550px) {
+          .products-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .product-heading h1 {
+            font-size: 30px;
+          }
+
+          .search-box .input-group {
+            display: flex;
+          }
+
+          .search-btn {
+            padding: 0 14px;
+          }
+        }
       `}</style>
 
       <div className="product-page">
+        <div className="product-wrapper">
 
-        <div className="product-heading">
-          <h1>Our Products</h1>
-          <p>Browse our stationery products</p>
-        </div>
+          <div className="product-heading">
+            <h1>Our Products</h1>
+            <p>Find the perfect stationery for your needs</p>
+          </div>
 
-        <div className="product-container">
+          <div className="search-box">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
 
-          <div className="category-box">
-            <h2>Categories</h2>
+              <button className="search-btn">
+                🔍 Search
+              </button>
+            </div>
+          </div>
 
-            {categories.map((item, index) => (
+          <div className="product-container">
+
+            <div className="category-box">
+              <h2>Categories</h2>
+
               <button
-                key={index}
                 className={
-                  category === item
+                  category === ""
                     ? "category-item active"
                     : "category-item"
                 }
-                onClick={() => setCategory(item)}
+                onClick={() => setCategory("")}
               >
-                {item === "" ? "All Products" : item}
+                All Products
               </button>
-            ))}
-          </div>
 
-          <div className="products-grid">
+              {categories.map((item) => (
+                <button
+                  key={item.id}
+                  className={
+                    category === item.name
+                      ? "category-item active"
+                      : "category-item"
+                  }
+                  onClick={() => setCategory(item.name)}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
 
             {filteredProducts.length > 0 ? (
+              <div className="products-grid">
 
-              filteredProducts.map((product) => (
+                {filteredProducts.map((product) => (
+                  <div className="product-card" key={product.id}>
 
-                <div
-                  className="product-card"
-                  key={product.id}
-                >
+                    <div className="product-image">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                      />
+                    </div>
 
-                  <div className="product-image">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                    />
+                    <div className="product-info">
+
+                      <h3>{product.name}</h3>
+
+                      <h4>
+                        ₹{product.price}
+                      </h4>
+
+                      <p>
+                        Category: {product.category}
+                      </p>
+
+                      <button
+                        className="cart-btn"
+                        onClick={() => addToCart(product)}
+                        disabled={product.status === "Out of Stock"}
+                      >
+                        {product.status === "Out of Stock"
+                          ? "Out of Stock"
+                          : "Add to Cart"}
+                      </button>
+
+                    </div>
+
                   </div>
+                ))}
 
-                  <div className="product-info">
-
-                    <h3>{product.name}</h3>
-
-                    <h4>₹{product.price}</h4>
-
-                    <p>{product.description}</p>
-
-                    <button
-                      className="cart-btn"
-                      onClick={() => addToCart(product)}
-                    >
-                      Add to Cart
-                    </button>
-
-                  </div>
-
-                </div>
-
-              ))
-
+              </div>
             ) : (
-                            <div className="no-product">
+              <div className="no-product">
                 <h3>No Products Found</h3>
-                <p>Products are not available.</p>
+                <p>No products match your search.</p>
               </div>
             )}
 
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

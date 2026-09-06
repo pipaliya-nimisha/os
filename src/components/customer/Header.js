@@ -1,151 +1,147 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import axios from "axios";
 
 function Header() {
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    getCartCount();
+  }, []);
+
+  const getCartCount = async () => {
+    const res = await axios.get("http://localhost:4000/tbl_cart");
+    setCartCount(res.data.length);
+  };
+
+  const navStyle = ({ isActive }) => ({
+    color: isActive ? "#ffffff" : "#0f766e",
+    backgroundColor: isActive ? "#0f766e" : "transparent",
+    padding: "9px 18px",
+    borderRadius: "7px",
+    fontWeight: "600",
+    textDecoration: "none",
+    whiteSpace: "nowrap",
+  });
+
   return (
-    <>
-      <div className="bg-white border-bottom">
-        <div className="container py-3">
-          <div className="row align-items-center">
+    <div
+      style={{
+        backgroundColor: "#ffffff",
+        borderBottom: "1px solid #eeeeee",
+      }}
+    >
+      <div className="container">
+        <div
+          className="d-flex align-items-center justify-content-between"
+          style={{ minHeight: "90px" }}
+        >
+          <Link to="/" className="text-decoration-none">
+            <img
+              src="/image/logo.png"
+              alt="Stationery Hub"
+              style={{
+                height: "68px",
+                width: "145px",
+                objectFit: "contain",
+              }}
+            />
+          </Link>
 
-            {/* Logo */}
-            <div className="col-md-3">
-              <Link to="/">
-                <img
-                  src="/image/logo.png"
-                  alt="Logo"
-                  className="img-fluid"
+          <div className="d-flex align-items-center gap-1">
+
+            <NavLink to="/" style={navStyle}>
+              Home
+            </NavLink>
+
+            <NavLink to="/product" style={navStyle}>
+              Product
+            </NavLink>
+
+            <NavLink to="/category" style={navStyle}>
+              Categories
+            </NavLink>
+
+            <NavLink to="/contact" style={navStyle}>
+              Contact Us
+            </NavLink>
+
+            <NavLink to="/feedback" style={navStyle}>
+              Feedback
+            </NavLink>
+
+            <NavLink to="/logout" style={navStyle}>
+              Logout
+            </NavLink>
+
+            <Link
+              to="/login"
+              className="text-decoration-none text-center ms-3"
+            >
+              <div
+                className="rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#e8f5f3",
+                  fontSize: "20px",
+                }}
+              >
+                👤
+              </div>
+
+              <small
+                className="fw-semibold"
+                style={{ color: "#0f766e" }}
+              >
+                Login
+              </small>
+            </Link>
+
+            <Link
+              to="/cart"
+              className="text-decoration-none text-center ms-3"
+              style={{ position: "relative" }}
+            >
+              <div
+                className="rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#e8f5f3",
+                  fontSize: "20px",
+                }}
+              >
+                🛒
+              </div>
+
+              {cartCount > 0 && (
+                <span
+                  className="badge bg-danger"
                   style={{
-                    height: "65px",
-                    objectFit: "contain",
-                  }}
-                />
-              </Link>
-            </div>
-
-            {/* Search */}
-            <div className="col-md-6">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search products..."
-                />
-
-                <button
-                  className="btn text-white px-4"
-                  style={{
-                    backgroundColor: "#0f766e",
+                    position: "absolute",
+                    top: "-5px",
+                    right: "-7px",
+                    borderRadius: "50%",
+                    fontSize: "11px",
                   }}
                 >
-                  Search
-                </button>
-              </div>
-            </div>
+                  {cartCount}
+                </span>
+              )}
 
-            {/* Account & Cart */}
-            <div className="col-md-3">
-              <div className="d-flex justify-content-end gap-3">
-
-                <div className="text-center">
-                  <Link
-                    to="/login"
-                    className="text-decoration-none"
-                  >
-                    <button
-                      className="btn rounded-circle"
-                      style={{
-                        backgroundColor: "#e8f5f3",
-                        color: "#0f766e",
-                      }}
-                    >
-                      👤
-                    </button>
-
-                    <small
-                      className="d-block fw-semibold"
-                      style={{ color: "#0f766e" }}
-                    >
-                      Login
-                    </small>
-                  </Link>
-                </div>
-
-                <div className="text-center">
-                  <Link
-                    to="/cart"
-                    className="text-decoration-none"
-                  >
-                    <button
-                      className="btn rounded-circle"
-                      style={{
-                        backgroundColor: "#e8f5f3",
-                        color: "#0f766e",
-                      }}
-                    >
-                      🛒
-                    </button>
-
-                    <small
-                      className="d-block fw-semibold"
-                      style={{ color: "#0f766e" }}
-                    >
-                      Cart
-                    </small>
-                  </Link>
-                </div>
-
-              </div>
-            </div>
+              <small
+                className="fw-semibold"
+                style={{ color: "#0f766e" }}
+              >
+                Cart
+              </small>
+            </Link>
 
           </div>
         </div>
       </div>
-
-      {/* Navigation */}
-      <nav className="navbar navbar-expand bg-white border-bottom">
-        <div className="container">
-          <div className="navbar-nav mx-auto gap-2">
-
-            <Link
-              to="/"
-              className="nav-link fw-semibold px-4 rounded"
-              style={{
-                color: "#ffffff",
-                backgroundColor: "#0f766e",
-              }}
-            >
-              Home
-            </Link>
-
-            <Link
-              to="/product"
-              className="nav-link fw-semibold px-4"
-              style={{ color: "#0f766e" }}
-            >
-              Product
-            </Link>
-
-            <Link
-              to="/category"
-              className="nav-link fw-semibold px-4"
-              style={{ color: "#0f766e" }}
-            >
-              Categories
-            </Link>
-
-            <Link
-              to="/feedback"
-              className="nav-link fw-semibold px-4"
-              style={{ color: "#0f766e" }}
-            >
-              Feedback
-            </Link>
-
-          </div>
-        </div>
-      </nav>
-    </>
+    </div>
   );
 }
 

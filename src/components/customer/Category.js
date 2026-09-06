@@ -1,6 +1,21 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Category.css";
 
-function Category() {
+function Category({ setSelectedCategory }) {
+    const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
+    const getCategories = async () => {
+        const res = await axios.get("http://localhost:4000/tbl_category");
+        setCategories(res.data);
+    };
+
     return (
         <div className="category-page">
 
@@ -11,109 +26,49 @@ function Category() {
 
             <div className="row g-4 justify-content-center">
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/pen.webp" alt="Pens" className="ci" />
-                        <h4>Pens</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                {categories.map((item) => (
+                    <div
+                        className="col-xl-3 col-lg-4 col-md-6"
+                        key={item.id}
+                    >
+                        <div className="category-card">
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/note.webp" alt="Notebooks" className="ci" />
-                        <h4>Notebooks</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                            <img
+                                src={
+                                    item.name === "Pens"
+                                        ? "./image/pen.webp"
+                                        : item.name === "Notebooks"
+                                        ? "./image/note.webp"
+                                        : item.name === "Markers"
+                                        ? "./image/marker.webp"
+                                        : item.name === "Pencil"
+                                        ? "./image/pencil.jpg"
+                                        : "./image/category.jpg"
+                                }
+                                alt={item.name}
+                                className="ci"
+                            />
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/marker.webp" alt="Markers" className="ci" />
-                        <h4>Markers</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                            <h4>{item.name}</h4>
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/era.jpg" alt="Erasers" className="ci" />
-                        <h4>Erasers</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                            <p>{item.description}</p>
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/pencils.jpg" alt="Pencils" className="ci" />
-                        <h4>Pencils</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                            <button
+                                className="category-btn"
+                                onClick={() => {
+                                    setSelectedCategory(item.name);
+                                    navigate("/product");
+                                }}
+                            >
+                                View Products
+                            </button>
 
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/color.jpg" alt="Colors" className="ci" />
-                        <h4>Colors</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
+                        </div>
                     </div>
-                </div>
-
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/g.jpg" alt="Geometry Box" className="ci" />
-                        <h4>Geometry Box</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
-
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/file.jpg" alt="File Folders" className="ci" />
-                        <h4>File Folders</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
-
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/sharpener.jpg" alt="Sharpener" className="ci" />
-                        <h4>Sharpener</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
-
-                <div className="col-xl-3 col-lg-4 col-md-6">
-                    <div className="category-card">
-                        <img src="./image/fe.jpg" alt="Feviquick" className="ci" />
-                        <h4>Feviquick</h4>
-                        <button className="category-btn">
-                            View Products
-                        </button>
-                    </div>
-                </div>
+                ))}
 
             </div>
         </div>
-
     );
 }
 

@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
-// ================= ADMIN =================
 
 import Login from "./components/admin/Login.js";
 import Dashboard from "./components/admin/Dashboard.js";
@@ -13,71 +11,78 @@ import Orders from "./components/admin/Orders.js";
 import OrderStatus from "./components/admin/OrderStatus.js";
 import Bill from "./components/admin/Bill.js";
 import Customers from "./components/admin/Customers.js";
+import ManageFeedback from "./components/admin/ManageFeedback.js";
 import Profile from "./components/admin/Profile.js";
 import Logout from "./components/admin/Logouta.js";
 import Sidebar from "./components/admin/Sidebar.js";
-
-// ================= CUSTOMER =================
 
 import Home from "./components/customer/Home.js";
 import Product from "./components/customer/Product.js";
 import CustomerCategory from "./components/customer/Category.js";
 import Feedback from "./components/customer/Feedback.js";
+import Contact from "./components/customer/Contact.js";
 import Header from "./components/customer/Header.js";
 import Footer from "./components/customer/Footer.js";
 import Register from "./components/customer/Register.js";
 import CustomerLogin from "./components/customer/CustomerLogin.js";
 import Cart from "./components/customer/Cart.js";
-
+import Logoutc from "./components/customer/Logoutc.js";
 
 function App() {
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   return (
     <BrowserRouter>
+      <Toaster position="top-center" />
 
-  <Toaster position="top-center" />
       <Routes>
 
-        {/* ================================================= */}
-        {/*                 CUSTOMER PANEL                    */}
-        {/* ================================================= */}
-
-        {/* Customer Home */}
         <Route
           path="/"
           element={
             <>
               <Header />
-              <Home />
+              <Home setSelectedCategory={setSelectedCategory} />
               <Footer />
             </>
           }
         />
 
-        {/* Customer Products */}
         <Route
           path="/product"
           element={
             <>
               <Header />
-              <Product />
+              <Product selectedCategory={selectedCategory} />
               <Footer />
             </>
           }
         />
 
-        {/* Customer Category */}
         <Route
           path="/category"
           element={
             <>
               <Header />
-              <CustomerCategory />
+              <CustomerCategory
+                setSelectedCategory={setSelectedCategory}
+              />
               <Footer />
             </>
           }
         />
 
-        {/* Customer Feedback */}
+        <Route
+          path="/contact"
+          element={
+            <>
+              <Header />
+              <Contact />
+              <Footer />
+            </>
+          }
+        />
+
         <Route
           path="/feedback"
           element={
@@ -89,19 +94,16 @@ function App() {
           }
         />
 
-        {/* Customer Login */}
         <Route
           path="/customer-login"
           element={<CustomerLogin />}
         />
 
-        {/* Customer Register */}
         <Route
           path="/register"
           element={<Register />}
         />
 
-        {/* Customer Cart */}
         <Route
           path="/cart"
           element={
@@ -113,10 +115,10 @@ function App() {
           }
         />
 
-
-        {/* ================================================= */}
-        {/*                    LOGIN                          */}
-        {/* ================================================= */}
+        <Route
+          path="/logout"
+          element={<Logoutc />}
+        />
 
         <Route
           path="/login"
@@ -128,12 +130,6 @@ function App() {
           element={<Login />}
         />
 
-
-        {/* ================================================= */}
-        {/*                 ADMIN PANEL                       */}
-        {/* ================================================= */}
-
-        {/* Admin Dashboard */}
         <Route
           path="/admin/dashboard"
           element={
@@ -143,7 +139,6 @@ function App() {
           }
         />
 
-        {/* Admin Category CRUD */}
         <Route
           path="/admin/category"
           element={
@@ -153,7 +148,6 @@ function App() {
           }
         />
 
-        {/* Admin Product CRUD */}
         <Route
           path="/admin/products"
           element={
@@ -163,7 +157,6 @@ function App() {
           }
         />
 
-        {/* Admin Stock */}
         <Route
           path="/admin/stock"
           element={
@@ -173,7 +166,6 @@ function App() {
           }
         />
 
-        {/* Admin Orders */}
         <Route
           path="/admin/orders"
           element={
@@ -183,7 +175,6 @@ function App() {
           }
         />
 
-        {/* Admin Order Status */}
         <Route
           path="/admin/order-status"
           element={
@@ -193,17 +184,6 @@ function App() {
           }
         />
 
-        {/* Admin Bill */}
-        <Route
-          path="/admin/bill"
-          element={
-            <Sidebar>
-              <Bill />
-            </Sidebar>
-          }
-        />
-
-        {/* Admin Customers */}
         <Route
           path="/admin/customers"
           element={
@@ -213,7 +193,24 @@ function App() {
           }
         />
 
-        {/* Admin Profile */}
+        <Route
+          path="/admin/feedback"
+          element={
+            <Sidebar>
+              <ManageFeedback />
+            </Sidebar>
+          }
+        />
+
+        <Route
+          path="/admin/bill"
+          element={
+            <Sidebar>
+              <Bill />
+            </Sidebar>
+          }
+        />
+
         <Route
           path="/admin/profile"
           element={
@@ -223,14 +220,12 @@ function App() {
           }
         />
 
-        {/* Admin Logout */}
         <Route
           path="/admin/logout"
           element={<Logout />}
         />
 
       </Routes>
-
     </BrowserRouter>
   );
 }

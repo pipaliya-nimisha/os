@@ -115,6 +115,7 @@ function Dashboard() {
   const [product, setProduct] = useState([]);
   const [customer, setCustomer] = useState([]);
   const [order, setOrder] = useState([]);
+  const [feedback, setFeedback] = useState([]);
 
   const getData = async () => {
 
@@ -141,6 +142,12 @@ function Dashboard() {
     );
     const orderData = await orderRes.json();
     setOrder(orderData);
+
+    const feedbackRes = await fetch(
+      "http://localhost:4000/tbl_feedback"
+    );
+    const feedbackData = await feedbackRes.json();
+    setFeedback(feedbackData);
   };
 
   useEffect(() => {
@@ -149,53 +156,85 @@ function Dashboard() {
 
   return (
     <div style={main}>
+
       <h2 style={heading}>Dashboard</h2>
-      <p style={welcome}>Welcome to Online Stationery Management System</p>
+
+      <p style={welcome}>
+        Welcome to Online Stationery Management System
+      </p>
+
       <hr />
 
+      {/* ================= CARDS ================= */}
+
       <div style={cardContainer}>
+
+        {/* Products */}
         <div style={card}>
           <div style={icon}>📦</div>
+
           <div>
             <p style={cardTitle}>Total Products</p>
             <h2 style={number}>{product.length}</h2>
           </div>
         </div>
 
+        {/* Categories */}
         <div style={card}>
           <div style={icon}>📁</div>
+
           <div>
             <p style={cardTitle}>Total Categories</p>
             <h2 style={number}>{category.length}</h2>
           </div>
         </div>
 
+        {/* Customers */}
         <div style={card}>
           <div style={icon}>👥</div>
+
           <div>
             <p style={cardTitle}>Total Customers</p>
             <h2 style={number}>{customer.length}</h2>
           </div>
         </div>
 
+        {/* Orders */}
         <div style={card}>
           <div style={icon}>🛒</div>
+
           <div>
             <p style={cardTitle}>Total Orders</p>
             <h2 style={number}>{order.length}</h2>
           </div>
         </div>
 
+        {/* Feedback */}
+        <div style={card}>
+          <div style={icon}>💬</div>
+
+          <div>
+            <p style={cardTitle}>Total Feedback</p>
+            <h2 style={number}>{feedback.length}</h2>
+          </div>
+        </div>
+
       </div>
+
+      {/* ================= RECENT ORDERS ================= */}
 
       <div style={box}>
 
         <div style={boxHeader}>
-          <h3 style={boxTitle}>Recent Orders</h3>
+
+          <h3 style={boxTitle}>
+            Recent Orders
+          </h3>
 
           <span style={orderCount}>
             {order.length} Orders
           </span>
+
         </div>
 
         <table style={table}>
@@ -258,4 +297,5 @@ function Dashboard() {
     </div>
   );
 }
+
 export default Dashboard;

@@ -1,16 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import React from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-function Home() {
+function Home({ setSelectedCategory }) {
+  const navigate = useNavigate();
+
+  const addToCart = async (product) => {
+    await axios.post("http://localhost:4000/tbl_cart", {
+      productId: product.id,
+      productName: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+
+    toast.success(product.name + " added to cart");
+  };
+
   return (
     <>
-      {/* ================= HERO SECTION ================= */}
       <section
         style={{
           position: "relative",
           backgroundColor: "#eef8f7",
         }}
       >
-        {/* Banner Image */}
         <div
           style={{
             position: "absolute",
@@ -24,7 +38,6 @@ function Home() {
           }}
         ></div>
 
-        {/* Gradient */}
         <div
           style={{
             position: "absolute",
@@ -37,7 +50,6 @@ function Home() {
           }}
         ></div>
 
-        {/* Content */}
         <div
           className="container"
           style={{
@@ -52,7 +64,6 @@ function Home() {
             }}
           >
             <div className="col-lg-7 col-md-7">
-
               <p
                 className="fw-bold mb-2"
                 style={{
@@ -101,6 +112,10 @@ function Home() {
 
               <button
                 className="btn text-white fw-semibold px-4 py-2"
+                onClick={() => {
+                  setSelectedCategory("");
+                  navigate("/product");
+                }}
                 style={{
                   backgroundColor: "#2a9d8f",
                   border: "none",
@@ -110,179 +125,214 @@ function Home() {
               >
                 Shop Now
               </button>
-
             </div>
           </div>
         </div>
       </section>
 
-
-      {/* ================= CATEGORIES SECTION ================= */}
       <section
-  style={{
-    padding: "50px 0",
-    backgroundColor: "#ffffff",
-  }}
->
-  <div className="container">
-
-    {/* Section Heading */}
-    <div className="text-center mb-4">
-
-      <p
         style={{
-          color: "#0d9488",
-          fontWeight: "bold",
-          marginBottom: "5px",
+          padding: "50px 0",
+          backgroundColor: "#ffffff",
         }}
       >
-        SHOP BY CATEGORY
-      </p>
+        <div className="container">
+          <div className="text-center mb-4">
+            <p
+              style={{
+                color: "#0d9488",
+                fontWeight: "bold",
+                marginBottom: "5px",
+              }}
+            >
+              SHOP BY CATEGORY
+            </p>
 
-      <h2
-        style={{
-          color: "#243447",
-          fontWeight: "bold",
-          fontSize: "32px",
-        }}
-      >
-        Explore Our Categories
-      </h2>
+            <h2
+              style={{
+                color: "#243447",
+                fontWeight: "bold",
+                fontSize: "32px",
+              }}
+            >
+              Explore Our Categories
+            </h2>
+          </div>
 
-    </div>
+          <div className="row justify-content-center g-4">
 
-    {/* Category Cards */}
-    <div className="row justify-content-center g-4">
+            <div className="col-md-3">
+              <div
+                className="card text-center border-0 shadow-sm p-3"
+                style={{ borderRadius: "10px" }}
+              >
+                <img
+                  src="/image/pens.webp"
+                  alt="Pens"
+                  className="img-fluid"
+                  style={{
+                    height: "140px",
+                    objectFit: "contain",
+                  }}
+                />
 
-      {/* Pens */}
-      <div className="col-md-3">
-        <div
-          className="card text-center border-0 shadow-sm p-3"
-          style={{ borderRadius: "10px" }}
-        >
+                <h4
+                  className="fw-bold mt-2"
+                  style={{ color: "#243447" }}
+                >
+                  Pens
+                </h4>
 
-          <img
-            src="/image/pens.webp"
-            alt="Pens"
-            className="img-fluid"
-            style={{
-              height: "140px",
-              objectFit: "contain",
-            }}
-          />
+                <p className="text-secondary">
+                  Smooth writing pens
+                </p>
 
-          <h4
-            className="fw-bold mt-2"
-            style={{ color: "#243447" }}
-          >
-            Pens
-          </h4>
+                <button
+                  className="btn text-white"
+                  onClick={() => {
+                    setSelectedCategory("Pens");
+                    navigate("/product");
+                  }}
+                  style={{
+                    backgroundColor: "#0d9488",
+                    borderRadius: "6px",
+                  }}
+                >
+                  View Products
+                </button>
+              </div>
+            </div>
 
-          <p className="text-secondary">
-            Smooth writing pens
-          </p>
+            <div className="col-md-3">
+              <div
+                className="card text-center border-0 shadow-sm p-3"
+                style={{ borderRadius: "10px" }}
+              >
+                <img
+                  src="/image/markers.jpg"
+                  alt="Markers"
+                  className="img-fluid"
+                  style={{
+                    height: "140px",
+                    objectFit: "contain",
+                  }}
+                />
 
-          <button
-            className="btn text-white"
-            style={{
-              backgroundColor: "#0d9488",
-              borderRadius: "6px",
-            }}
-          >
-            View Products
-          </button>
+                <h4
+                  className="fw-bold mt-2"
+                  style={{ color: "#243447" }}
+                >
+                  Markers
+                </h4>
 
+                <p className="text-secondary">
+                  Bright & long lasting
+                </p>
+
+                <button
+                  className="btn text-white"
+                  onClick={() => {
+                    setSelectedCategory("Markers");
+                    navigate("/product");
+                  }}
+                  style={{
+                    backgroundColor: "#0d9488",
+                    borderRadius: "6px",
+                  }}
+                >
+                  View Products
+                </button>
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div
+                className="card text-center border-0 shadow-sm p-3"
+                style={{ borderRadius: "10px" }}
+              >
+                <img
+                  src="/image/pencil.jpg"
+                  alt="Pencil"
+                  className="img-fluid"
+                  style={{
+                    height: "140px",
+                    objectFit: "contain",
+                  }}
+                />
+
+                <h4
+                  className="fw-bold mt-2"
+                  style={{ color: "#243447" }}
+                >
+                  Pencil
+                </h4>
+
+                <p className="text-secondary">
+                  Smooth writing pencils
+                </p>
+
+                <button
+                  className="btn text-white"
+                  onClick={() => {
+                    setSelectedCategory("Pencil");
+                    navigate("/product");
+                  }}
+                  style={{
+                    backgroundColor: "#0d9488",
+                    borderRadius: "6px",
+                  }}
+                >
+                  View Products
+                </button>
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div
+                className="card text-center border-0 shadow-sm p-3"
+                style={{ borderRadius: "10px" }}
+              >
+                <img
+                  src="/image/note.jpg"
+                  alt="Notebooks"
+                  className="img-fluid"
+                  style={{
+                    height: "140px",
+                    objectFit: "contain",
+                  }}
+                />
+
+                <h4
+                  className="fw-bold mt-2"
+                  style={{ color: "#243447" }}
+                >
+                  Notebooks
+                </h4>
+
+                <p className="text-secondary">
+                  Quality notebooks
+                </p>
+
+                <button
+                  className="btn text-white"
+                  onClick={() => {
+                    setSelectedCategory("Notebooks");
+                    navigate("/product");
+                  }}
+                  style={{
+                    backgroundColor: "#0d9488",
+                    borderRadius: "6px",
+                  }}
+                >
+                  View Products
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Markers */}
-      <div className="col-md-3">
-        <div
-          className="card text-center border-0 shadow-sm p-3"
-          style={{ borderRadius: "10px" }}
-        >
-
-          <img
-            src="/image/markers.jpg"
-            alt="Markers"
-            className="img-fluid"
-            style={{
-              height: "140px",
-              objectFit: "contain",
-            }}
-          />
-
-          <h4
-            className="fw-bold mt-2"
-            style={{ color: "#243447" }}
-          >
-            Markers
-          </h4>
-
-          <p className="text-secondary">
-            Bright & long lasting
-          </p>
-
-          <button
-            className="btn text-white"
-            style={{
-              backgroundColor: "#0d9488",
-              borderRadius: "6px",
-            }}
-          >
-            View Products
-          </button>
-
-        </div>
-      </div>
-
-      {/* Notebooks */}
-      <div className="col-md-3">
-        <div
-          className="card text-center border-0 shadow-sm p-3"
-          style={{ borderRadius: "10px" }}
-        >
-
-          <img
-            src="/image/note.jpg"
-            alt="Notebooks"
-            className="img-fluid"
-            style={{
-              height: "140px",
-              objectFit: "contain",
-            }}
-          />
-
-          <h4
-            className="fw-bold mt-2"
-            style={{ color: "#243447" }}
-          >
-            Notebooks
-          </h4>
-
-          <p className="text-secondary">
-            Quality notebooks
-          </p>
-
-          <button
-            className="btn text-white"
-            style={{
-              backgroundColor: "#0d9488",
-              borderRadius: "6px",
-            }}
-          >
-            View Products
-          </button>
-
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-      {/* ================= POPULAR PRODUCTS ================= */}
       <section
         style={{
           padding: "50px 0",
@@ -290,9 +340,7 @@ function Home() {
         }}
       >
         <div className="container">
-
           <div className="text-center mb-4">
-
             <p
               style={{
                 color: "#2a9d8f",
@@ -312,12 +360,10 @@ function Home() {
             >
               Popular Products
             </h2>
-
           </div>
 
           <div className="row g-4">
 
-            {/* Product 1 */}
             <div className="col-lg-3 col-md-6">
               <div
                 className="card h-100"
@@ -337,7 +383,6 @@ function Home() {
                 />
 
                 <div className="card-body text-center">
-
                   <h5
                     style={{
                       color: "#243447",
@@ -359,6 +404,13 @@ function Home() {
 
                   <button
                     className="btn text-white"
+                    onClick={() =>
+                      addToCart({
+                        id: 1,
+                        name: "Premium Notebook",
+                        price: 120,
+                      })
+                    }
                     style={{
                       backgroundColor: "#2a9d8f",
                       border: "none",
@@ -366,13 +418,10 @@ function Home() {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
 
-
-            {/* Product 2 */}
             <div className="col-lg-3 col-md-6">
               <div
                 className="card h-100"
@@ -392,7 +441,6 @@ function Home() {
                 />
 
                 <div className="card-body text-center">
-
                   <h5
                     style={{
                       color: "#243447",
@@ -414,6 +462,13 @@ function Home() {
 
                   <button
                     className="btn text-white"
+                    onClick={() =>
+                      addToCart({
+                        id: 2,
+                        name: "Premium Ball Pen",
+                        price: 50,
+                      })
+                    }
                     style={{
                       backgroundColor: "#2a9d8f",
                       border: "none",
@@ -421,13 +476,10 @@ function Home() {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
 
-
-            {/* Product 3 */}
             <div className="col-lg-3 col-md-6">
               <div
                 className="card h-100"
@@ -447,7 +499,6 @@ function Home() {
                 />
 
                 <div className="card-body text-center">
-
                   <h5
                     style={{
                       color: "#243447",
@@ -469,6 +520,13 @@ function Home() {
 
                   <button
                     className="btn text-white"
+                    onClick={() =>
+                      addToCart({
+                        id: 3,
+                        name: "Pencil Set",
+                        price: 80,
+                      })
+                    }
                     style={{
                       backgroundColor: "#2a9d8f",
                       border: "none",
@@ -476,13 +534,10 @@ function Home() {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
 
-
-            {/* Product 4 */}
             <div className="col-lg-3 col-md-6">
               <div
                 className="card h-100"
@@ -502,7 +557,6 @@ function Home() {
                 />
 
                 <div className="card-body text-center">
-
                   <h5
                     style={{
                       color: "#243447",
@@ -524,6 +578,13 @@ function Home() {
 
                   <button
                     className="btn text-white"
+                    onClick={() =>
+                      addToCart({
+                        id: 4,
+                        name: "Art Kit",
+                        price: 250,
+                      })
+                    }
                     style={{
                       backgroundColor: "#2a9d8f",
                       border: "none",
@@ -531,7 +592,6 @@ function Home() {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
@@ -540,8 +600,6 @@ function Home() {
         </div>
       </section>
 
-
-      {/* ================= WHY CHOOSE US ================= */}
       <section
         style={{
           padding: "50px 0",
@@ -551,7 +609,6 @@ function Home() {
         <div className="container">
 
           <div className="text-center mb-4">
-
             <p
               style={{
                 color: "#2a9d8f",
@@ -570,15 +627,12 @@ function Home() {
             >
               We Make Shopping Easy
             </h2>
-
           </div>
 
           <div className="row g-4">
 
-            {/* Feature 1 */}
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-
                 <div style={{ fontSize: "40px" }}>
                   🚚
                 </div>
@@ -595,15 +649,11 @@ function Home() {
                 <p style={{ color: "#666" }}>
                   Quick and safe delivery to your doorstep.
                 </p>
-
               </div>
             </div>
 
-
-            {/* Feature 2 */}
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-
                 <div style={{ fontSize: "40px" }}>
                   💰
                 </div>
@@ -620,15 +670,11 @@ function Home() {
                 <p style={{ color: "#666" }}>
                   Quality stationery at affordable prices.
                 </p>
-
               </div>
             </div>
 
-
-            {/* Feature 3 */}
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-
                 <div style={{ fontSize: "40px" }}>
                   🔒
                 </div>
@@ -645,15 +691,11 @@ function Home() {
                 <p style={{ color: "#666" }}>
                   Safe and secure payment process.
                 </p>
-
               </div>
             </div>
 
-
-            {/* Feature 4 */}
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-
                 <div style={{ fontSize: "40px" }}>
                   ⭐
                 </div>
@@ -670,14 +712,12 @@ function Home() {
                 <p style={{ color: "#666" }}>
                   Good quality products for every need.
                 </p>
-
               </div>
             </div>
 
           </div>
         </div>
       </section>
-
     </>
   );
 }

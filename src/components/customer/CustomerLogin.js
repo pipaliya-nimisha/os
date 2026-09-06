@@ -23,6 +23,7 @@ function CustomerLogin() {
 
         localStorage.setItem("userAuth", "true");
         localStorage.setItem("userName", email);
+        localStorage.setItem("customerId", res.data[0].id);
 
         toast.success("Login Successful");
 

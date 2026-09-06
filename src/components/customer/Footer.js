@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
@@ -9,41 +10,72 @@ function Footer() {
         marginTop: "50px",
       }}
     >
-      <div className="container py-4">
+      <div className="container py-5">
 
-        <div className="row">
+        <div className="row g-4">
 
-          {/* About */}
           <div className="col-md-4">
             <h4
-              className="fw-bold"
+              className="fw-bold mb-3"
               style={{ color: "#0d9488" }}
             >
               Stationery Store
             </h4>
 
-            <p>
+            <p className="text-light mb-0">
               Your one-stop online store for quality
               stationery products at the best prices.
             </p>
           </div>
 
-          {/* Quick Links */}
           <div className="col-md-4">
             <h5 className="fw-bold mb-3">
               Quick Links
             </h5>
 
-            <p className="mb-2">Home</p>
-            <p className="mb-2">Products</p>
-            <p className="mb-2">Categories</p>
-            <p className="mb-2">Contact Us</p>
+            <div className="d-flex flex-column gap-2">
+
+              <NavLink
+                to="/"
+                className="text-light text-decoration-none"
+              >
+                Home
+              </NavLink>
+
+              <NavLink
+                to="/product"
+                className="text-light text-decoration-none"
+              >
+                Products
+              </NavLink>
+
+              <NavLink
+                to="/category"
+                className="text-light text-decoration-none"
+              >
+                Categories
+              </NavLink>
+
+              <NavLink
+                to="/feedback"
+                className="text-light text-decoration-none"
+              >
+                Feedback
+              </NavLink>
+
+              <NavLink
+                to="/cart"
+                className="text-light text-decoration-none"
+              >
+                Cart
+              </NavLink>
+
+            </div>
           </div>
 
-          {/* Contact */}
           <div className="col-md-4">
             <h5 className="fw-bold mb-3">
-              Contact Us
+              Contact Information
             </h5>
 
             <p className="mb-2">
@@ -61,11 +93,11 @@ function Footer() {
 
         </div>
 
-        <hr />
-
+        <hr className="my-4" />
         <div className="text-center">
-          <p className="mb-0">
-            © 2026 Stationery Store. All Rights Reserved.
+          <p className="mb-0 text-light">
+            © 2026 <strong>Stationery Store</strong>. 
+            All Rights Reserved.
           </p>
         </div>
 

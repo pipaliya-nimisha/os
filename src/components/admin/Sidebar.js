@@ -164,6 +164,14 @@ function Sidebar({ children }) {
           <i className="fa-solid fa-users" style={menuItem}></i>
           Customers
         </NavLink>
+        {/* Manage Feedback */}
+<NavLink 
+  to="/admin/feedback" 
+  style={link} 
+> 
+  <i className="fa-solid fa-comments" style={menuItem}></i> 
+  Manage Feedback 
+</NavLink>
 
         {/* Bill */}
         <NavLink

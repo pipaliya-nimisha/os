@@ -25,76 +25,87 @@
   ],
   "tbl_customer": [
     {
-      "id": "1",
-      "email": "p@gmail.com",
-      "fname": "Pranjal",
-      "lname": "Patel",
-      "city": "surat",
-      "contactNo": "1236547892",
-      "password": "p123"
-    },
-    {
-      "name": "wqe",
-      "email": "h@gmail.com",
-      "mobile": "232424",
-      "password": "h123",
-      "address": "ghgh",
-      "id": "USxs_53Qy50"
+      "name": "kiya",
+      "email": "k@gmail.com",
+      "mobile": "9987890892",
+      "password": "k123",
+      "address": "surat",
+      "id": "ldPofR08TsY"
     }
   ],
   "tbl_category": [
     {
-      "name": "Book",
+      "id": "F2w0ukT9lCc",
+      "name": "Markers",
       "description": "Full Scape Pages",
-      "status": "Active",
-      "id": "F2w0ukT9lCc"
+      "status": "Active"
     },
     {
-      "name": "Pen",
+      "id": "QGzY9B-Wmpw",
+      "name": "Pens",
       "description": "Dark Color",
-      "status": "Active",
-      "id": "QGzY9B-Wmpw"
+      "status": "Active"
     },
     {
+      "id": "6nbT4xVuDSg",
       "name": "Pencil",
-      "description": "Extra Dark!!",
-      "status": "Active",
-      "id": "6nbT4xVuDSg"
+      "description": "Extra Dark",
+      "status": "Active"
     },
     {
-      "id": "I48Mxm38rY0",
-      "name": "Natraj Sharpener",
-      "description": "Pencil Sharping Tool"
+      "id": "notebook01",
+      "name": "Notebooks",
+      "description": "Writing Notebook",
+      "status": "Active"
     }
   ],
   "tbl_product": [
-    {
-      "id": "oWkRLYkNgjY",
-      "name": "Natraj Sharpener",
-      "category": "Sharpener",
-      "price": "10",
-      "stock": "50",
-      "status": "Active"
-    },
     {
       "id": "JowbUUwgyiU",
       "name": "Apsara Pencil",
       "category": "Pencil",
       "price": "8",
-      "stock": "0",
-      "status": "Out of Stock"
+      "stock": "3",
+      "status": "Active",
+      "image": "/image/pencil.jpg"
     },
     {
-      "name": "Sharpnar",
-      "category": "Natraj Sharpener",
-      "price": "6",
-      "stock": "8",
+      "id": "pen001",
+      "name": "Premium Ball Pen",
+      "category": "Pens",
+      "price": "50",
+      "stock": "20",
       "status": "Active",
-      "id": "2vA92NtGGzo"
+      "image": "/image/pen.jpg"
+    },
+    {
+      "id": "marker001",
+      "name": "Marker Set",
+      "category": "Markers",
+      "price": "80",
+      "stock": "15",
+      "status": "Active",
+      "image": "/image/markers.jpg"
+    },
+    {
+      "id": "note001",
+      "name": "Premium Notebook",
+      "category": "Notebooks",
+      "price": "120",
+      "stock": "25",
+      "status": "Active",
+      "image": "/image/note.jpg"
     }
   ],
-  "tbl_stock": [],
-  "tbl_cart": [],
+  "tbl_cart": [
+    {
+      "productId": "JowbUUwgyiU",
+      "productName": "Apsara Pencil",
+      "price": 8,
+      "quantity": 1,
+      "id": "Pi2s8m08Ndc"
+    }
+  ],
   "tbl_order": [
     {
       "id": "1",
@@ -123,5 +134,14 @@
   ],
   "tbl_order_details": [],
   "tbl_bill": [],
+  "tbl_feedback": [
+    {
+      "name": "as",
+      "email": "sad@gasd.sds",
+      "feedback": "sadsad",
+      "date": "9/1/2026, 11:07:01 PM",
+      "id": "hAVCfawZGrw"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
