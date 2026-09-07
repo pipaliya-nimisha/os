@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-export default function Profile() {
+function Profile({ adminName }) {
 
   const [admin, setAdmin] = useState(null);
 
@@ -10,254 +9,174 @@ export default function Profile() {
   const [mobile, setMobile] = useState("");
   const [city, setCity] = useState("");
 
-  const [edit, setEdit] = useState(false);
+  const getData = async () => {
 
-  const loadAdmin = async () => {
-    try {
+    const res = await fetch(
+      "http://localhost:4000/tbl_admin"
+    );
 
-      const res = await axios.get(
-        "http://localhost:4000/tbl_admin"
-      );
+    const data = await res.json();
 
-      if (res.data.length > 0) {
+    const currentAdmin = data.find(
+      (item) => item.name === adminName
+    );
 
-        const data = res.data[0];
+    if (currentAdmin) {
 
-        setAdmin(data);
+      setAdmin(currentAdmin);
 
-        setName(data.name);
-        setEmail(data.email);
-        setMobile(data.mobile);
-        setCity(data.city);
-      }
+      setName(currentAdmin.name);
+      setEmail(currentAdmin.email);
+      setMobile(currentAdmin.mobile);
+      setCity(currentAdmin.city || "");
 
-    } catch (error) {
-      console.error("Error loading admin:", error);
     }
   };
 
   useEffect(() => {
-    loadAdmin();
-  }, []);
 
-  const saveProfile = async () => {
-
-    try {
-
-      const updatedAdmin = {
-        ...admin,
-        name: name,
-        email: email,
-        mobile: mobile,
-        city: city
-      };
-
-      await axios.put(
-        `http://localhost:4000/tbl_admin/${admin.id}`,
-        updatedAdmin
-      );
-
-      alert("Profile updated successfully!");
-
-      setAdmin(updatedAdmin);
-
-      setEdit(false);
-
-    } catch (error) {
-
-      console.error("Error updating profile:", error);
-
-      alert("Error updating profile!");
+    if (adminName) {
+      getData();
     }
+
+  }, [adminName]);
+
+
+  const updateProfile = async () => {
+
+    if (!name.trim()) {
+      alert("Name is required");
+      return;
+    }
+
+    if (!email.trim()) {
+      alert("Email is required");
+      return;
+    }
+
+    if (!mobile.trim()) {
+      alert("Mobile is required");
+      return;
+    }
+
+    if (!city.trim()) {
+      alert("City is required");
+      return;
+    }
+
+    await fetch(
+      "http://localhost:4000/tbl_admin/" + admin.id,
+      {
+        method: "PATCH",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          mobile: mobile,
+          city: city
+        })
+      }
+    );
+
+    alert("Profile updated successfully!");
+
+    getData();
   };
 
-  if (!admin) {
-    return (
-      <div className="text-center mt-5">
-        <h5>Loading...</h5>
-      </div>
-    );
-  }
 
   return (
+    <div style={{ padding: "25px" }}>
 
-    <div className="container-fluid p-0">
+      <h2>My Profile</h2>
 
-      <h3
-        className="fw-bold mb-4"
-        style={{ color: "#0f172a" }}
-      >
-        Admin Profile
-      </h3>
+      <p>View and update your profile</p>
 
       <hr />
 
       <div
-        className="card border-0 shadow-sm"
         style={{
-          maxWidth: "650px",
-          borderRadius: "12px",
-          backgroundColor: "#ffffff"
+          background: "white",
+          padding: "25px",
+          borderRadius: "10px",
+          maxWidth: "600px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)"
         }}
       >
 
-        <div className="card-body p-4">
+        <div style={{ marginBottom: "15px" }}>
+          <label>Name</label>
 
-          {/* Name */}
-
-          <div className="mb-3">
-
-            <label className="fw-semibold mb-2">
-              Name
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              disabled={!edit}
-              onChange={(e) => setName(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                borderColor: "#cbd5e1"
-              }}
-            />
-
-          </div>
-
-
-          {/* Email */}
-
-          <div className="mb-3">
-
-            <label className="fw-semibold mb-2">
-              Email
-            </label>
-
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              disabled={!edit}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                borderColor: "#cbd5e1"
-              }}
-            />
-
-          </div>
-
-
-          {/* Mobile */}
-
-          <div className="mb-3">
-
-            <label className="fw-semibold mb-2">
-              Mobile
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              value={mobile}
-              disabled={!edit}
-              onChange={(e) => setMobile(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                borderColor: "#cbd5e1"
-              }}
-            />
-
-          </div>
-
-
-          {/* City */}
-
-          <div className="mb-4">
-
-            <label className="fw-semibold mb-2">
-              City
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              value={city}
-              disabled={!edit}
-              onChange={(e) => setCity(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                borderColor: "#cbd5e1"
-              }}
-            />
-
-          </div>
-
-
-          {/* Buttons */}
-
-          {!edit && (
-
-            <button
-              type="button"
-              className="btn text-white fw-semibold"
-              onClick={() => setEdit(true)}
-              style={{
-                backgroundColor: "#0d9488",
-                borderRadius: "8px",
-                padding: "9px 25px"
-              }}
-            >
-              Edit Profile
-            </button>
-
-          )}
-
-
-          {edit && (
-
-            <>
-
-              <button
-                type="button"
-                className="btn text-white fw-semibold me-2"
-                onClick={saveProfile}
-                style={{
-                  backgroundColor: "#0d9488",
-                  borderRadius: "8px",
-                  padding: "9px 25px"
-                }}
-              >
-                Save
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-light fw-semibold border"
-                onClick={() => {
-                  setName(admin.name);
-                  setEmail(admin.email);
-                  setMobile(admin.mobile);
-                  setCity(admin.city);
-                  setEdit(false);
-                }}
-                style={{
-                  borderRadius: "8px",
-                  padding: "9px 25px"
-                }}
-              >
-                Cancel
-              </button>
-
-            </>
-
-          )}
-
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
         </div>
+
+
+        <div style={{ marginBottom: "15px" }}>
+          <label>Email</label>
+
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+        </div>
+
+
+        <div style={{ marginBottom: "15px" }}>
+          <label>Mobile</label>
+
+          <input
+            type="text"
+            className="form-control"
+            value={mobile}
+            onChange={(e) =>
+              setMobile(e.target.value)
+            }
+          />
+        </div>
+
+
+        <div style={{ marginBottom: "20px" }}>
+          <label>City</label>
+
+          <input
+            type="text"
+            className="form-control"
+            value={city}
+            onChange={(e) =>
+              setCity(e.target.value)
+            }
+          />
+        </div>
+
+
+        <button
+          onClick={updateProfile}
+          className="btn text-white"
+          style={{
+            backgroundColor: "#0d9488"
+          }}
+        >
+          Update Profile
+        </button>
 
       </div>
 
     </div>
   );
 }
+
+export default Profile;

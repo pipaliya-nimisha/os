@@ -38,14 +38,31 @@ function Product({ selectedCategory }) {
   });
 
   const addToCart = async (product) => {
-    await axios.post("http://localhost:4000/tbl_cart", {
-      productId: product.id,
-      productName: product.name,
-      price: Number(product.price),
-      quantity: 1
-    });
+    const res = await axios.get(
+      `http://localhost:4000/tbl_cart?productId=${product.id}`
+    );
 
-    toast.success(product.name + " added to cart");
+    if (res.data.length > 0) {
+      const cartItem = res.data[0];
+
+      await axios.patch(
+        `http://localhost:4000/tbl_cart/${cartItem.id}`,
+        {
+          quantity: Number(cartItem.quantity) + 1,
+        }
+      );
+
+      toast.success("Quantity increased");
+    } else {
+      await axios.post("http://localhost:4000/tbl_cart", {
+        productId: product.id,
+        productName: product.name,
+        price: Number(product.price),
+        quantity: 1,
+      });
+
+      toast.success(product.name + " added to cart");
+    }
   };
 
   return (

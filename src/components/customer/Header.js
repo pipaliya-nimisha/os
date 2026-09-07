@@ -9,11 +9,16 @@ function Header() {
     getCartCount();
   }, []);
 
-  const getCartCount = async () => {
-    const res = await axios.get("http://localhost:4000/tbl_cart");
-    setCartCount(res.data.length);
-  };
+const getCartCount = async () => {
+  const res = await axios.get("http://localhost:4000/tbl_cart");
 
+  const totalQuantity = res.data.reduce(
+    (total, item) => total + Number(item.quantity),
+    0
+  );
+
+  setCartCount(totalQuantity);
+};
   const navStyle = ({ isActive }) => ({
     color: isActive ? "#ffffff" : "#0f766e",
     backgroundColor: isActive ? "#0f766e" : "transparent",

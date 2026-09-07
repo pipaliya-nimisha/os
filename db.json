@@ -13,7 +13,8 @@
       "name": "Nimisha Pipliya",
       "email": "n@gmail.com",
       "password": "n123",
-      "mobile": "9876543220"
+      "mobile": "9876543220",
+      "city": "vapi"
     },
     {
       "id": "3",
@@ -31,6 +32,14 @@
       "password": "k123",
       "address": "surat",
       "id": "ldPofR08TsY"
+    },
+    {
+      "name": "w",
+      "email": "w@gmail.com",
+      "mobile": "902323920",
+      "password": "w123",
+      "address": "katragam",
+      "id": "LgoM6XiP_pI"
     }
   ],
   "tbl_category": [
@@ -38,25 +47,35 @@
       "id": "F2w0ukT9lCc",
       "name": "Markers",
       "description": "Full Scape Pages",
-      "status": "Active"
+      "status": "Active",
+      "image": "/image/marker.webp"
     },
     {
       "id": "QGzY9B-Wmpw",
       "name": "Pens",
       "description": "Dark Color",
-      "status": "Active"
+      "status": "Active",
+      "image": "/image/pen.webp"
     },
     {
       "id": "6nbT4xVuDSg",
       "name": "Pencil",
       "description": "Extra Dark",
-      "status": "Active"
+      "status": "Active",
+      "image": "/image/pencil.jpg"
     },
     {
       "id": "notebook01",
       "name": "Notebooks",
       "description": "Writing Notebook",
-      "status": "Active"
+      "status": "Active",
+      "image": "/image/note.webp"
+    },
+    {
+      "name": "colo",
+      "description": "all color",
+      "image": "/image/color.jpg",
+      "id": "yo7LimbIyK4"
     }
   ],
   "tbl_product": [
@@ -65,8 +84,8 @@
       "name": "Apsara Pencil",
       "category": "Pencil",
       "price": "8",
-      "stock": "3",
-      "status": "Active",
+      "stock": "15",
+      "status": "Available",
       "image": "/image/pencil.jpg"
     },
     {
@@ -102,8 +121,8 @@
       "productId": "JowbUUwgyiU",
       "productName": "Apsara Pencil",
       "price": 8,
-      "quantity": 1,
-      "id": "Pi2s8m08Ndc"
+      "quantity": 2,
+      "id": "gy7yI5VJT18"
     }
   ],
   "tbl_order": [
@@ -132,8 +151,6 @@
       "payment": "Online"
     }
   ],
-  "tbl_order_details": [],
-  "tbl_bill": [],
   "tbl_feedback": [
     {
       "name": "as",

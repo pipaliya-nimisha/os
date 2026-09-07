@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
+// Admin Components
 import Login from "./components/admin/Login.js";
 import Dashboard from "./components/admin/Dashboard.js";
 import CategoryCRUD from "./components/admin/Categorycrud.js";
@@ -9,13 +10,13 @@ import Productcrud from "./components/admin/Productcrud.js";
 import Stock from "./components/admin/Stock.js";
 import Orders from "./components/admin/Orders.js";
 import OrderStatus from "./components/admin/OrderStatus.js";
-import Bill from "./components/admin/Bill.js";
 import Customers from "./components/admin/Customers.js";
 import ManageFeedback from "./components/admin/ManageFeedback.js";
 import Profile from "./components/admin/Profile.js";
 import Logout from "./components/admin/Logouta.js";
 import Sidebar from "./components/admin/Sidebar.js";
 
+// Customer Components
 import Home from "./components/customer/Home.js";
 import Product from "./components/customer/Product.js";
 import CustomerCategory from "./components/customer/Category.js";
@@ -29,13 +30,18 @@ import Cart from "./components/customer/Cart.js";
 import Logoutc from "./components/customer/Logoutc.js";
 
 function App() {
+
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [adminName, setAdminName] = useState("");
 
   return (
     <BrowserRouter>
+
       <Toaster position="top-center" />
 
       <Routes>
+
+        {/* ================= CUSTOMER ================= */}
 
         <Route
           path="/"
@@ -120,21 +126,31 @@ function App() {
           element={<Logoutc />}
         />
 
+
+        {/* ================= ADMIN LOGIN ================= */}
+
         <Route
           path="/login"
-          element={<Login />}
+          element={
+            <Login setAdminName={setAdminName} />
+          }
         />
 
         <Route
           path="/admin/login"
-          element={<Login />}
+          element={
+            <Login setAdminName={setAdminName} />
+          }
         />
+
+
+        {/* ================= ADMIN ================= */}
 
         <Route
           path="/admin/dashboard"
           element={
             <Sidebar>
-              <Dashboard />
+              <Dashboard adminName={adminName} />
             </Sidebar>
           }
         />
@@ -202,23 +218,14 @@ function App() {
           }
         />
 
-        <Route
-          path="/admin/bill"
-          element={
-            <Sidebar>
-              <Bill />
-            </Sidebar>
-          }
-        />
-
-        <Route
-          path="/admin/profile"
-          element={
-            <Sidebar>
-              <Profile />
-            </Sidebar>
-          }
-        />
+    <Route 
+  path="/admin/profile" 
+  element={ 
+    <Sidebar> 
+      <Profile adminName={adminName} />
+    </Sidebar> 
+  } 
+/>
 
         <Route
           path="/admin/logout"
@@ -226,6 +233,7 @@ function App() {
         />
 
       </Routes>
+
     </BrowserRouter>
   );
 }

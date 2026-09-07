@@ -77,18 +77,13 @@ function Sidebar({ children }) {
     marginRight: "8px"
   };
 
-  // Go to Logout Confirmation Page
   const handleLogout = () => {
     navigate("/admin/logout");
   };
 
   return (
     <div style={container}>
-
-      {/* ================= SIDEBAR ================= */}
-
       <div style={sidebar}>
-
         <h2 style={title}>My Store</h2>
 
         <p style={subtitle}>
@@ -99,56 +94,32 @@ function Sidebar({ children }) {
 
         <hr />
 
-        {/* Dashboard */}
-        <NavLink
-          to="/admin/dashboard"
-          style={link}
-        >
+        <NavLink to="/admin/dashboard" style={link}>
           <i className="fa-solid fa-house" style={menuItem}></i>
           Dashboard
         </NavLink>
 
-        {/* Category */}
-        <NavLink
-          to="/admin/category"
-          style={link}
-        >
+        <NavLink to="/admin/category" style={link}>
           <i className="fa-solid fa-folder" style={menuItem}></i>
           Category
         </NavLink>
 
-        {/* Products */}
-        <NavLink
-          to="/admin/products"
-          style={link}
-        >
+        <NavLink to="/admin/products" style={link}>
           <i className="fa-solid fa-box" style={menuItem}></i>
           Products
         </NavLink>
 
-        {/* Stock */}
-        <NavLink
-          to="/admin/stock"
-          style={link}
-        >
+        <NavLink to="/admin/stock" style={link}>
           <i className="fa-solid fa-chart-column" style={menuItem}></i>
           Stock
         </NavLink>
 
-        {/* Orders */}
-        <NavLink
-          to="/admin/orders"
-          style={link}
-        >
+        <NavLink to="/admin/orders" style={link}>
           <i className="fa-solid fa-cart-shopping" style={menuItem}></i>
           Orders
         </NavLink>
 
-        {/* Order Status */}
-        <NavLink
-          to="/admin/order-status"
-          style={link}
-        >
+        <NavLink to="/admin/order-status" style={link}>
           <i
             className="fa-solid fa-clock-rotate-left"
             style={menuItem}
@@ -156,50 +127,23 @@ function Sidebar({ children }) {
           Order Status
         </NavLink>
 
-        {/* Customers */}
-        <NavLink
-          to="/admin/customers"
-          style={link}
-        >
+        <NavLink to="/admin/customers" style={link}>
           <i className="fa-solid fa-users" style={menuItem}></i>
           Customers
         </NavLink>
-        {/* Manage Feedback */}
-<NavLink 
-  to="/admin/feedback" 
-  style={link} 
-> 
-  <i className="fa-solid fa-comments" style={menuItem}></i> 
-  Manage Feedback 
-</NavLink>
 
-        {/* Bill */}
-        <NavLink
-          to="/admin/bill"
-          style={link}
-        >
-          <i
-            className="fa-solid fa-file-invoice"
-            style={menuItem}
-          ></i>
-          Generate Bill
+        <NavLink to="/admin/feedback" style={link}>
+          <i className="fa-solid fa-comments" style={menuItem}></i>
+          Manage Feedback
         </NavLink>
 
       </div>
 
-      {/* ================= MAIN ================= */}
-
       <div style={main}>
-
-        {/* Header */}
-
         <div style={header}>
-
           <b>☰ Admin Panel</b>
 
           <div style={headerRight}>
-
-            {/* Profile */}
             <NavLink
               to="/admin/profile"
               style={{
@@ -211,7 +155,6 @@ function Sidebar({ children }) {
               {" "}Profile
             </NavLink>
 
-            {/* Logout */}
             <button
               onClick={handleLogout}
               style={logoutButton}
@@ -219,19 +162,13 @@ function Sidebar({ children }) {
               <i className="fa-solid fa-right-from-bracket"></i>
               {" "}Logout
             </button>
-
           </div>
-
         </div>
-
-        {/* Page Content */}
 
         <div style={content}>
           {children}
         </div>
-
       </div>
-
     </div>
   );
 }

@@ -21,27 +21,19 @@ export default function Products() {
   const nameInputRef = useRef(null);
 
   const loadProducts = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:4000/tbl_product"
-      );
+    const res = await axios.get(
+      "http://localhost:4000/tbl_product"
+    );
 
-      setProducts(res.data);
-    } catch (error) {
-      console.error("Error loading products:", error);
-    }
+    setProducts(res.data);
   };
 
   const loadCategories = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:4000/tbl_category"
-      );
+    const res = await axios.get(
+      "http://localhost:4000/tbl_category"
+    );
 
-      setCategories(res.data);
-    } catch (error) {
-      console.error("Error loading categories:", error);
-    }
+    setCategories(res.data);
   };
 
   useEffect(() => {
@@ -62,37 +54,31 @@ export default function Products() {
       return;
     }
 
-    try {
-      await axios.post(
-        "http://localhost:4000/tbl_product",
-        {
-          name,
-          category,
-          price,
-          stock,
-          status: Number(stock) > 0 ? "Active" : "Out of Stock",
-          image
-        }
-      );
+    await axios.post(
+      "http://localhost:4000/tbl_product",
+      {
+        name,
+        category,
+        price,
+        stock,
+        status: Number(stock) > 0 ? "Active" : "Out of Stock",
+        image: "/image/" + image
+      }
+    );
 
-      alert("Product added successfully!");
+    alert("Product added successfully!");
 
-      setName("");
-      setCategory("");
-      setPrice("");
-      setStock("");
-      setImage("");
+    setName("");
+    setCategory("");
+    setPrice("");
+    setStock("");
+    setImage("");
 
-      loadProducts();
+    loadProducts();
 
-      setTimeout(() => {
-        nameInputRef.current?.focus();
-      }, 0);
-
-    } catch (error) {
-      console.error("Error adding product:", error);
-      alert("Error adding product!");
-    }
+    setTimeout(() => {
+      nameInputRef.current?.focus();
+    }, 0);
   };
 
   const deleteProduct = async (id) => {
@@ -104,19 +90,13 @@ export default function Products() {
       return;
     }
 
-    try {
-      await axios.delete(
-        `http://localhost:4000/tbl_product/${id}`
-      );
+    await axios.delete(
+      `http://localhost:4000/tbl_product/${id}`
+    );
 
-      alert("Product deleted successfully!");
+    alert("Product deleted successfully!");
 
-      loadProducts();
-
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      alert("Error deleting product!");
-    }
+    loadProducts();
   };
 
   const startEdit = (
@@ -147,35 +127,29 @@ export default function Products() {
       return;
     }
 
-    try {
-      await axios.put(
-        `http://localhost:4000/tbl_product/${id}`,
-        {
-          id,
-          name: editName,
-          category: editCategory,
-          price: editPrice,
-          stock: editStock,
-          status: Number(editStock) > 0 ? "Active" : "Out of Stock",
-          image: editImage
-        }
-      );
+    await axios.put(
+      `http://localhost:4000/tbl_product/${id}`,
+      {
+        id,
+        name: editName,
+        category: editCategory,
+        price: editPrice,
+        stock: editStock,
+        status: Number(editStock) > 0 ? "Active" : "Out of Stock",
+        image: editImage
+      }
+    );
 
-      alert("Product updated successfully!");
+    alert("Product updated successfully!");
 
-      setEditId(null);
-      setEditName("");
-      setEditCategory("");
-      setEditPrice("");
-      setEditStock("");
-      setEditImage("");
+    setEditId(null);
+    setEditName("");
+    setEditCategory("");
+    setEditPrice("");
+    setEditStock("");
+    setEditImage("");
 
-      loadProducts();
-
-    } catch (error) {
-      console.error("Error updating product:", error);
-      alert("Error updating product!");
-    }
+    loadProducts();
   };
 
   return (
@@ -227,7 +201,6 @@ export default function Products() {
                 fontSize: "14px"
               }}
             >
-
               <option value="">
                 Select Category
               </option>
@@ -240,7 +213,6 @@ export default function Products() {
                   {item.name}
                 </option>
               ))}
-
             </select>
           </div>
 
@@ -276,11 +248,14 @@ export default function Products() {
 
           <div className="col-md-2">
             <input
-              type="text"
+              type="file"
+              accept="image/*"
               className="form-control py-2 px-3"
-              placeholder="/image/pen.jpg"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={(e) => {
+                if (e.target.files.length > 0) {
+                  setImage(e.target.files[0].name);
+                }
+              }}
               style={{
                 borderRadius: "8px",
                 borderColor: "#cbd5e1",
@@ -324,7 +299,6 @@ export default function Products() {
                 color: "#ffffff"
               }}
             >
-
               <tr>
 
                 <th style={{ padding: "14px 20px" }}>
@@ -360,7 +334,6 @@ export default function Products() {
                 </th>
 
               </tr>
-
             </thead>
 
             <tbody>
@@ -386,12 +359,17 @@ export default function Products() {
                     {editId === p.id ? (
 
                       <input
-                        type="text"
+                        type="file"
+                        accept="image/*"
                         className="form-control"
-                        value={editImage}
-                        onChange={(e) =>
-                          setEditImage(e.target.value)
-                        }
+                        onChange={(e) => {
+                          if (e.target.files.length > 0) {
+                            setEditImage(
+                              "/image/" +
+                              e.target.files[0].name
+                            );
+                          }
+                        }}
                         style={{
                           borderRadius: "6px",
                           borderColor: "#0d9488",

@@ -3,62 +3,61 @@ import axios from "axios";
 
 export default function CategoryCRUD() {
   const [categories, setCategories] = useState([]);
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
 
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editImage, setEditImage] = useState("");
 
   const nameInputRef = useRef(null);
 
   const loadData = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:4000/tbl_category"
-      );
-
-      setCategories(res.data);
-    } catch (error) {
-      console.error("Error loading categories:", error);
-    }
+    const res = await axios.get(
+      "http://localhost:4000/tbl_category"
+    );
+    setCategories(res.data);
   };
 
   useEffect(() => {
     loadData();
   }, []);
+
   const addCategory = async () => {
     if (!name.trim()) {
       nameInputRef.current.focus();
       return;
     }
 
-    try {
-      await axios.post(
-        "http://localhost:4000/tbl_category",
-        {
-          name,
-          description
-        }
-      );
-
-      alert("Category added successfully!");
-
-      setName("");
-      setDescription("");
-
-      loadData();
-
-      setTimeout(() => {
-        nameInputRef.current?.focus();
-      }, 0);
-
-    } catch (error) {
-      console.error("Error adding category:", error);
-      alert("Error adding category!");
+    if (!image) {
+      alert("Please select an image!");
+      return;
     }
+
+    await axios.post(
+      "http://localhost:4000/tbl_category",
+      {
+        name: name,
+        description: description,
+        image: "/image/" + image
+      }
+    );
+
+    alert("Category added successfully!");
+
+    setName("");
+    setDescription("");
+    setImage("");
+
+    loadData();
+
+    setTimeout(() => {
+      nameInputRef.current?.focus();
+    }, 0);
   };
+
   const deleteCategory = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this category?"
@@ -68,28 +67,25 @@ export default function CategoryCRUD() {
       return;
     }
 
-    try {
-      await axios.delete(
-        `http://localhost:4000/tbl_category/${id}`
-      );
+    await axios.delete(
+      `http://localhost:4000/tbl_category/${id}`
+    );
 
-      alert("Category deleted successfully!");
+    alert("Category deleted successfully!");
 
-      loadData();
-
-    } catch (error) {
-      console.error("Error deleting category:", error);
-      alert("Error deleting category!");
-    }
+    loadData();
   };
+
   const startEdit = (
     id,
     currentName,
-    currentDescription
+    currentDescription,
+    currentImage
   ) => {
     setEditId(id);
     setEditName(currentName);
     setEditDescription(currentDescription);
+    setEditImage(currentImage || "");
   };
 
   const saveEdit = async (id) => {
@@ -98,35 +94,37 @@ export default function CategoryCRUD() {
       return;
     }
 
-    try {
-      await axios.put(
-        `http://localhost:4000/tbl_category/${id}`,
-        {
-          id,
-          name: editName,
-          description: editDescription
-        }
-      );
+    await axios.put(
+      `http://localhost:4000/tbl_category/${id}`,
+      {
+        id: id,
+        name: editName,
+        description: editDescription,
+        image: editImage
+      }
+    );
 
-      alert("Category updated successfully!");
+    alert("Category updated successfully!");
 
-      setEditId(null);
-      setEditName("");
-      setEditDescription("");
+    setEditId(null);
+    setEditName("");
+    setEditDescription("");
+    setEditImage("");
 
-      loadData();
-
-    } catch (error) {
-      console.error("Error updating category:", error);
-      alert("Error updating category!");
-    }
+    loadData();
   };
 
   return (
     <div className="container-fluid p-0">
+      <h3
+        className="fw-bold mb-4"
+        style={{ color: "#0f172a" }}
+      >
+        Manage Categories
+      </h3>
 
-      <h3 className="fw-bold mb-4"style={{ color: "#0f172a" }}>Manage Categories</h3>
       <hr />
+
       <div
         className="card border-0 shadow-sm p-4 mb-4"
         style={{
@@ -134,67 +132,65 @@ export default function CategoryCRUD() {
           backgroundColor: "#ffffff"
         }}
       >
-
         <div className="row g-3 align-items-center">
-          <div className="col-md-5">
-
+          <div className="col-md-3">
             <input
               ref={nameInputRef}
               type="text"
               className="form-control py-2 px-3"
-              placeholder="Enter new category name..."
+              placeholder="Enter category name..."
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               style={{
                 borderRadius: "8px",
                 borderColor: "#cbd5e1",
                 fontSize: "14px"
               }}
             />
-
           </div>
 
-          <div className="col-md-4">
-
+          <div className="col-md-3">
             <input
               type="text"
               className="form-control py-2 px-3"
               placeholder="Enter description..."
               value={description}
-              onChange={(e) =>
-                setDescription(e.target.value)
-              }
+              onChange={(e) => setDescription(e.target.value)}
               style={{
                 borderRadius: "8px",
                 borderColor: "#cbd5e1",
                 fontSize: "14px"
               }}
             />
-
           </div>
 
-          <div className="col-md-3 d-grid">
+          <div className="col-md-4">
+            <input
+              type="file"
+              accept="image/*"
+              className="form-control"
+              onChange={(e) => {
+                if (e.target.files.length > 0) {
+                  setImage(e.target.files[0].name);
+                }
+              }}
+            />
+          </div>
 
+          <div className="col-md-2 d-grid">
             <button
               type="button"
               className="btn text-white fw-semibold py-2"
               onClick={addCategory}
               style={{
                 backgroundColor: "#0d9488",
-                borderRadius: "8px",
-                boxShadow:
-                  "0 2px 6px rgba(13, 148, 136, 0.2)"
+                borderRadius: "8px"
               }}
             >
               + Add Category
             </button>
-
           </div>
-
         </div>
-
       </div>
 
       <div
@@ -204,89 +200,40 @@ export default function CategoryCRUD() {
           backgroundColor: "#ffffff"
         }}
       >
-
         <div className="table-responsive">
-
           <table className="table align-middle mb-0">
-
             <thead
               style={{
                 backgroundColor: "#0f172a",
                 color: "#ffffff"
               }}
             >
-
               <tr>
-
-                <th
-                  style={{
-                    width: "10%",
-                    padding: "14px 20px"
-                  }}
-                >
-                  #
-                </th>
-
-                <th
-                  style={{
-                    width: "35%",
-                    padding: "14px 20px"
-                  }}
-                >
+                <th style={{ padding: "14px 20px" }}>#</th>
+                <th style={{ padding: "14px 20px" }}>
                   Category Name
                 </th>
-
-                <th
-                  style={{
-                    width: "30%",
-                    padding: "14px 20px"
-                  }}
-                >
+                <th style={{ padding: "14px 20px" }}>
                   Description
                 </th>
-
-                <th
-                  style={{
-                    width: "25%",
-                    padding: "14px 20px"
-                  }}
-                >
+                <th style={{ padding: "14px 20px" }}>
+                  Image
+                </th>
+                <th style={{ padding: "14px 20px" }}>
                   Actions
                 </th>
-
               </tr>
-
             </thead>
 
             <tbody>
-
               {categories.map((c, index) => (
-
-                <tr
-                  key={c.id}
-                  style={{
-                    borderBottom:
-                      "1px solid #f1f5f9"
-                  }}
-                >
-
-                  <td
-                    className="fw-semibold text-secondary"
-                    style={{
-                      padding: "14px 20px"
-                    }}
-                  >
+                <tr key={c.id}>
+                  <td style={{ padding: "14px 20px" }}>
                     {index + 1}
                   </td>
 
-                  <td
-                    style={{
-                      padding: "14px 20px"
-                    }}
-                  >
-
+                  <td style={{ padding: "14px 20px" }}>
                     {editId === c.id ? (
-
                       <input
                         type="text"
                         className="form-control"
@@ -294,79 +241,61 @@ export default function CategoryCRUD() {
                         onChange={(e) =>
                           setEditName(e.target.value)
                         }
-                        style={{
-                          borderRadius: "6px",
-                          borderColor: "#0d9488"
-                        }}
                       />
-
                     ) : (
-
-                      <span
-                        className="fw-medium"
-                        style={{
-                          color: "#334155"
-                        }}
-                      >
-                        {c.name}
-                      </span>
-
+                      c.name
                     )}
-
                   </td>
 
-                  <td
-                    style={{
-                      padding: "14px 20px"
-                    }}
-                  >
-
+                  <td style={{ padding: "14px 20px" }}>
                     {editId === c.id ? (
-
                       <input
                         type="text"
                         className="form-control"
                         value={editDescription}
                         onChange={(e) =>
-                          setEditDescription(
-                            e.target.value
-                          )
+                          setEditDescription(e.target.value)
                         }
-                        style={{
-                          borderRadius: "6px",
-                          borderColor: "#0d9488"
+                      />
+                    ) : (
+                      c.description
+                    )}
+                  </td>
+
+                  <td style={{ padding: "14px 20px" }}>
+                    {editId === c.id ? (
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="form-control"
+                        onChange={(e) => {
+                          if (e.target.files.length > 0) {
+                            setEditImage(
+                              "/image/" +
+                                e.target.files[0].name
+                            );
+                          }
                         }}
                       />
-
                     ) : (
-
-                      <span
-                        className="fw-medium"
+                      <img
+                        src={c.image}
+                        alt={c.name}
                         style={{
-                          color: "#334155"
+                          width: "55px",
+                          height: "55px",
+                          objectFit: "contain"
                         }}
-                      >
-                        {c.description}
-                      </span>
-
+                      />
                     )}
-
                   </td>
-                  <td
-                    style={{
-                      padding: "14px 20px"
-                    }}
-                  >
 
+                  <td style={{ padding: "14px 20px" }}>
                     {editId === c.id ? (
-
                       <>
-
                         <button
                           className="btn btn-sm text-white fw-semibold me-2"
-                          onClick={() =>
-                            saveEdit(c.id)
-                          }
+                          onClick={() => saveEdit(c.id)}
                           style={{
                             backgroundColor: "#0d9488",
                             borderRadius: "6px"
@@ -376,23 +305,18 @@ export default function CategoryCRUD() {
                         </button>
 
                         <button
-                          className="btn btn-sm btn-light fw-semibold text-secondary border"
+                          className="btn btn-sm btn-light fw-semibold border"
                           onClick={() => {
                             setEditId(null);
                             setEditName("");
                             setEditDescription("");
-                          }}
-                          style={{
-                            borderRadius: "6px"
+                            setEditImage("");
                           }}
                         >
                           Cancel
                         </button>
-
                       </>
-
                     ) : (
-
                       <>
                         <button
                           className="btn btn-sm me-2 fw-semibold"
@@ -400,7 +324,8 @@ export default function CategoryCRUD() {
                             startEdit(
                               c.id,
                               c.name,
-                              c.description
+                              c.description,
+                              c.image
                             )
                           }
                           style={{
@@ -412,8 +337,6 @@ export default function CategoryCRUD() {
                         >
                           Edit
                         </button>
-
-                        {/* Delete */}
 
                         <button
                           className="btn btn-sm fw-semibold"
@@ -429,40 +352,26 @@ export default function CategoryCRUD() {
                         >
                           Delete
                         </button>
-
                       </>
-
                     )}
-
                   </td>
-
                 </tr>
-
               ))}
 
               {categories.length === 0 && (
-
                 <tr>
-
                   <td
-                    colSpan="4"
+                    colSpan="5"
                     className="text-center py-4 text-muted"
                   >
                     No categories found.
                   </td>
-
                 </tr>
-
               )}
-
             </tbody>
-
           </table>
-
         </div>
-
       </div>
-
     </div>
   );
 }

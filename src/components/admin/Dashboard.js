@@ -1,296 +1,166 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-function Dashboard() {
-
-  const main = {
-    padding: "25px",
-    background: "#FFFDF7",
-  };
-
-  const heading = {
-    margin: "0",
-    fontSize: "28px",
-    color: "#222",
-  };
-
-  const welcome = {
-    marginTop: "8px",
-    color: "#777",
-  };
-
-  const cardContainer = {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gap: "20px",
-    marginTop: "25px",
-  };
-
-  const card = {
-    background: "white",
-    padding: "20px",
-    borderRadius: "12px",
-    display: "flex",
-    alignItems: "center",
-    gap: "18px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-  };
-
-  const icon = {
-    fontSize: "35px",
-  };
-
-  const cardTitle = {
-    margin: "0",
-    color: "#777",
-    fontSize: "14px",
-  };
-
-  const number = {
-    margin: "5px 0 0",
-    fontSize: "25px",
-    color: "#222",
-  };
-
-  const box = {
-    background: "white",
-    marginTop: "25px",
-    padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-  };
-
-  const boxHeader = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "15px",
-  };
-
-  const boxTitle = {
-    margin: "0",
-    fontSize: "20px",
-  };
-
-  const orderCount = {
-    background: "#f0f0f0",
-    padding: "6px 12px",
-    borderRadius: "20px",
-    fontSize: "13px",
-    color: "#555",
-  };
-
-  const table = {
-    width: "100%",
-    borderCollapse: "collapse",
-  };
-
-  const th = {
-    textAlign: "left",
-    padding: "12px",
-    borderBottom: "1px solid #ddd",
-    fontSize: "14px",
-  };
-
-  const td = {
-    padding: "13px 12px",
-    borderBottom: "1px solid #eee",
-    fontSize: "14px",
-  };
-
-  const status = {
-    background: "#e7f7ed",
-    color: "#218838",
-    padding: "5px 12px",
-    borderRadius: "20px",
-    fontSize: "12px",
-  };
-
-  const noData = {
-    textAlign: "center",
-    padding: "25px",
-    color: "#777",
-  };
-
-  const [category, setCategory] = useState([]);
-  const [product, setProduct] = useState([]);
-  const [customer, setCustomer] = useState([]);
-  const [order, setOrder] = useState([]);
-  const [feedback, setFeedback] = useState([]);
-
-  const getData = async () => {
-
-    const categoryRes = await fetch(
-      "http://localhost:4000/tbl_category"
-    );
-    const categoryData = await categoryRes.json();
-    setCategory(categoryData);
-
-    const productRes = await fetch(
-      "http://localhost:4000/tbl_product"
-    );
-    const productData = await productRes.json();
-    setProduct(productData);
-
-    const customerRes = await fetch(
-      "http://localhost:4000/tbl_customer"
-    );
-    const customerData = await customerRes.json();
-    setCustomer(customerData);
-
-    const orderRes = await fetch(
-      "http://localhost:4000/tbl_order"
-    );
-    const orderData = await orderRes.json();
-    setOrder(orderData);
-
-    const feedbackRes = await fetch(
-      "http://localhost:4000/tbl_feedback"
-    );
-    const feedbackData = await feedbackRes.json();
-    setFeedback(feedbackData);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+function Dashboard({ adminName }) {
 
   return (
-    <div style={main}>
+    <div
+      className="p-4"
+      style={{
+        backgroundColor: "#f5f7fb",
+        minHeight: "calc(100vh - 70px)"
+      }}
+    >
 
-      <h2 style={heading}>Dashboard</h2>
+      <div
+        className="rounded-4 p-4 mb-4 shadow-sm"
+        style={{
+          background:
+            "linear-gradient(135deg, #0f766e, #2a9d8f)"
+        }}
+      >
 
-      <p style={welcome}>
-        Welcome to Online Stationery Management System
-      </p>
+        <h1 className="text-white fw-bold mb-2">
+          Welcome, {adminName}
+        </h1>
 
-      <hr />
-
-      {/* ================= CARDS ================= */}
-
-      <div style={cardContainer}>
-
-        {/* Products */}
-        <div style={card}>
-          <div style={icon}>📦</div>
-
-          <div>
-            <p style={cardTitle}>Total Products</p>
-            <h2 style={number}>{product.length}</h2>
-          </div>
-        </div>
-
-        {/* Categories */}
-        <div style={card}>
-          <div style={icon}>📁</div>
-
-          <div>
-            <p style={cardTitle}>Total Categories</p>
-            <h2 style={number}>{category.length}</h2>
-          </div>
-        </div>
-
-        {/* Customers */}
-        <div style={card}>
-          <div style={icon}>👥</div>
-
-          <div>
-            <p style={cardTitle}>Total Customers</p>
-            <h2 style={number}>{customer.length}</h2>
-          </div>
-        </div>
-
-        {/* Orders */}
-        <div style={card}>
-          <div style={icon}>🛒</div>
-
-          <div>
-            <p style={cardTitle}>Total Orders</p>
-            <h2 style={number}>{order.length}</h2>
-          </div>
-        </div>
-
-        {/* Feedback */}
-        <div style={card}>
-          <div style={icon}>💬</div>
-
-          <div>
-            <p style={cardTitle}>Total Feedback</p>
-            <h2 style={number}>{feedback.length}</h2>
-          </div>
-        </div>
+        <p className="text-white mb-0">
+          Manage your Online Stationery Store
+        </p>
 
       </div>
 
-      {/* ================= RECENT ORDERS ================= */}
+      <div className="mb-4">
 
-      <div style={box}>
+        <h3
+          className="fw-bold mb-1"
+          style={{ color: "#243447" }}
+        >
+          Quick Access
+        </h3>
 
-        <div style={boxHeader}>
+        <p className="text-muted mb-0">
+          Select an option to manage your store
+        </p>
 
-          <h3 style={boxTitle}>
-            Recent Orders
-          </h3>
+      </div>
 
-          <span style={orderCount}>
-            {order.length} Orders
-          </span>
+      <div className="row g-4">
+
+        <div className="col-lg-3 col-md-6">
+
+          <Link
+            to="/admin/category"
+            className="text-decoration-none"
+          >
+
+            <div
+              className="bg-white text-center p-4 rounded-4 shadow-sm"
+              style={{
+                transition: "0.3s"
+              }}
+            >
+
+              <div style={{ fontSize: "40px" }}>
+                📁
+              </div>
+
+              <h4
+                className="fw-bold mt-3"
+                style={{ color: "#0f766e" }}
+              >
+                Categories
+              </h4>
+
+            </div>
+
+          </Link>
 
         </div>
 
-        <table style={table}>
+        <div className="col-lg-3 col-md-6">
 
-          <thead>
-            <tr>
-              <th style={th}>Order ID</th>
-              <th style={th}>Customer</th>
-              <th style={th}>Amount</th>
-              <th style={th}>Status</th>
-            </tr>
-          </thead>
+          <Link
+            to="/admin/products"
+            className="text-decoration-none"
+          >
 
-          <tbody>
+            <div
+              className="bg-white text-center p-4 rounded-4 shadow-sm"
+            >
 
-            {order.length > 0 ? (
+              <div style={{ fontSize: "40px" }}>
+                📦
+              </div>
 
-              order.slice(0, 5).map(item => (
+              <h4
+                className="fw-bold mt-3"
+                style={{ color: "#0f766e" }}
+              >
+                Products
+              </h4>
 
-                <tr key={item.id}>
+            </div>
 
-                  <td style={td}>
-                    <b>{item.id}</b>
-                  </td>
+          </Link>
 
-                  <td style={td}>
-                    {item.customerName}
-                  </td>
+        </div>
 
-                  <td style={td}>
-                    ₹{item.amount}
-                  </td>
+        <div className="col-lg-3 col-md-6">
 
-                  <td style={td}>
-                    <span style={status}>
-                      {item.status}
-                    </span>
-                  </td>
+          <Link
+            to="/admin/customers"
+            className="text-decoration-none"
+          >
 
-                </tr>
+            <div
+              className="bg-white text-center p-4 rounded-4 shadow-sm"
+            >
 
-              ))
+              <div style={{ fontSize: "40px" }}>
+                👥
+              </div>
 
-            ) : (
+              <h4
+                className="fw-bold mt-3"
+                style={{ color: "#0f766e" }}
+              >
+                Customers
+              </h4>
 
-              <tr>
-                <td colSpan="4" style={noData}>
-                  No Orders Found
-                </td>
-              </tr>
+            </div>
 
-            )}
+          </Link>
 
-          </tbody>
+        </div>
 
-        </table>
+        <div className="col-lg-3 col-md-6">
+
+          <Link
+            to="/admin/orders"
+            className="text-decoration-none"
+          >
+
+            <div
+              className="bg-white text-center p-4 rounded-4 shadow-sm"
+            >
+
+              <div style={{ fontSize: "40px" }}>
+                🛒
+              </div>
+
+              <h4
+                className="fw-bold mt-3"
+                style={{ color: "#0f766e" }}
+              >
+                Orders
+              </h4>
+
+            </div>
+
+          </Link>
+
+        </div>
 
       </div>
 

@@ -1,132 +1,85 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
-function Login() {
+function Login({ setAdminName }) {
 
-  const location = useLocation();
   const navigate = useNavigate();
 
-  // Register page પરથી આવીએ ત્યારે Customer selected રહેશે
-  const [loginAs, setLoginAs] = useState(
-    location.state?.loginAs || ""
-  );
-
+  const [loginAs, setLoginAs] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Login type check
     if (loginAs === "") {
       toast.error("Please select Admin or Customer");
       return;
     }
 
-    try {
+    if (loginAs === "admin") {
 
-      // ==========================================
-      // ADMIN LOGIN
-      // ==========================================
-
-      if (loginAs === "admin") {
-
-        const res = await axios.get(
-          "http://localhost:4000/tbl_admin"
-        );
-
-        const admin = res.data.find(
-          (item) =>
-            String(item.email).trim().toLowerCase() ===
-              email.trim().toLowerCase() &&
-            String(item.password).trim() ===
-              password.trim()
-        );
-
-        if (admin) {
-
-          localStorage.setItem("auth", "true");
-
-          localStorage.setItem(
-            "admin",
-            JSON.stringify(admin)
-          );
-
-          toast.success("Admin Login Successful");
-
-          // Admin Dashboard
-          navigate("/admin/dashboard");
-
-        } else {
-
-          toast.error("Invalid Admin Email or Password");
-
-        }
-      }
-
-      // ==========================================
-      // CUSTOMER LOGIN
-      // ==========================================
-
-      else if (loginAs === "customer") {
-
-        const res = await axios.get(
-          "http://localhost:4000/tbl_customer"
-        );
-
-        console.log("Customer Data:", res.data);
-
-        const customer = res.data.find(
-          (item) =>
-            String(item.email).trim().toLowerCase() ===
-              email.trim().toLowerCase() &&
-            String(item.password).trim() ===
-              password.trim()
-        );
-
-        if (customer) {
-
-          localStorage.setItem(
-            "customer",
-            JSON.stringify(customer)
-          );
-
-          localStorage.setItem(
-            "customerAuth",
-            "true"
-          );
-
-          toast.success("Customer Login Successful");
-
-          // Customer Home Page
-          navigate("/");
-
-        } else {
-
-          // Email/password ખોટું હોય તો
-          // Register First message
-          toast.error("Please Register First");
-
-        }
-      }
-
-    } catch (error) {
-
-      console.error("Login Error:", error);
-
-      toast.error(
-        "Server error. Please check JSON Server on port 4000."
+      const res = await axios.get(
+        "http://localhost:4000/tbl_admin"
       );
+
+      const admin = res.data.find(
+        (item) =>
+          String(item.email).trim().toLowerCase() ===
+            email.trim().toLowerCase() &&
+          String(item.password).trim() ===
+            password.trim()
+      );
+
+      if (admin) {
+
+        setAdminName(admin.name);
+
+        toast.success("Admin Login Successful");
+
+        navigate("/admin/dashboard");
+
+      } else {
+
+        toast.error("Invalid Admin Email or Password");
+
+      }
+
+    } else if (loginAs === "customer") {
+
+      const res = await axios.get(
+        "http://localhost:4000/tbl_customer"
+      );
+
+      const customer = res.data.find(
+        (item) =>
+          String(item.email).trim().toLowerCase() ===
+            email.trim().toLowerCase() &&
+          String(item.password).trim() ===
+            password.trim()
+      );
+
+      if (customer) {
+
+        toast.success("Customer Login Successful");
+
+        navigate("/");
+
+      } else {
+
+        toast.error("Please Register First");
+
+      }
     }
   };
 
   return (
-
     <div
-      className="container-fluid d-flex justify-content-center align-items-center vh-100"
+      className="container-fluid d-flex justify-content-center align-items-center"
       style={{
+        minHeight: "100vh",
         backgroundColor: "#f1f5f9"
       }}
     >
@@ -134,29 +87,20 @@ function Login() {
       <div
         className="card shadow p-4"
         style={{
-          width: "350px",
-          borderRadius: "16px",
-          border: "none"
+          width: "380px",
+          border: "none",
+          borderRadius: "12px"
         }}
       >
 
-        {/* TITLE */}
-
         <h3
-          className="text-center mb-4 fw-bold"
-          style={{
-            color: "#0f172a"
-          }}
+          className="text-center fw-bold mb-4"
+          style={{ color: "#0f172a" }}
         >
           Login
         </h3>
 
-
-        {/* ADMIN / CUSTOMER */}
-
-        <div className="d-flex justify-content-center gap-4 mb-3">
-
-          {/* ADMIN */}
+        <div className="d-flex justify-content-center gap-4 mb-4">
 
           <div className="form-check">
 
@@ -176,9 +120,6 @@ function Login() {
             </label>
 
           </div>
-
-
-          {/* CUSTOMER */}
 
           <div className="form-check">
 
@@ -201,22 +142,11 @@ function Login() {
 
         </div>
 
-
-        {/* FORM */}
-
         <form onSubmit={handleLogin}>
-
-          {/* EMAIL */}
 
           <div className="mb-3">
 
-            <label
-              className="form-label fw-semibold"
-              style={{
-                color: "#334155",
-                fontSize: "14px"
-              }}
-            >
+            <label className="form-label fw-semibold">
               Email
             </label>
 
@@ -228,29 +158,14 @@ function Login() {
               onChange={(e) =>
                 setEmail(e.target.value)
               }
-              style={{
-                padding: "10px 14px",
-                borderRadius: "8px",
-                border: "1px solid #cbd5e1",
-                fontSize: "14px"
-              }}
               required
             />
 
           </div>
 
-
-          {/* PASSWORD */}
-
           <div className="mb-3">
 
-            <label
-              className="form-label fw-semibold"
-              style={{
-                color: "#334155",
-                fontSize: "14px"
-              }}
-            >
+            <label className="form-label fw-semibold">
               Password
             </label>
 
@@ -262,45 +177,26 @@ function Login() {
               onChange={(e) =>
                 setPassword(e.target.value)
               }
-              style={{
-                padding: "10px 14px",
-                borderRadius: "8px",
-                border: "1px solid #cbd5e1",
-                fontSize: "14px"
-              }}
               required
             />
 
           </div>
 
-
-          {/* LOGIN BUTTON */}
-
           <button
             type="submit"
-            className="btn w-100 fw-bold text-white"
+            className="btn w-100 text-white fw-bold"
             style={{
-              padding: "11px",
-              borderRadius: "8px",
               backgroundColor: "#0d9488",
-              border: "none",
-              fontSize: "15px"
+              borderRadius: "7px",
+              padding: "10px"
             }}
           >
             Login
           </button>
 
-
-          {/* REGISTER */}
-
           <div className="text-center mt-3">
 
-            <span
-              style={{
-                fontSize: "14px",
-                color: "#64748b"
-              }}
-            >
+            <span style={{ color: "#64748b" }}>
               Don't have an account?{" "}
             </span>
 
@@ -309,8 +205,7 @@ function Login() {
               style={{
                 color: "#0d9488",
                 textDecoration: "none",
-                fontWeight: "bold",
-                fontSize: "14px"
+                fontWeight: "bold"
               }}
             >
               Register

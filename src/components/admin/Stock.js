@@ -3,77 +3,66 @@ import axios from "axios";
 
 export default function Stock() {
   const [products, setProducts] = useState([]);
-
   const [editId, setEditId] = useState(null);
   const [editStock, setEditStock] = useState("");
 
   const stockInputRef = useRef(null);
 
   const loadData = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:4000/tbl_product"
-      );
-
-      setProducts(res.data);
-    } catch (error) {
-      console.error("Error loading products:", error);
-    }
+    const res = await axios.get(
+      "http://localhost:4000/tbl_product"
+    );
+    setProducts(res.data);
   };
 
   useEffect(() => {
     loadData();
   }, []);
 
-  // Start Edit Stock
-  const startEdit = (id, currentStock) => {
+  const startEdit = (id, stock) => {
     setEditId(id);
-    setEditStock(currentStock);
+    setEditStock(stock);
 
     setTimeout(() => {
       stockInputRef.current?.focus();
     }, 0);
   };
 
-  // Save Stock
   const saveStock = async (id, product) => {
     if (editStock === "" || Number(editStock) < 0) {
       stockInputRef.current?.focus();
       return;
     }
 
-    try {
-      let status = "Available";
+    let status = "Available";
 
-      if (Number(editStock) === 0) {
-        status = "Out of Stock";
-      } else if (Number(editStock) <= 10) {
-        status = "Low Stock";
-      }
-
-      await axios.put(
-        `http://localhost:4000/tbl_product/${id}`,
-        {
-          id: product.id,
-          name: product.name,
-          category: product.category,
-          price: product.price,
-          stock: editStock,
-          status: status
-        }
-      );
-
-      setEditId(null);
-      setEditStock("");
-
-      loadData();
-
-    } catch (error) {
-      console.error("Error updating stock:", error);
+    if (Number(editStock) === 0) {
+      status = "Out of Stock";
+    } else if (Number(editStock) <= 10) {
+      status = "Low Stock";
     }
+
+    await axios.put(
+      `http://localhost:4000/tbl_product/${id}`,
+      {
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        stock: editStock,
+        status: status,
+        image: product.image
+      }
+    );
+
+    alert("Stock updated successfully!");
+
+    setEditId(null);
+    setEditStock("");
+
+    loadData();
   };
 
-  // Get Stock Status
   const getStockStatus = (stock) => {
     if (Number(stock) === 0) {
       return {
@@ -100,9 +89,14 @@ export default function Stock() {
 
   return (
     <div className="container-fluid p-0">
-
       <h3
-        className="fw-bold mb-4" style={{ color: "#0f172a" }}>Manage Stock</h3> <hr />
+        className="fw-bold mb-4"
+        style={{ color: "#0f172a" }}
+      >
+        Manage Stock
+      </h3>
+
+      <hr />
 
       <div
         className="card border-0 shadow-sm overflow-hidden"
@@ -111,20 +105,15 @@ export default function Stock() {
           backgroundColor: "#ffffff"
         }}
       >
-
         <div className="table-responsive">
-
           <table className="table align-middle mb-0">
-
             <thead
               style={{
                 backgroundColor: "#0f172a",
                 color: "#ffffff"
               }}
             >
-
               <tr>
-
                 <th
                   style={{
                     width: "8%",
@@ -178,26 +167,20 @@ export default function Stock() {
                 >
                   Action
                 </th>
-
               </tr>
-
             </thead>
 
             <tbody>
-
               {products.map((p, index) => {
-
                 const stockStatus = getStockStatus(p.stock);
 
                 return (
-
                   <tr
                     key={p.id}
                     style={{
                       borderBottom: "1px solid #f1f5f9"
                     }}
                   >
-
                     <td
                       className="fw-semibold text-secondary"
                       style={{
@@ -212,7 +195,6 @@ export default function Stock() {
                         padding: "14px 20px"
                       }}
                     >
-
                       <span
                         className="fw-medium"
                         style={{
@@ -221,7 +203,6 @@ export default function Stock() {
                       >
                         {p.name}
                       </span>
-
                     </td>
 
                     <td
@@ -229,7 +210,6 @@ export default function Stock() {
                         padding: "14px 20px"
                       }}
                     >
-
                       <span
                         className="fw-medium"
                         style={{
@@ -238,7 +218,6 @@ export default function Stock() {
                       >
                         {p.category}
                       </span>
-
                     </td>
 
                     <td
@@ -246,9 +225,7 @@ export default function Stock() {
                         padding: "14px 20px"
                       }}
                     >
-
                       {editId === p.id ? (
-
                         <input
                           ref={stockInputRef}
                           type="number"
@@ -263,9 +240,7 @@ export default function Stock() {
                             borderColor: "#0d9488"
                           }}
                         />
-
                       ) : (
-
                         <span
                           className="fw-semibold"
                           style={{
@@ -274,9 +249,7 @@ export default function Stock() {
                         >
                           {p.stock}
                         </span>
-
                       )}
-
                     </td>
 
                     <td
@@ -284,7 +257,6 @@ export default function Stock() {
                         padding: "14px 20px"
                       }}
                     >
-
                       <span
                         style={{
                           backgroundColor:
@@ -298,7 +270,6 @@ export default function Stock() {
                       >
                         {stockStatus.text}
                       </span>
-
                     </td>
 
                     <td
@@ -306,11 +277,8 @@ export default function Stock() {
                         padding: "14px 20px"
                       }}
                     >
-
                       {editId === p.id ? (
-
                         <>
-
                           <button
                             className="btn btn-sm text-white fw-semibold me-2"
                             onClick={() =>
@@ -336,11 +304,8 @@ export default function Stock() {
                           >
                             Cancel
                           </button>
-
                         </>
-
                       ) : (
-
                         <button
                           className="btn btn-sm fw-semibold"
                           onClick={() =>
@@ -355,40 +320,26 @@ export default function Stock() {
                         >
                           Update Stock
                         </button>
-
                       )}
-
                     </td>
-
                   </tr>
-
                 );
-
               })}
 
               {products.length === 0 && (
-
                 <tr>
-
                   <td
                     colSpan="6"
                     className="text-center py-4 text-muted"
                   >
                     No products found.
                   </td>
-
                 </tr>
-
               )}
-
             </tbody>
-
           </table>
-
         </div>
-
       </div>
-
     </div>
   );
 }

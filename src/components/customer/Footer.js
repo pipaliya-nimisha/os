@@ -96,7 +96,7 @@ function Footer() {
         <hr className="my-4" />
         <div className="text-center">
           <p className="mb-0 text-light">
-            © 2026 <strong>Stationery Store</strong>. 
+            © 2026 <strong>Stationery Store</strong>.
             All Rights Reserved.
           </p>
         </div>

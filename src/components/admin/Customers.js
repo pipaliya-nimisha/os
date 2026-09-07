@@ -5,14 +5,13 @@ function Customers() {
   const [customers, setCustomers] = useState([]);
 
   const getData = async () => {
-    try {
-      const res = await fetch("http://localhost:4000/tbl_customer");
-      const data = await res.json();
+    const res = await fetch(
+      "http://localhost:4000/tbl_customer"
+    );
 
-      setCustomers(data);
-    } catch (error) {
-      console.log("Error:", error);
-    }
+    const data = await res.json();
+
+    setCustomers(data);
   };
 
   useEffect(() => {
@@ -46,32 +45,54 @@ function Customers() {
   return (
 
     <div style={{ padding: "25px" }}>
+
       <h2>Customers</h2>
-      <p>View all customers</p><hr />
+      <p>View all customers</p>
+
+      <hr />
+
       <div style={box}>
 
         <table style={table}>
+
           <thead>
             <tr>
               <th style={th}>No</th>
-              <th style={th}>First Name</th>
-              <th style={th}>Last Name</th>
-              <th style={th}>City</th>
+              <th style={th}>Name</th>
+              <th style={th}>Email</th>
               <th style={th}>Mobile</th>
+              <th style={th}>Address</th>
             </tr>
-
           </thead>
 
           <tbody>
+
             {customers.map((item, index) => (
 
-              <tr key={item.id || item.userid}>
-                <td style={td}>{index + 1}</td>
-                <td style={td}>{item.fname}</td>
-                <td style={td}>{item.lname}</td>
-                <td style={td}>{item.city}</td>
-                <td style={td}>{item.contactNo}</td>
+              <tr key={item.id}>
+
+                <td style={td}>
+                  {index + 1}
+                </td>
+
+                <td style={td}>
+                  {item.name}
+                </td>
+
+                <td style={td}>
+                  {item.email}
+                </td>
+
+                <td style={td}>
+                  {item.mobile}
+                </td>
+
+                <td style={td}>
+                  {item.address}
+                </td>
+
               </tr>
+
             ))}
 
           </tbody>
@@ -84,4 +105,5 @@ function Customers() {
 
   );
 }
+
 export default Customers;

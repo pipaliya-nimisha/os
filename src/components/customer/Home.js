@@ -7,6 +7,22 @@ function Home({ setSelectedCategory }) {
   const navigate = useNavigate();
 
   const addToCart = async (product) => {
+  const res = await axios.get(
+    `http://localhost:4000/tbl_cart?productId=${product.id}`
+  );
+
+  if (res.data.length > 0) {
+    const cartItem = res.data[0];
+
+    await axios.patch(
+      `http://localhost:4000/tbl_cart/${cartItem.id}`,
+      {
+        quantity: cartItem.quantity + 1,
+      }
+    );
+
+    toast.success("Quantity increased");
+  } else {
     await axios.post("http://localhost:4000/tbl_cart", {
       productId: product.id,
       productName: product.name,
@@ -15,7 +31,8 @@ function Home({ setSelectedCategory }) {
     });
 
     toast.success(product.name + " added to cart");
-  };
+  }
+};
 
   return (
     <>
@@ -94,10 +111,7 @@ function Home({ setSelectedCategory }) {
                   fontSize: "26px",
                 }}
               >
-                SALE UP TO{" "}
-                <span style={{ color: "#e76f51" }}>
-                  90% OFF
-                </span>
+                SALE UP TO <span style={{ color: "#e76f51" }}>90% OFF</span>
               </h3>
 
               <p
@@ -160,7 +174,6 @@ function Home({ setSelectedCategory }) {
           </div>
 
           <div className="row justify-content-center g-4">
-
             <div className="col-md-3">
               <div
                 className="card text-center border-0 shadow-sm p-3"
@@ -183,9 +196,7 @@ function Home({ setSelectedCategory }) {
                   Pens
                 </h4>
 
-                <p className="text-secondary">
-                  Smooth writing pens
-                </p>
+                <p className="text-secondary">Smooth writing pens</p>
 
                 <button
                   className="btn text-white"
@@ -225,9 +236,7 @@ function Home({ setSelectedCategory }) {
                   Markers
                 </h4>
 
-                <p className="text-secondary">
-                  Bright & long lasting
-                </p>
+                <p className="text-secondary">Bright & long lasting</p>
 
                 <button
                   className="btn text-white"
@@ -267,9 +276,7 @@ function Home({ setSelectedCategory }) {
                   Pencil
                 </h4>
 
-                <p className="text-secondary">
-                  Smooth writing pencils
-                </p>
+                <p className="text-secondary">Smooth writing pencils</p>
 
                 <button
                   className="btn text-white"
@@ -309,9 +316,7 @@ function Home({ setSelectedCategory }) {
                   Notebooks
                 </h4>
 
-                <p className="text-secondary">
-                  Quality notebooks
-                </p>
+                <p className="text-secondary">Quality notebooks</p>
 
                 <button
                   className="btn text-white"
@@ -328,7 +333,6 @@ function Home({ setSelectedCategory }) {
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -363,7 +367,6 @@ function Home({ setSelectedCategory }) {
           </div>
 
           <div className="row g-4">
-
             <div className="col-lg-3 col-md-6">
               <div
                 className="card h-100"
@@ -595,7 +598,6 @@ function Home({ setSelectedCategory }) {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -607,7 +609,6 @@ function Home({ setSelectedCategory }) {
         }}
       >
         <div className="container">
-
           <div className="text-center mb-4">
             <p
               style={{
@@ -630,12 +631,9 @@ function Home({ setSelectedCategory }) {
           </div>
 
           <div className="row g-4">
-
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-                <div style={{ fontSize: "40px" }}>
-                  🚚
-                </div>
+                <div style={{ fontSize: "40px" }}>🚚</div>
 
                 <h5
                   style={{
@@ -654,9 +652,7 @@ function Home({ setSelectedCategory }) {
 
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-                <div style={{ fontSize: "40px" }}>
-                  💰
-                </div>
+                <div style={{ fontSize: "40px" }}>💰</div>
 
                 <h5
                   style={{
@@ -675,9 +671,7 @@ function Home({ setSelectedCategory }) {
 
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-                <div style={{ fontSize: "40px" }}>
-                  🔒
-                </div>
+                <div style={{ fontSize: "40px" }}>🔒</div>
 
                 <h5
                   style={{
@@ -696,9 +690,7 @@ function Home({ setSelectedCategory }) {
 
             <div className="col-lg-3 col-md-6">
               <div className="text-center">
-                <div style={{ fontSize: "40px" }}>
-                  ⭐
-                </div>
+                <div style={{ fontSize: "40px" }}>⭐</div>
 
                 <h5
                   style={{
@@ -714,7 +706,6 @@ function Home({ setSelectedCategory }) {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
