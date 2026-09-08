@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 function Orders() {
 
   const [orders, setOrders] = useState([]);
+  const [editId, setEditId] = useState(null);
+  const [editStatus, setEditStatus] = useState("Pending");
 
   const getData = async () => {
     const res = await fetch("http://localhost:4000/tbl_order");
@@ -22,6 +24,33 @@ function Orders() {
     });
 
     getData();
+  };
+
+  const startUpdateStatus = (item) => {
+    setEditId(item.id);
+    setEditStatus(item.status);
+  };
+
+  const updateStatus = async (id) => {
+
+    await fetch("http://localhost:4000/tbl_order/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        status: editStatus
+      })
+    });
+
+    alert("Order Status Updated");
+
+    setEditId(null);
+    getData();
+  };
+
+  const cancelUpdate = () => {
+    setEditId(null);
   };
 
   const box = {
@@ -48,6 +77,16 @@ function Orders() {
     borderBottom: "1px solid #ddd"
   };
 
+  const updateButton = {
+    background: "#0f766e",
+    color: "white",
+    border: "none",
+    padding: "7px 12px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginRight: "5px"
+  };
+
   const deleteButton = {
     background: "#dc3545",
     color: "white",
@@ -55,6 +94,31 @@ function Orders() {
     padding: "7px 12px",
     borderRadius: "5px",
     cursor: "pointer"
+  };
+
+  const saveButton = {
+    background: "#198754",
+    color: "white",
+    border: "none",
+    padding: "7px 12px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginRight: "5px"
+  };
+
+  const cancelButton = {
+    background: "#6c757d",
+    color: "white",
+    border: "none",
+    padding: "7px 12px",
+    borderRadius: "5px",
+    cursor: "pointer"
+  };
+
+  const select = {
+    padding: "6px",
+    borderRadius: "5px",
+    border: "1px solid #ccc"
   };
 
   return (
@@ -89,7 +153,9 @@ function Orders() {
 
               <tr key={item.id}>
 
-                <td style={td}>#{item.id}</td>
+                <td style={td}>
+                  #{item.id}
+                </td>
 
                 <td style={td}>
                   {item.customerName}
@@ -104,16 +170,69 @@ function Orders() {
                 </td>
 
                 <td style={td}>
-                  {item.status}
+
+                  {editId === item.id ? (
+
+                    <select
+                      value={editStatus}
+                      onChange={(e) => setEditStatus(e.target.value)}
+                      style={select}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+
+                  ) : (
+
+                    item.status
+
+                  )}
+
                 </td>
 
                 <td style={td}>
-                  <button
-                    style={deleteButton}
-                    onClick={() => deleteOrder(item.id)}
-                  >
-                    Delete
-                  </button>
+
+                  {editId === item.id ? (
+
+                    <>
+                      <button
+                        style={saveButton}
+                        onClick={() => updateStatus(item.id)}
+                      >
+                        Save
+                      </button>
+
+                      <button
+                        style={cancelButton}
+                        onClick={cancelUpdate}
+                      >
+                        Cancel
+                      </button>
+                    </>
+
+                  ) : (
+
+                    <>
+                      <button
+                        style={updateButton}
+                        onClick={() => startUpdateStatus(item)}
+                      >
+                        Update Status
+                      </button>
+
+                      <button
+                        style={deleteButton}
+                        onClick={() => deleteOrder(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+
+                  )}
+
                 </td>
 
               </tr>

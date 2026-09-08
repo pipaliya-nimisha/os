@@ -180,7 +180,7 @@ function Home({ setSelectedCategory }) {
                 style={{ borderRadius: "10px" }}
               >
                 <img
-                  src="/image/pens.webp"
+                  src="/image/pen.jpg"
                   alt="Pens"
                   className="img-fluid"
                   style={{
@@ -300,7 +300,7 @@ function Home({ setSelectedCategory }) {
                 style={{ borderRadius: "10px" }}
               >
                 <img
-                  src="/image/note.jpg"
+                  src="/image/notebook.jpg"
                   alt="Notebooks"
                   className="img-fluid"
                   style={{

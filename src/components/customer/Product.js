@@ -18,12 +18,16 @@ function Product({ selectedCategory }) {
   }, [selectedCategory]);
 
   const getCategories = async () => {
-    const res = await axios.get("http://localhost:4000/tbl_category");
+    const res = await axios.get(
+      "http://localhost:4000/tbl_category"
+    );
     setCategories(res.data);
   };
 
   const getProducts = async () => {
-    const res = await axios.get("http://localhost:4000/tbl_product");
+    const res = await axios.get(
+      "http://localhost:4000/tbl_product"
+    );
     setProducts(res.data);
   };
 
@@ -32,10 +36,14 @@ function Product({ selectedCategory }) {
       category === "" || item.category === category;
 
     const searchMatch =
-      item.name.toLowerCase().includes(search.toLowerCase());
+      item.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
     return categoryMatch && searchMatch;
   });
+
+  // ================= ADD TO CART =================
 
   const addToCart = async (product) => {
     const res = await axios.get(
@@ -44,6 +52,17 @@ function Product({ selectedCategory }) {
 
     if (res.data.length > 0) {
       const cartItem = res.data[0];
+
+      // STOCK CHECK
+      if (
+        Number(cartItem.quantity) >=
+        Number(product.stock)
+      ) {
+        toast.error(
+          `Only ${product.stock} items available`
+        );
+        return;
+      }
 
       await axios.patch(
         `http://localhost:4000/tbl_cart/${cartItem.id}`,
@@ -54,20 +73,32 @@ function Product({ selectedCategory }) {
 
       toast.success("Quantity increased");
     } else {
-      await axios.post("http://localhost:4000/tbl_cart", {
-        productId: product.id,
-        productName: product.name,
-        price: Number(product.price),
-        quantity: 1,
-      });
+      // CHECK STOCK BEFORE ADDING FIRST ITEM
+      if (Number(product.stock) <= 0) {
+        toast.error("Product is out of stock");
+        return;
+      }
 
-      toast.success(product.name + " added to cart");
+      await axios.post(
+        "http://localhost:4000/tbl_cart",
+        {
+          productId: product.id,
+          productName: product.name,
+          price: Number(product.price),
+          quantity: 1,
+        }
+      );
+
+      toast.success(
+        product.name + " added to cart"
+      );
     }
   };
 
   return (
     <div>
       <style>{`
+
         .product-page {
           background: #f7fbfa;
           min-height: 100vh;
@@ -303,35 +334,51 @@ function Product({ selectedCategory }) {
             padding: 0 14px;
           }
         }
+
       `}</style>
 
       <div className="product-page">
         <div className="product-wrapper">
 
+          {/* HEADING */}
+
           <div className="product-heading">
             <h1>Our Products</h1>
-            <p>Find the perfect stationery for your needs</p>
+            <p>
+              Find the perfect stationery for your needs
+            </p>
           </div>
+
+          {/* SEARCH */}
 
           <div className="search-box">
             <div className="input-group">
+
               <input
                 type="text"
                 className="form-control"
                 placeholder="Search products..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
               />
 
               <button className="search-btn">
                 🔍 Search
               </button>
+
             </div>
           </div>
 
+          {/* PRODUCT CONTAINER */}
+
           <div className="product-container">
 
+            {/* CATEGORY */}
+
             <div className="category-box">
+
               <h2>Categories</h2>
 
               <button
@@ -353,29 +400,43 @@ function Product({ selectedCategory }) {
                       ? "category-item active"
                       : "category-item"
                   }
-                  onClick={() => setCategory(item.name)}
+                  onClick={() =>
+                    setCategory(item.name)
+                  }
                 >
                   {item.name}
                 </button>
               ))}
+
             </div>
 
+            {/* PRODUCTS */}
+
             {filteredProducts.length > 0 ? (
+
               <div className="products-grid">
 
                 {filteredProducts.map((product) => (
-                  <div className="product-card" key={product.id}>
+
+                  <div
+                    className="product-card"
+                    key={product.id}
+                  >
 
                     <div className="product-image">
+
                       <img
                         src={product.image}
                         alt={product.name}
                       />
+
                     </div>
 
                     <div className="product-info">
 
-                      <h3>{product.name}</h3>
+                      <h3>
+                        {product.name}
+                      </h3>
 
                       <h4>
                         ₹{product.price}
@@ -387,10 +448,16 @@ function Product({ selectedCategory }) {
 
                       <button
                         className="cart-btn"
-                        onClick={() => addToCart(product)}
-                        disabled={product.status === "Out of Stock"}
+                        onClick={() =>
+                          addToCart(product)
+                        }
+                        disabled={
+                          product.status ===
+                          "Out of Stock"
+                        }
                       >
-                        {product.status === "Out of Stock"
+                        {product.status ===
+                        "Out of Stock"
                           ? "Out of Stock"
                           : "Add to Cart"}
                       </button>
@@ -398,14 +465,25 @@ function Product({ selectedCategory }) {
                     </div>
 
                   </div>
+
                 ))}
 
               </div>
+
             ) : (
+
               <div className="no-product">
-                <h3>No Products Found</h3>
-                <p>No products match your search.</p>
+
+                <h3>
+                  No Products Found
+                </h3>
+
+                <p>
+                  No products match your search.
+                </p>
+
               </div>
+
             )}
 
           </div>

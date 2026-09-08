@@ -44,87 +44,19 @@
   ],
   "tbl_category": [
     {
-      "id": "F2w0ukT9lCc",
-      "name": "Markers",
-      "description": "Full Scape Pages",
-      "status": "Active",
-      "image": "/image/marker.webp"
-    },
-    {
-      "id": "QGzY9B-Wmpw",
-      "name": "Pens",
-      "description": "Dark Color",
-      "status": "Active",
-      "image": "/image/pen.webp"
-    },
-    {
-      "id": "6nbT4xVuDSg",
-      "name": "Pencil",
-      "description": "Extra Dark",
-      "status": "Active",
-      "image": "/image/pencil.jpg"
-    },
-    {
-      "id": "notebook01",
       "name": "Notebooks",
-      "description": "Writing Notebook",
-      "status": "Active",
-      "image": "/image/note.webp"
+      "description": "School and office notebooks",
+      "image": "/image/notebook.jpg",
+      "id": "mROETJblZ5U"
     },
     {
-      "name": "colo",
-      "description": "all color",
-      "image": "/image/color.jpg",
-      "id": "yo7LimbIyK4"
+      "name": "Pens",
+      "description": "Different types of writing pens",
+      "image": "/image/pen.jpg",
+      "id": "DGEFy6zBg3s"
     }
   ],
-  "tbl_product": [
-    {
-      "id": "JowbUUwgyiU",
-      "name": "Apsara Pencil",
-      "category": "Pencil",
-      "price": "8",
-      "stock": "15",
-      "status": "Available",
-      "image": "/image/pencil.jpg"
-    },
-    {
-      "id": "pen001",
-      "name": "Premium Ball Pen",
-      "category": "Pens",
-      "price": "50",
-      "stock": "20",
-      "status": "Active",
-      "image": "/image/pen.jpg"
-    },
-    {
-      "id": "marker001",
-      "name": "Marker Set",
-      "category": "Markers",
-      "price": "80",
-      "stock": "15",
-      "status": "Active",
-      "image": "/image/markers.jpg"
-    },
-    {
-      "id": "note001",
-      "name": "Premium Notebook",
-      "category": "Notebooks",
-      "price": "120",
-      "stock": "25",
-      "status": "Active",
-      "image": "/image/note.jpg"
-    }
-  ],
-  "tbl_cart": [
-    {
-      "productId": "JowbUUwgyiU",
-      "productName": "Apsara Pencil",
-      "price": 8,
-      "quantity": 2,
-      "id": "gy7yI5VJT18"
-    }
-  ],
+  "tbl_product": [],
   "tbl_order": [
     {
       "id": "1",
@@ -139,7 +71,7 @@
       "customerName": "Nimisha",
       "date": "25-08-2026",
       "amount": 750,
-      "status": "Pending",
+      "status": "Shipped",
       "payment": "Online"
     },
     {
@@ -149,6 +81,29 @@
       "amount": 750,
       "status": "Confirmed",
       "payment": "Online"
+    }
+  ],
+  "tbl_cart": [
+    {
+      "productId": 3,
+      "productName": "Pencil Set",
+      "price": 80,
+      "quantity": 1,
+      "id": "Rqq7Bm9oISA"
+    },
+    {
+      "productId": 4,
+      "productName": "Art Kit",
+      "price": 250,
+      "quantity": 1,
+      "id": "vOsbnxy-Lmk"
+    },
+    {
+      "productId": "marker001",
+      "productName": "Marker Set",
+      "price": 80,
+      "quantity": 15,
+      "id": "qnMXmoY_Ruw"
     }
   ],
   "tbl_feedback": [

@@ -8,31 +8,23 @@ export default function Products() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
   const [image, setImage] = useState("");
 
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [editCategory, setEditCategory] = useState("");
   const [editPrice, setEditPrice] = useState("");
-  const [editStock, setEditStock] = useState("");
   const [editImage, setEditImage] = useState("");
 
   const nameInputRef = useRef(null);
 
   const loadProducts = async () => {
-    const res = await axios.get(
-      "http://localhost:4000/tbl_product"
-    );
-
+    const res = await axios.get("http://localhost:4000/tbl_product");
     setProducts(res.data);
   };
 
   const loadCategories = async () => {
-    const res = await axios.get(
-      "http://localhost:4000/tbl_category"
-    );
-
+    const res = await axios.get("http://localhost:4000/tbl_category");
     setCategories(res.data);
   };
 
@@ -42,36 +34,31 @@ export default function Products() {
   }, []);
 
   const addProduct = async () => {
-    if (
-      !name.trim() ||
-      !category ||
-      !price ||
-      stock === "" ||
-      !image.trim()
-    ) {
+    if (!name.trim() || !category || !price || !image.trim()) {
       alert("Please fill all fields!");
-      nameInputRef.current.focus();
+      nameInputRef.current?.focus();
       return;
     }
 
-    await axios.post(
-      "http://localhost:4000/tbl_product",
-      {
-        name,
-        category,
-        price,
-        stock,
-        status: Number(stock) > 0 ? "Active" : "Out of Stock",
-        image: "/image/" + image
-      }
-    );
+    if (Number(price) <= 0) {
+      alert("Product price must be greater than 0!");
+      return;
+    }
+
+    await axios.post("http://localhost:4000/tbl_product", {
+      name,
+      category,
+      price,
+      stock: 0,
+      status: "Out of Stock",
+      image: "/image/" + image
+    });
 
     alert("Product added successfully!");
 
     setName("");
     setCategory("");
     setPrice("");
-    setStock("");
     setImage("");
 
     loadProducts();
@@ -86,16 +73,13 @@ export default function Products() {
       "Are you sure you want to delete this product?"
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     await axios.delete(
       `http://localhost:4000/tbl_product/${id}`
     );
 
     alert("Product deleted successfully!");
-
     loadProducts();
   };
 
@@ -104,14 +88,12 @@ export default function Products() {
     currentName,
     currentCategory,
     currentPrice,
-    currentStock,
     currentImage
   ) => {
     setEditId(id);
     setEditName(currentName);
     setEditCategory(currentCategory);
     setEditPrice(currentPrice);
-    setEditStock(currentStock);
     setEditImage(currentImage || "");
   };
 
@@ -120,12 +102,20 @@ export default function Products() {
       !editName.trim() ||
       !editCategory ||
       !editPrice ||
-      editStock === "" ||
       !editImage.trim()
     ) {
       alert("Please fill all fields!");
       return;
     }
+
+    if (Number(editPrice) <= 0) {
+      alert("Product price must be greater than 0!");
+      return;
+    }
+
+    const existingProduct = products.find(
+      (p) => p.id === id
+    );
 
     await axios.put(
       `http://localhost:4000/tbl_product/${id}`,
@@ -134,8 +124,13 @@ export default function Products() {
         name: editName,
         category: editCategory,
         price: editPrice,
-        stock: editStock,
-        status: Number(editStock) > 0 ? "Active" : "Out of Stock",
+        stock: existingProduct?.stock || 0,
+        status:
+          Number(existingProduct?.stock || 0) === 0
+            ? "Out of Stock"
+            : Number(existingProduct?.stock) <= 10
+            ? "Low Stock"
+            : "Available",
         image: editImage
       }
     );
@@ -146,10 +141,17 @@ export default function Products() {
     setEditName("");
     setEditCategory("");
     setEditPrice("");
-    setEditStock("");
     setEditImage("");
 
     loadProducts();
+  };
+
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditName("");
+    setEditCategory("");
+    setEditPrice("");
+    setEditImage("");
   };
 
   return (
@@ -171,10 +173,9 @@ export default function Products() {
           backgroundColor: "#ffffff"
         }}
       >
-
         <div className="row g-3 align-items-center">
 
-          <div className="col-md-2">
+          <div className="col-md-3">
             <input
               ref={nameInputRef}
               type="text"
@@ -190,7 +191,7 @@ export default function Products() {
             />
           </div>
 
-          <div className="col-md-2">
+          <div className="col-md-3">
             <select
               className="form-select py-2 px-3"
               value={category}
@@ -201,9 +202,7 @@ export default function Products() {
                 fontSize: "14px"
               }}
             >
-              <option value="">
-                Select Category
-              </option>
+              <option value="">Select Category</option>
 
               {categories.map((item) => (
                 <option
@@ -219,25 +218,12 @@ export default function Products() {
           <div className="col-md-2">
             <input
               type="number"
+              min="1"
+              step="1"
               className="form-control py-2 px-3"
               placeholder="Price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              style={{
-                borderRadius: "8px",
-                borderColor: "#cbd5e1",
-                fontSize: "14px"
-              }}
-            />
-          </div>
-
-          <div className="col-md-2">
-            <input
-              type="number"
-              className="form-control py-2 px-3"
-              placeholder="Stock"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
               style={{
                 borderRadius: "8px",
                 borderColor: "#cbd5e1",
@@ -288,7 +274,6 @@ export default function Products() {
           backgroundColor: "#ffffff"
         }}
       >
-
         <div className="table-responsive">
 
           <table className="table align-middle mb-0">
@@ -300,46 +285,26 @@ export default function Products() {
               }}
             >
               <tr>
-
-                <th style={{ padding: "14px 20px" }}>
-                  #
-                </th>
-
-                <th style={{ padding: "14px 20px" }}>
-                  Image
-                </th>
-
+                <th style={{ padding: "14px 20px" }}>#</th>
+                <th style={{ padding: "14px 20px" }}>Image</th>
                 <th style={{ padding: "14px 20px" }}>
                   Product Name
                 </th>
-
                 <th style={{ padding: "14px 20px" }}>
                   Category
                 </th>
-
                 <th style={{ padding: "14px 20px" }}>
                   Price
                 </th>
-
-                <th style={{ padding: "14px 20px" }}>
-                  Stock
-                </th>
-
-                <th style={{ padding: "14px 20px" }}>
-                  Status
-                </th>
-
                 <th style={{ padding: "14px 20px" }}>
                   Actions
                 </th>
-
               </tr>
             </thead>
 
             <tbody>
 
               {products.map((p, index) => (
-
                 <tr
                   key={p.id}
                   style={{
@@ -355,9 +320,7 @@ export default function Products() {
                   </td>
 
                   <td style={{ padding: "14px 20px" }}>
-
                     {editId === p.id ? (
-
                       <input
                         type="file"
                         accept="image/*"
@@ -376,9 +339,7 @@ export default function Products() {
                           width: "180px"
                         }}
                       />
-
                     ) : (
-
                       <img
                         src={p.image}
                         alt={p.name}
@@ -390,15 +351,11 @@ export default function Products() {
                           backgroundColor: "#f8fafc"
                         }}
                       />
-
                     )}
-
                   </td>
 
                   <td style={{ padding: "14px 20px" }}>
-
                     {editId === p.id ? (
-
                       <input
                         type="text"
                         className="form-control"
@@ -411,24 +368,18 @@ export default function Products() {
                           borderColor: "#0d9488"
                         }}
                       />
-
                     ) : (
-
                       <span
                         className="fw-medium"
                         style={{ color: "#334155" }}
                       >
                         {p.name}
                       </span>
-
                     )}
-
                   </td>
 
                   <td style={{ padding: "14px 20px" }}>
-
                     {editId === p.id ? (
-
                       <select
                         className="form-select"
                         value={editCategory}
@@ -440,7 +391,6 @@ export default function Products() {
                           borderColor: "#0d9488"
                         }}
                       >
-
                         <option value="">
                           Select Category
                         </option>
@@ -453,28 +403,23 @@ export default function Products() {
                             {item.name}
                           </option>
                         ))}
-
                       </select>
-
                     ) : (
-
                       <span
                         className="fw-medium"
                         style={{ color: "#334155" }}
                       >
                         {p.category}
                       </span>
-
                     )}
-
                   </td>
 
                   <td style={{ padding: "14px 20px" }}>
-
                     {editId === p.id ? (
-
                       <input
                         type="number"
+                        min="1"
+                        step="1"
                         className="form-control"
                         value={editPrice}
                         onChange={(e) =>
@@ -485,60 +430,14 @@ export default function Products() {
                           borderColor: "#0d9488"
                         }}
                       />
-
                     ) : (
-
                       <>₹{p.price}</>
-
                     )}
-
                   </td>
 
                   <td style={{ padding: "14px 20px" }}>
 
                     {editId === p.id ? (
-
-                      <input
-                        type="number"
-                        className="form-control"
-                        value={editStock}
-                        onChange={(e) =>
-                          setEditStock(e.target.value)
-                        }
-                        style={{
-                          borderRadius: "6px",
-                          borderColor: "#0d9488"
-                        }}
-                      />
-
-                    ) : (
-
-                      p.stock
-
-                    )}
-
-                  </td>
-
-                  <td style={{ padding: "14px 20px" }}>
-
-                    <span
-                      style={{
-                        color:
-                          p.status === "Active"
-                            ? "#0f766e"
-                            : "#dc2626",
-                        fontWeight: "600"
-                      }}
-                    >
-                      {p.status}
-                    </span>
-
-                  </td>
-
-                  <td style={{ padding: "14px 20px" }}>
-
-                    {editId === p.id ? (
-
                       <>
                         <button
                           className="btn btn-sm text-white fw-semibold me-2"
@@ -555,14 +454,7 @@ export default function Products() {
 
                         <button
                           className="btn btn-sm btn-light fw-semibold text-secondary border"
-                          onClick={() => {
-                            setEditId(null);
-                            setEditName("");
-                            setEditCategory("");
-                            setEditPrice("");
-                            setEditStock("");
-                            setEditImage("");
-                          }}
+                          onClick={cancelEdit}
                           style={{
                             borderRadius: "6px"
                           }}
@@ -570,9 +462,7 @@ export default function Products() {
                           Cancel
                         </button>
                       </>
-
                     ) : (
-
                       <>
                         <button
                           className="btn btn-sm me-2 fw-semibold"
@@ -582,7 +472,6 @@ export default function Products() {
                               p.name,
                               p.category,
                               p.price,
-                              p.stock,
                               p.image
                             )
                           }
@@ -611,34 +500,30 @@ export default function Products() {
                           Delete
                         </button>
                       </>
-
                     )}
 
                   </td>
 
                 </tr>
-
               ))}
 
               {products.length === 0 && (
-
                 <tr>
                   <td
-                    colSpan="8"
+                    colSpan="6"
                     className="text-center py-4 text-muted"
                   >
                     No products found.
                   </td>
                 </tr>
-
               )}
 
             </tbody>
-
           </table>
 
         </div>
       </div>
+
     </div>
   );
 }

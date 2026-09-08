@@ -9,7 +9,6 @@ import CategoryCRUD from "./components/admin/Categorycrud.js";
 import Productcrud from "./components/admin/Productcrud.js";
 import Stock from "./components/admin/Stock.js";
 import Orders from "./components/admin/Orders.js";
-import OrderStatus from "./components/admin/OrderStatus.js";
 import Customers from "./components/admin/Customers.js";
 import ManageFeedback from "./components/admin/ManageFeedback.js";
 import Profile from "./components/admin/Profile.js";
@@ -30,7 +29,6 @@ import Cart from "./components/customer/Cart.js";
 import Logoutc from "./components/customer/Logoutc.js";
 
 function App() {
-
   const [selectedCategory, setSelectedCategory] = useState("");
   const [adminName, setAdminName] = useState("");
 
@@ -126,7 +124,6 @@ function App() {
           element={<Logoutc />}
         />
 
-
         {/* ================= ADMIN LOGIN ================= */}
 
         <Route
@@ -142,7 +139,6 @@ function App() {
             <Login setAdminName={setAdminName} />
           }
         />
-
 
         {/* ================= ADMIN ================= */}
 
@@ -192,15 +188,6 @@ function App() {
         />
 
         <Route
-          path="/admin/order-status"
-          element={
-            <Sidebar>
-              <OrderStatus />
-            </Sidebar>
-          }
-        />
-
-        <Route
           path="/admin/customers"
           element={
             <Sidebar>
@@ -218,14 +205,14 @@ function App() {
           }
         />
 
-    <Route 
-  path="/admin/profile" 
-  element={ 
-    <Sidebar> 
-      <Profile adminName={adminName} />
-    </Sidebar> 
-  } 
-/>
+        <Route
+          path="/admin/profile"
+          element={
+            <Sidebar>
+              <Profile adminName={adminName} />
+            </Sidebar>
+          }
+        />
 
         <Route
           path="/admin/logout"
