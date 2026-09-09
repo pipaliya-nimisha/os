@@ -24,6 +24,7 @@
       "mobile": "9976543210"
     }
   ],
+
   "tbl_customer": [
     {
       "name": "kiya",
@@ -42,6 +43,7 @@
       "id": "LgoM6XiP_pI"
     }
   ],
+
   "tbl_category": [
     {
       "name": "Notebooks",
@@ -54,9 +56,87 @@
       "description": "Different types of writing pens",
       "image": "/image/pen.jpg",
       "id": "DGEFy6zBg3s"
+    },
+    {
+      "name": "Colors",
+      "description": "Vibrant Coloring Supplies",
+      "image": "/image/color.jpg",
+      "id": "OXCv0c_ZTMU"
+    },
+    {
+      "name": "Erasers",
+      "description": "Clean & Smooth Erasing",
+      "image": "/image/eraser.jpg",
+      "id": "Z_k6X5sMN6A"
     }
   ],
-  "tbl_product": [],
+
+  "tbl_product": [
+    {
+      "id": "JowbUUwgyiU",
+      "name": "Apsara Pencil",
+      "category": "Pencil",
+      "price": "8",
+      "stock": "15",
+      "status": "Available",
+      "image": "/image/pencil.jpg"
+    },
+    {
+      "id": "pen001",
+      "name": "Premium Ball Pen",
+      "category": "Pens",
+      "price": "50",
+      "stock": "20",
+      "status": "Active",
+      "image": "/image/pen.jpg"
+    },
+    {
+      "id": "marker001",
+      "name": "Marker Set",
+      "category": "Markers",
+      "price": "80",
+      "stock": "15",
+      "status": "Active",
+      "image": "/image/markers.jpg"
+    },
+    {
+      "id": "note001",
+      "name": "Premium Notebook",
+      "category": "Notebooks",
+      "price": "120",
+      "stock": "25",
+      "status": "Active",
+      "image": "/image/note.jpg"
+    },
+    {
+      "name": "Color Pencil Set",
+      "category": "Colors",
+      "price": "120",
+      "stock": "20",
+      "status": "Active",
+      "image": "/image/col4.jpg",
+      "id": "TOXOKbkSKtk"
+    },
+    {
+      "name": "Wax Crayons",
+      "category": "Colors",
+      "price": "90",
+      "stock": "18",
+      "status": "Active",
+      "image": "/image/col1.jpg",
+      "id": "Ee4gXWlzfpw"
+    },
+    {
+      "name": "Water Color Set",
+      "category": "Colors",
+      "price": "250",
+      "stock": "21",
+      "status": "Active",
+      "image": "/image/col2.jpg",
+      "id": "4fPG4WY8PVs"
+    }
+  ],
+
   "tbl_order": [
     {
       "id": "1",
@@ -83,7 +163,15 @@
       "payment": "Online"
     }
   ],
+
   "tbl_cart": [
+    {
+      "productId": "JowbUUwgyiU",
+      "productName": "Apsara Pencil",
+      "price": 8,
+      "quantity": 2,
+      "id": "gy7yI5VJT18"
+    },
     {
       "productId": 3,
       "productName": "Pencil Set",
@@ -106,6 +194,7 @@
       "id": "qnMXmoY_Ruw"
     }
   ],
+
   "tbl_feedback": [
     {
       "name": "as",
@@ -115,5 +204,6 @@
       "id": "hAVCfawZGrw"
     }
   ],
+
   "$schema": "./node_modules/json-server/schema.json"
 }
