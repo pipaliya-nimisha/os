@@ -376,7 +376,7 @@ function Home({ setSelectedCategory }) {
                 }}
               >
                 <img
-                  src="/image/pnote.jpg"
+                  src="/image/pnote1.jpg"
                   alt="Notebook"
                   style={{
                     height: "220px",
@@ -434,7 +434,7 @@ function Home({ setSelectedCategory }) {
                 }}
               >
                 <img
-                  src="/image/pball.jpg"
+                  src="/image/ppen.webp"
                   alt="Pen"
                   style={{
                     height: "220px",
