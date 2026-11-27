@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 function Orders() {
-
   const [orders, setOrders] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editStatus, setEditStatus] = useState("Pending");
@@ -9,7 +8,6 @@ function Orders() {
   const getData = async () => {
     const res = await fetch("http://localhost:4000/tbl_order");
     const data = await res.json();
-
     setOrders(data);
   };
 
@@ -18,11 +16,9 @@ function Orders() {
   }, []);
 
   const deleteOrder = async (id) => {
-
     await fetch("http://localhost:4000/tbl_order/" + id, {
       method: "DELETE"
     });
-
     getData();
   };
 
@@ -32,7 +28,6 @@ function Orders() {
   };
 
   const updateStatus = async (id) => {
-
     await fetch("http://localhost:4000/tbl_order/" + id, {
       method: "PATCH",
       headers: {
@@ -44,7 +39,6 @@ function Orders() {
     });
 
     alert("Order Status Updated");
-
     setEditId(null);
     getData();
   };
@@ -123,19 +117,13 @@ function Orders() {
 
   return (
     <div style={{ padding: "25px" }}>
-
       <h2>Orders</h2>
-
       <p>Manage customer orders</p>
-
       <hr />
 
       <div style={box}>
-
         <table style={table}>
-
           <thead>
-
             <tr>
               <th style={th}>Order ID</th>
               <th style={th}>Customer</th>
@@ -144,35 +132,18 @@ function Orders() {
               <th style={th}>Status</th>
               <th style={th}>Action</th>
             </tr>
-
           </thead>
 
           <tbody>
-
             {orders.map((item) => (
-
               <tr key={item.id}>
+                <td style={td}>#{item.id}</td>
+                <td style={td}>{item.customerName}</td>
+                <td style={td}>{item.date}</td>
+                <td style={td}>₹{item.amount}</td>
 
                 <td style={td}>
-                  #{item.id}
-                </td>
-
-                <td style={td}>
-                  {item.customerName}
-                </td>
-
-                <td style={td}>
-                  {item.date}
-                </td>
-
-                <td style={td}>
-                  ₹{item.amount}
-                </td>
-
-                <td style={td}>
-
                   {editId === item.id ? (
-
                     <select
                       value={editStatus}
                       onChange={(e) => setEditStatus(e.target.value)}
@@ -184,19 +155,13 @@ function Orders() {
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancelled</option>
                     </select>
-
                   ) : (
-
                     item.status
-
                   )}
-
                 </td>
 
                 <td style={td}>
-
                   {editId === item.id ? (
-
                     <>
                       <button
                         style={saveButton}
@@ -204,7 +169,6 @@ function Orders() {
                       >
                         Save
                       </button>
-
                       <button
                         style={cancelButton}
                         onClick={cancelUpdate}
@@ -212,9 +176,7 @@ function Orders() {
                         Cancel
                       </button>
                     </>
-
                   ) : (
-
                     <>
                       <button
                         style={updateButton}
@@ -222,7 +184,6 @@ function Orders() {
                       >
                         Update Status
                       </button>
-
                       <button
                         style={deleteButton}
                         onClick={() => deleteOrder(item.id)}
@@ -230,21 +191,13 @@ function Orders() {
                         Delete
                       </button>
                     </>
-
                   )}
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }

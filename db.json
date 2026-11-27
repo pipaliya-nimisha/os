@@ -10,7 +10,7 @@
     },
     {
       "id": "2",
-      "name": "Nimisha Pipliya",
+      "name": "Nimisha",
       "email": "n@gmail.com",
       "password": "n123",
       "mobile": "9876543220",
@@ -24,7 +24,6 @@
       "mobile": "9976543210"
     }
   ],
-
   "tbl_customer": [
     {
       "name": "kiya",
@@ -35,21 +34,28 @@
       "id": "ldPofR08TsY"
     },
     {
-      "name": "w",
+      "name": "riya",
       "email": "w@gmail.com",
       "mobile": "902323920",
       "password": "w123",
       "address": "katragam",
       "id": "LgoM6XiP_pI"
+    },
+    {
+      "name": "s",
+      "email": "s@gmail.com",
+      "mobile": "w1231",
+      "password": "s@gmail.com",
+      "address": "s123",
+      "id": "n_r0_6VHEzs"
     }
   ],
-
   "tbl_category": [
     {
+      "id": "mROETJblZ5U",
       "name": "Notebooks",
       "description": "School and office notebooks",
-      "image": "/image/notebook.jpg",
-      "id": "mROETJblZ5U"
+      "image": "/image/book2.jpg"
     },
     {
       "name": "Pens",
@@ -58,85 +64,434 @@
       "id": "DGEFy6zBg3s"
     },
     {
+      "name": "Pencils",
+      "description": "Premium Quality Pencils",
+      "image": "/image/pencil.jpg",
+      "id": "r2P6ONUqIQc"
+    },
+    {
+      "name": "Markers",
+      "description": "Bold & Vibrant Markers",
+      "image": "/image/markers.jpg",
+      "id": "bRm13pPsskY"
+    },
+    {
+      "id": "zV5UCs6e8JE",
       "name": "Colors",
       "description": "Vibrant Coloring Supplies",
-      "image": "/image/color.jpg",
-      "id": "OXCv0c_ZTMU"
+      "image": "/image/wcolor.jpg"
     },
     {
       "name": "Erasers",
       "description": "Clean & Smooth Erasing",
-      "image": "/image/eraser.jpg",
-      "id": "Z_k6X5sMN6A"
-    }
-  ],
-
-  "tbl_product": [
-    {
-      "id": "JowbUUwgyiU",
-      "name": "Apsara Pencil",
-      "category": "Pencil",
-      "price": "8",
-      "stock": "15",
-      "status": "Available",
-      "image": "/image/pencil.jpg"
+      "image": "/image/Erasers.webp",
+      "id": "VmQmWngZYkk"
     },
     {
-      "id": "pen001",
+      "name": "Sharpeners",
+      "description": "Sharp Every Time",
+      "image": "/image/sharpeners.jpg",
+      "id": "5PHodUOjYsU"
+    },
+    {
+      "name": "Diaries",
+      "description": "Plan Every Day",
+      "image": "/image/diaries.jpg",
+      "id": "iQ5o0RCC9m8"
+    },
+    {
+      "name": "Scissors",
+      "description": "Safe & Sharp Cutting",
+      "image": "/image/scissors.jpg",
+      "id": "H3sW2p4JQus"
+    },
+    {
+      "name": "Paper Clips",
+      "description": "Secure Paper Holding",
+      "image": "/image/clipes.jpg",
+      "id": "v8gg5sKsmbM"
+    },
+    {
+      "name": "Files & Folders",
+      "description": "Organize Your Documents",
+      "image": "/image/f1.jpg",
+      "id": "bmXSJQ98d9s"
+    },
+    {
+      "name": "Calculators",
+      "description": "Fast & Accurate Calculations",
+      "image": "/image/c1.webp",
+      "id": "yeVIM-4IXxk"
+    },
+    {
+      "id": "_-PVPZMuC5s",
+      "name": "Glue",
+      "description": "Strong & Quick Bond",
+      "image": "/image/g1.webp"
+    }
+  ],
+  "tbl_product": [
+    {
+      "id": "dkw_whIijTM",
+      "name": "Classmate Spiral Notebook",
+      "category": "Notebooks",
+      "price": "120",
+      "stock": 79,
+      "status": "Available",
+      "image": "/image/book1.jpg"
+    },
+    {
+      "id": "IUKU8nAGeCc",
+      "name": "Navneet Long Notebook",
+      "category": "Notebooks",
+      "price": "90",
+      "stock": 99,
+      "status": "Available",
+      "image": "/image/book2.jpg"
+    },
+    {
+      "id": "PrYah0iiV_Q",
+      "name": "Campus Ruled Notebook",
+      "category": "Notebooks",
+      "price": "120",
+      "stock": 49,
+      "status": "Available",
+      "image": "/image/book3.jpg"
+    },
+    {
+      "id": "v95Jn1ppVpY",
+      "name": "Premium Hardcover Notebook",
+      "category": "Notebooks",
+      "price": "200",
+      "stock": "49",
+      "status": "Available",
+      "image": "/image/book4.webp"
+    },
+    {
+      "id": "ZmMW-nqllXg",
       "name": "Premium Ball Pen",
       "category": "Pens",
       "price": "50",
-      "stock": "20",
-      "status": "Active",
-      "image": "/image/pen.jpg"
+      "stock": 86,
+      "status": "Available",
+      "image": "/image/pen1.jpg"
     },
     {
-      "id": "marker001",
-      "name": "Marker Set",
-      "category": "Markers",
+      "id": "lHSzGiOJ77w",
+      "name": "Roller Ball Pen",
+      "category": "Pens",
+      "price": "65",
+      "stock": "30",
+      "status": "Available",
+      "image": "/image/pen2.avif"
+    },
+    {
+      "id": "_KJ7GOIiUO0",
+      "name": "Gel Ink Pen",
+      "category": "Pens",
       "price": "80",
-      "stock": "15",
-      "status": "Active",
-      "image": "/image/markers.jpg"
+      "stock": "80",
+      "status": "Available",
+      "image": "/image/pen3.jpg"
     },
     {
-      "id": "note001",
-      "name": "Premium Notebook",
-      "category": "Notebooks",
+      "id": "tgUlWTPwRrg",
+      "name": "Fountain Pen",
+      "category": "Pens",
+      "price": "40",
+      "stock": "100",
+      "status": "Available",
+      "image": "/image/pen4.webp"
+    },
+    {
+      "id": "9uABMkKRe7U",
+      "name": "Fine Tip Pen",
+      "category": "Pens",
+      "price": "40",
+      "stock": "60",
+      "status": "Available",
+      "image": "/image/pen5.avif"
+    },
+    {
+      "id": "Z4JDn-NqCFk",
+      "name": "Highlighter Pen Set",
+      "category": "Pens",
+      "price": "50",
+      "stock": "56",
+      "status": "Available",
+      "image": "/image/pen6.webp"
+    },
+    {
+      "id": "x4vUAQXHhnw",
+      "name": "Apsara Platinum Pencil",
+      "category": "Pencils",
+      "price": "10",
+      "stock": "75",
+      "status": "Available",
+      "image": "/image/pencil1.avif"
+    },
+    {
+      "id": "HmhF4vefQeI",
+      "name": "Nataraj HB Pencil",
+      "category": "Pencils",
+      "price": "5",
+      "stock": "200",
+      "status": "Available",
+      "image": "/image/pencil2.avif"
+    },
+    {
+      "id": "SD2Hr4NMIr8",
+      "name": "DOMS Drawing Pencil Set",
+      "category": "Pencils",
+      "price": "20",
+      "stock": "255",
+      "status": "Available",
+      "image": "/image/pencil3.jpg"
+    },
+    {
+      "id": "ii8-GEArbNQ",
+      "name": "Permanent Marker",
+      "category": "Markers",
+      "price": "45",
+      "stock": 86,
+      "status": "Available",
+      "image": "/image/m1.jpg"
+    },
+    {
+      "id": "LKrE7rInC9M",
+      "name": "Whiteboard Marker Set",
+      "category": "Markers",
       "price": "120",
-      "stock": "25",
-      "status": "Active",
-      "image": "/image/note.jpg"
+      "stock": 64,
+      "status": "Available",
+      "image": "/image/m2.jpg"
     },
     {
+      "id": "2N3j1ddqgb4",
+      "name": "CD/DVD Marker",
+      "category": "Markers",
+      "price": "150",
+      "stock": 86,
+      "status": "Available",
+      "image": "/image/m3.webp"
+    },
+    {
+      "id": "Pz26pt66i9Q",
+      "name": "Fabric Marker Set",
+      "category": "Markers",
+      "price": "300",
+      "stock": "89",
+      "status": "Available",
+      "image": "/image/m4.jpg"
+    },
+    {
+      "id": "I1oP1YVkpEs",
       "name": "Color Pencil Set",
       "category": "Colors",
-      "price": "120",
-      "stock": "20",
-      "status": "Active",
-      "image": "/image/col4.jpg",
-      "id": "TOXOKbkSKtk"
+      "price": "130",
+      "stock": "45",
+      "status": "Available",
+      "image": "/image/col1.jpg"
     },
     {
+      "id": "jZ5oOvra2w0",
       "name": "Wax Crayons",
       "category": "Colors",
-      "price": "90",
-      "stock": "18",
-      "status": "Active",
-      "image": "/image/col1.jpg",
-      "id": "Ee4gXWlzfpw"
+      "price": "200",
+      "stock": "87",
+      "status": "Available",
+      "image": "/image/col2.jpg"
     },
     {
+      "id": "wS2JY13rrso",
       "name": "Water Color Set",
       "category": "Colors",
+      "price": "170",
+      "stock": "300",
+      "status": "Available",
+      "image": "/image/wcolor.jpg"
+    },
+    {
+      "id": "QVaqAgJscmY",
+      "name": "Acrylic Paint Set",
+      "category": "Colors",
+      "price": "150",
+      "stock": "66",
+      "status": "Available",
+      "image": "/image/col6.jpg"
+    },
+    {
+      "id": "JPmmyHrl5u0",
+      "name": "Oil Pastel Set",
+      "category": "Colors",
+      "price": "345",
+      "stock": "33",
+      "status": "Available",
+      "image": "/image/col5.webp"
+    },
+    {
+      "id": "xiIECMUw3lU",
+      "name": "Apsara Non-Dust Eraser",
+      "category": "Erasers",
+      "price": "10",
+      "stock": "90",
+      "status": "Available",
+      "image": "/image/e5.jpg"
+    },
+    {
+      "id": "Hij7kgau80I",
+      "name": "DOMS Soft Eraser",
+      "category": "Erasers",
+      "price": "5",
+      "stock": "88",
+      "status": "Available",
+      "image": "/image/e3.jpg"
+    },
+    {
+      "id": "Bnz57RN4Go8",
+      "name": "Faber-Castell Dust-Free Eraser",
+      "category": "Erasers",
+      "price": "25",
+      "stock": "68",
+      "status": "Available",
+      "image": "/image/e2.webp"
+    },
+    {
+      "id": "fwT7kyqUFWA",
+      "name": "Maped Mini Soft Eraser",
+      "category": "Erasers",
+      "price": "30",
+      "stock": "85",
+      "status": "Available",
+      "image": "/image/erser.jpg"
+    },
+    {
+      "id": "P4NCv-xkLbY",
+      "name": "Kokuyo Campus Clean Eraser",
+      "category": "Erasers",
+      "price": "50",
+      "stock": "77",
+      "status": "Available",
+      "image": "/image/Erasers.webp"
+    },
+    {
+      "id": "LziWm8bINPQ",
+      "name": "Faber-Castell Grip Sharpener ",
+      "category": "Sharpeners",
+      "price": "20",
+      "stock": "43",
+      "status": "Available",
+      "image": "/image/s1.jpg"
+    },
+    {
+      "id": "EdeB4IlUxyI",
+      "name": "Maped Croc Croc Sharpener",
+      "category": "Sharpeners",
+      "price": "50",
+      "stock": "73",
+      "status": "Available",
+      "image": "/image/s2.png"
+    },
+    {
+      "id": "OUUtQudJZpI",
+      "name": "DOMS Neon Double Hole Sharpener",
+      "category": "Sharpeners",
+      "price": "30",
+      "stock": "22",
+      "status": "Available",
+      "image": "/image/s4.jpg"
+    },
+    {
+      "id": "pXZobwZiag0",
+      "name": "Premium Leather Diary",
+      "category": "Diaries",
       "price": "250",
-      "stock": "21",
-      "status": "Active",
-      "image": "/image/col2.jpg",
-      "id": "4fPG4WY8PVs"
+      "stock": "33",
+      "status": "Available",
+      "image": "/image/d1.webp"
+    },
+    {
+      "id": "18D3HHkpJd0",
+      "name": "Floral Daily Planner Diary",
+      "category": "Diaries",
+      "price": "300",
+      "stock": "44",
+      "status": "Available",
+      "image": "/image/d2.webp"
+    },
+    {
+      "id": "JABZQRT1_Gw",
+      "name": "Kids Safety Scissors",
+      "category": "Scissors",
+      "price": "50",
+      "stock": "55",
+      "status": "Available",
+      "image": "/image/se1.webp"
+    },
+    {
+      "id": "kFZNRas01f0",
+      "name": "Craft Scissors",
+      "category": "Scissors",
+      "price": "60",
+      "stock": "66",
+      "status": "Available",
+      "image": "/image/se3.webp"
+    },
+    {
+      "id": "SW5cYHWNtkE",
+      "name": "Color Paper Clips",
+      "category": "Paper Clips",
+      "price": "5",
+      "stock": "77",
+      "status": "Available",
+      "image": "/image/p1.jpg"
+    },
+    {
+      "id": "mcPMX0b1Ok8",
+      "name": "Jumbo Paper Clips",
+      "category": "Paper Clips",
+      "price": "30",
+      "stock": "88",
+      "status": "Available",
+      "image": "/image/p2.jpg"
+    },
+    {
+      "id": "ifBk-tex3T0",
+      "name": "Display File Folder",
+      "category": "Files & Folders",
+      "price": "400",
+      "stock": "99",
+      "status": "Available",
+      "image": "/image/f2.webp"
+    },
+    {
+      "id": "QjOe8txWYSA",
+      "name": "Glue Stick",
+      "category": "Glue",
+      "price": "90",
+      "stock": "95",
+      "status": "Available",
+      "image": "/image/g2.jpg"
+    },
+    {
+      "id": "JsHsph5CD2s",
+      "name": "White Craft Glue",
+      "category": "Glue",
+      "price": "100",
+      "stock": "65",
+      "status": "Available",
+      "image": "/image/g3.jpg"
+    },
+    {
+      "id": "H6-p6Xp64Y4",
+      "name": "Scientific Calculator",
+      "category": "Calculators",
+      "price": "500",
+      "stock": "45",
+      "status": "Available",
+      "image": "/image/c2.jpg"
     }
   ],
-
   "tbl_order": [
     {
       "id": "1",
@@ -147,63 +502,347 @@
       "payment": "COD"
     },
     {
-      "id": "2",
-      "customerName": "Nimisha",
-      "date": "25-08-2026",
-      "amount": 750,
-      "status": "Shipped",
-      "payment": "Online"
-    },
-    {
       "id": "3",
       "customerName": "Devangi",
       "date": "25-08-2026",
       "amount": 750,
       "status": "Confirmed",
       "payment": "Online"
-    }
-  ],
-
-  "tbl_cart": [
-    {
-      "productId": "JowbUUwgyiU",
-      "productName": "Apsara Pencil",
-      "price": 8,
-      "quantity": 2,
-      "id": "gy7yI5VJT18"
     },
     {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 550,
+      "status": "Shipped",
+      "payment": "Cash on Delivery",
+      "id": "njfzSe46X0M"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 290,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "jMR5uQGiJc0"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 210,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "_geRVlEIQKY"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 530,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "c4M70fP2yw4"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 380,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "gkoi9WUjxqA"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 315,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "68PVi7H0TdY"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 600,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "IwzYE4YyLO4"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 600,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "3lrs65Z0LGs"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "26/11/2026",
+      "amount": 310,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "dJb_TFgrC6c"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "27/11/2026",
+      "amount": 100,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "FSvOLBY1cgE"
+    },
+    {
+      "customerId": "ldPofR08TsY",
+      "customerName": "kiya",
+      "date": "27/11/2026",
+      "amount": 120,
+      "status": "Pending",
+      "payment": "Cash on Delivery",
+      "id": "3pqcDouvRS0"
+    }
+  ],
+  "tbl_order_details": [
+    {
+      "orderId": "njfzSe46X0M",
       "productId": 3,
       "productName": "Pencil Set",
       "price": 80,
-      "quantity": 1,
-      "id": "Rqq7Bm9oISA"
+      "quantity": 2,
+      "subtotal": 160,
+      "id": "mhX9vjVATwc"
     },
     {
+      "orderId": "njfzSe46X0M",
       "productId": 4,
       "productName": "Art Kit",
       "price": 250,
       "quantity": 1,
-      "id": "vOsbnxy-Lmk"
+      "subtotal": 250,
+      "id": "30vP5RB8vFM"
     },
     {
-      "productId": "marker001",
-      "productName": "Marker Set",
+      "orderId": "njfzSe46X0M",
+      "productId": 2,
+      "productName": "Premium Ball Pen",
+      "price": 50,
+      "quantity": 1,
+      "subtotal": 50,
+      "id": "788zdpVUk2c"
+    },
+    {
+      "orderId": "njfzSe46X0M",
+      "productId": "IUKU8nAGeCc",
+      "productName": "Navneet Long Notebook",
+      "price": 90,
+      "quantity": 1,
+      "subtotal": 90,
+      "id": "zHPSwdvlxaY"
+    },
+    {
+      "orderId": "jMR5uQGiJc0",
+      "productId": "dkw_whIijTM",
+      "productName": "Classmate Spiral Notebook",
+      "price": 120,
+      "quantity": 2,
+      "subtotal": 240,
+      "id": "qkElXoH9TJ8"
+    },
+    {
+      "orderId": "jMR5uQGiJc0",
+      "productId": 2,
+      "productName": "Premium Ball Pen",
+      "price": 50,
+      "quantity": 1,
+      "subtotal": 50,
+      "id": "oHu_TQInxec"
+    },
+    {
+      "orderId": "_geRVlEIQKY",
+      "productId": "IUKU8nAGeCc",
+      "productName": "Navneet Long Notebook",
+      "price": 90,
+      "quantity": 1,
+      "subtotal": 90,
+      "id": "2iaAWWdWlPA"
+    },
+    {
+      "orderId": "_geRVlEIQKY",
+      "productId": "PrYah0iiV_Q",
+      "productName": "Campus Ruled Notebook",
+      "price": 120,
+      "quantity": 1,
+      "subtotal": 120,
+      "id": "coQi_-meMnI"
+    },
+    {
+      "orderId": "c4M70fP2yw4",
+      "productId": "IUKU8nAGeCc",
+      "productName": "Navneet Long Notebook",
+      "price": 90,
+      "quantity": 1,
+      "subtotal": 90,
+      "id": "QQvcunK7WVk"
+    },
+    {
+      "orderId": "c4M70fP2yw4",
+      "productId": "PrYah0iiV_Q",
+      "productName": "Campus Ruled Notebook",
+      "price": 120,
+      "quantity": 2,
+      "subtotal": 240,
+      "id": "NGM2T5nusGI"
+    },
+    {
+      "orderId": "c4M70fP2yw4",
+      "productId": "v95Jn1ppVpY",
+      "productName": "Premium Hardcover Notebook",
+      "price": 200,
+      "quantity": 1,
+      "subtotal": 200,
+      "id": "Ux07fMgexRQ"
+    },
+    {
+      "orderId": "gkoi9WUjxqA",
+      "productId": 2,
+      "productName": "Premium Ball Pen",
+      "price": 50,
+      "quantity": 1,
+      "subtotal": 50,
+      "id": "gjJuHPf8mNg"
+    },
+    {
+      "orderId": "gkoi9WUjxqA",
+      "productId": 3,
+      "productName": "Pencil Set",
       "price": 80,
-      "quantity": 15,
-      "id": "qnMXmoY_Ruw"
+      "quantity": 1,
+      "subtotal": 80,
+      "id": "jnJLrlMPKkM"
+    },
+    {
+      "orderId": "gkoi9WUjxqA",
+      "productId": 4,
+      "productName": "Art Kit",
+      "price": 250,
+      "quantity": 1,
+      "subtotal": 250,
+      "id": "z67UYM3HY9Q"
+    },
+    {
+      "orderId": "68PVi7H0TdY",
+      "productId": "ii8-GEArbNQ",
+      "productName": "Permanent Marker",
+      "price": 45,
+      "quantity": 1,
+      "subtotal": 45,
+      "id": "tVchTp-wgtw"
+    },
+    {
+      "orderId": "68PVi7H0TdY",
+      "productId": "LKrE7rInC9M",
+      "productName": "Whiteboard Marker Set",
+      "price": 120,
+      "quantity": 1,
+      "subtotal": 120,
+      "id": "sM0Aa0v--z4"
+    },
+    {
+      "orderId": "68PVi7H0TdY",
+      "productId": "2N3j1ddqgb4",
+      "productName": "CD/DVD Marker",
+      "price": 150,
+      "quantity": 1,
+      "subtotal": 150,
+      "id": "Li_JkFiOq5Q"
+    },
+    {
+      "orderId": "IwzYE4YyLO4",
+      "productId": "dkw_whIijTM",
+      "productName": "Classmate Spiral Notebook",
+      "price": 120,
+      "quantity": 5,
+      "subtotal": 600,
+      "id": "zQhSQJ3k4oM"
+    },
+    {
+      "orderId": "3lrs65Z0LGs",
+      "productId": "dkw_whIijTM",
+      "productName": "Classmate Spiral Notebook",
+      "price": 120,
+      "quantity": 5,
+      "subtotal": 600,
+      "id": "7ue9BQWrMg0"
+    },
+    {
+      "orderId": "dJb_TFgrC6c",
+      "productId": "dkw_whIijTM",
+      "productName": "Classmate Spiral Notebook",
+      "price": 120,
+      "quantity": 1,
+      "subtotal": 120,
+      "id": "WT6X19M2E_c"
+    },
+    {
+      "orderId": "dJb_TFgrC6c",
+      "productId": "IUKU8nAGeCc",
+      "productName": "Navneet Long Notebook",
+      "price": 90,
+      "quantity": 1,
+      "subtotal": 90,
+      "id": "m6TltUWDQME"
+    },
+    {
+      "orderId": "dJb_TFgrC6c",
+      "productId": "ZmMW-nqllXg",
+      "productName": "Premium Ball Pen",
+      "price": 50,
+      "quantity": 2,
+      "subtotal": 100,
+      "id": "9slF6ICg6sI"
+    },
+    {
+      "orderId": "FSvOLBY1cgE",
+      "productId": "ZmMW-nqllXg",
+      "productName": "Premium Ball Pen",
+      "price": 50,
+      "quantity": 2,
+      "subtotal": 100,
+      "id": "FTj3V0-mgpI"
+    },
+    {
+      "orderId": "3pqcDouvRS0",
+      "productId": "PrYah0iiV_Q",
+      "productName": "Campus Ruled Notebook",
+      "price": 120,
+      "quantity": 1,
+      "subtotal": 120,
+      "id": "L4XVRWa68sA"
     }
   ],
-
+  "tbl_cart": [],
   "tbl_feedback": [
     {
-      "name": "as",
-      "email": "sad@gasd.sds",
-      "feedback": "sadsad",
+      "name": "kiya",
+      "email": "k@gmail.com",
+      "feedback": "Best Quality is good and Pages are Sommth",
       "date": "9/1/2026, 11:07:01 PM",
       "id": "hAVCfawZGrw"
+    },
+    {
+      "name": "riya",
+      "email": "r@gmail.com",
+      "feedback": "good",
+      "date": "11/26/2026, 5:28:52 PM",
+      "id": "8gLJOrZx320"
     }
   ],
-
   "$schema": "./node_modules/json-server/schema.json"
 }

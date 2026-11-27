@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 
-function Profile({ adminName }) {
+function Profile({ adminName, setAdminName }) {
 
   const [admin, setAdmin] = useState(null);
 
@@ -11,6 +12,12 @@ function Profile({ adminName }) {
 
   const getData = async () => {
 
+    const loginAdmin = JSON.parse(
+      localStorage.getItem("admin") || "null"
+    );
+
+    if (!loginAdmin) return;
+
     const res = await fetch(
       "http://localhost:4000/tbl_admin"
     );
@@ -18,29 +25,23 @@ function Profile({ adminName }) {
     const data = await res.json();
 
     const currentAdmin = data.find(
-      (item) => item.name === adminName
+      (item) => String(item.id) === String(loginAdmin.id)
     );
 
     if (currentAdmin) {
 
       setAdmin(currentAdmin);
-
       setName(currentAdmin.name);
       setEmail(currentAdmin.email);
-      setMobile(currentAdmin.mobile);
+      setMobile(currentAdmin.mobile || "");
       setCity(currentAdmin.city || "");
 
     }
   };
 
   useEffect(() => {
-
-    if (adminName) {
-      getData();
-    }
-
-  }, [adminName]);
-
+    getData();
+  }, []);
 
   const updateProfile = async () => {
 
@@ -64,29 +65,46 @@ function Profile({ adminName }) {
       return;
     }
 
-    await fetch(
+    if (!admin) return;
+
+    const res = await fetch(
       "http://localhost:4000/tbl_admin/" + admin.id,
       {
         method: "PATCH",
-
         headers: {
           "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
-          name: name,
-          email: email,
-          mobile: mobile,
-          city: city
+          name: name.trim(),
+          email: email.trim(),
+          mobile: mobile.trim(),
+          city: city.trim()
         })
       }
     );
 
-    alert("Profile updated successfully!");
+    if (res.ok) {
 
-    getData();
+      const updatedAdmin = await res.json();
+
+      localStorage.setItem(
+        "admin",
+        JSON.stringify({
+          id: updatedAdmin.id,
+          name: updatedAdmin.name,
+          email: updatedAdmin.email
+        })
+      );
+
+      setAdmin(updatedAdmin);
+      setAdminName(updatedAdmin.name);
+
+      alert("Profile updated successfully!");
+
+    } else {
+      alert("Profile update failed!");
+    }
   };
-
 
   return (
     <div style={{ padding: "25px" }}>
@@ -109,59 +127,43 @@ function Profile({ adminName }) {
 
         <div style={{ marginBottom: "15px" }}>
           <label>Name</label>
-
           <input
             type="text"
             className="form-control"
             value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-
         <div style={{ marginBottom: "15px" }}>
           <label>Email</label>
-
           <input
             type="email"
             className="form-control"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
-
         <div style={{ marginBottom: "15px" }}>
           <label>Mobile</label>
-
           <input
             type="text"
             className="form-control"
             value={mobile}
-            onChange={(e) =>
-              setMobile(e.target.value)
-            }
+            onChange={(e) => setMobile(e.target.value)}
           />
         </div>
 
-
         <div style={{ marginBottom: "20px" }}>
           <label>City</label>
-
           <input
             type="text"
             className="form-control"
             value={city}
-            onChange={(e) =>
-              setCity(e.target.value)
-            }
+            onChange={(e) => setCity(e.target.value)}
           />
         </div>
-
 
         <button
           onClick={updateProfile}

@@ -6,18 +6,14 @@ export default function CategoryCRUD() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editImage, setEditImage] = useState("");
-
   const nameInputRef = useRef(null);
 
   const loadData = async () => {
-    const res = await axios.get(
-      "http://localhost:4000/tbl_category"
-    );
+    const res = await axios.get("http://localhost:4000/tbl_category");
     setCategories(res.data);
   };
 
@@ -36,21 +32,16 @@ export default function CategoryCRUD() {
       return;
     }
 
-    await axios.post(
-      "http://localhost:4000/tbl_category",
-      {
-        name: name,
-        description: description,
-        image: "/image/" + image
-      }
-    );
+    await axios.post("http://localhost:4000/tbl_category", {
+      name: name,
+      description: description,
+      image: "/image/" + image
+    });
 
     alert("Category added successfully!");
-
     setName("");
     setDescription("");
     setImage("");
-
     loadData();
 
     setTimeout(() => {
@@ -67,21 +58,12 @@ export default function CategoryCRUD() {
       return;
     }
 
-    await axios.delete(
-      `http://localhost:4000/tbl_category/${id}`
-    );
-
+    await axios.delete(`http://localhost:4000/tbl_category/${id}`);
     alert("Category deleted successfully!");
-
     loadData();
   };
 
-  const startEdit = (
-    id,
-    currentName,
-    currentDescription,
-    currentImage
-  ) => {
+  const startEdit = (id, currentName, currentDescription, currentImage) => {
     setEditId(id);
     setEditName(currentName);
     setEditDescription(currentDescription);
@@ -94,32 +76,24 @@ export default function CategoryCRUD() {
       return;
     }
 
-    await axios.put(
-      `http://localhost:4000/tbl_category/${id}`,
-      {
-        id: id,
-        name: editName,
-        description: editDescription,
-        image: editImage
-      }
-    );
+    await axios.put(`http://localhost:4000/tbl_category/${id}`, {
+      id: id,
+      name: editName,
+      description: editDescription,
+      image: editImage
+    });
 
     alert("Category updated successfully!");
-
     setEditId(null);
     setEditName("");
     setEditDescription("");
     setEditImage("");
-
     loadData();
   };
 
   return (
     <div className="container-fluid p-0">
-      <h3
-        className="fw-bold mb-4"
-        style={{ color: "#0f172a" }}
-      >
+      <h3 className="fw-bold mb-4" style={{ color: "#0f172a" }}>
         Manage Categories
       </h3>
 
@@ -210,27 +184,17 @@ export default function CategoryCRUD() {
             >
               <tr>
                 <th style={{ padding: "14px 20px" }}>#</th>
-                <th style={{ padding: "14px 20px" }}>
-                  Category Name
-                </th>
-                <th style={{ padding: "14px 20px" }}>
-                  Description
-                </th>
-                <th style={{ padding: "14px 20px" }}>
-                  Image
-                </th>
-                <th style={{ padding: "14px 20px" }}>
-                  Actions
-                </th>
+                <th style={{ padding: "14px 20px" }}>Category Name</th>
+                <th style={{ padding: "14px 20px" }}>Description</th>
+                <th style={{ padding: "14px 20px" }}>Image</th>
+                <th style={{ padding: "14px 20px" }}>Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {categories.map((c, index) => (
                 <tr key={c.id}>
-                  <td style={{ padding: "14px 20px" }}>
-                    {index + 1}
-                  </td>
+                  <td style={{ padding: "14px 20px" }}>{index + 1}</td>
 
                   <td style={{ padding: "14px 20px" }}>
                     {editId === c.id ? (
@@ -238,9 +202,7 @@ export default function CategoryCRUD() {
                         type="text"
                         className="form-control"
                         value={editName}
-                        onChange={(e) =>
-                          setEditName(e.target.value)
-                        }
+                        onChange={(e) => setEditName(e.target.value)}
                       />
                     ) : (
                       c.name
@@ -253,9 +215,7 @@ export default function CategoryCRUD() {
                         type="text"
                         className="form-control"
                         value={editDescription}
-                        onChange={(e) =>
-                          setEditDescription(e.target.value)
-                        }
+                        onChange={(e) => setEditDescription(e.target.value)}
                       />
                     ) : (
                       c.description
@@ -271,8 +231,7 @@ export default function CategoryCRUD() {
                         onChange={(e) => {
                           if (e.target.files.length > 0) {
                             setEditImage(
-                              "/image/" +
-                                e.target.files[0].name
+                              "/image/" + e.target.files[0].name
                             );
                           }
                         }}
@@ -340,9 +299,7 @@ export default function CategoryCRUD() {
 
                         <button
                           className="btn btn-sm fw-semibold"
-                          onClick={() =>
-                            deleteCategory(c.id)
-                          }
+                          onClick={() => deleteCategory(c.id)}
                           style={{
                             backgroundColor: "#fef2f2",
                             color: "#dc2626",

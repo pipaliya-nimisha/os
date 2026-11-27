@@ -49,7 +49,7 @@ export default function Stock() {
         name: product.name,
         category: product.category,
         price: product.price,
-        stock: editStock,
+        stock: Number(editStock),
         status: status,
         image: product.image
       }
@@ -229,11 +229,19 @@ export default function Stock() {
                         <input
                           ref={stockInputRef}
                           type="number"
+                          min="0"
                           className="form-control"
                           value={editStock}
-                          onChange={(e) =>
-                            setEditStock(e.target.value)
-                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            if (
+                              value === "" ||
+                              Number(value) >= 0
+                            ) {
+                              setEditStock(value);
+                            }
+                          }}
                           style={{
                             width: "100px",
                             borderRadius: "6px",

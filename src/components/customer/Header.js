@@ -1,9 +1,13 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 
 function Header() {
   const [cartCount, setCartCount] = useState(0);
+  const [customer] = useState(
+    JSON.parse(localStorage.getItem("customer") || "null")
+  );
 
   useEffect(() => {
     getCartCount();
@@ -23,12 +27,33 @@ function Header() {
   const navStyle = ({ isActive }) => ({
     color: isActive ? "#ffffff" : "#0f766e",
     backgroundColor: isActive ? "#0f766e" : "transparent",
-    padding: "9px 18px",
+    padding: "10px 13px",
     borderRadius: "7px",
     fontWeight: "600",
     textDecoration: "none",
     whiteSpace: "nowrap",
+    fontSize: "15px",
   });
+
+  const iconBox = {
+    width: "42px",
+    height: "42px",
+    borderRadius: "50%",
+    backgroundColor: "#e8f5f3",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "20px",
+    margin: "auto",
+  };
+
+  const smallText = {
+    color: "#0f766e",
+    fontWeight: "600",
+    fontSize: "13px",
+    marginTop: "5px",
+    display: "block",
+  };
 
   return (
     <>
@@ -43,87 +68,73 @@ function Header() {
           zIndex: 1000,
         }}
       >
-        <div className="container">
+        <div
+          style={{
+            width: "92%",
+            maxWidth: "1650px",
+            margin: "auto",
+          }}
+        >
           <div
-            className="d-flex align-items-center justify-content-between"
-            style={{ minHeight: "90px" }}
+            style={{
+              minHeight: "95px",
+              display: "grid",
+              gridTemplateColumns: "190px minmax(0, 1fr) 330px",
+              alignItems: "center",
+              gap: "10px",
+            }}
           >
             <Link to="/" className="text-decoration-none">
               <img
                 src="/image/logo.png"
                 alt="Stationery Hub"
                 style={{
-                  height: "68px",
-                  width: "145px",
+                  height: "72px",
+                  width: "155px",
                   objectFit: "contain",
                 }}
               />
             </Link>
 
-            <div className="d-flex align-items-center gap-1">
-              <NavLink to="/" style={navStyle}>
-                Home
-              </NavLink>
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{ gap: "5px" }}
+            >
+              <NavLink to="/" style={navStyle}>Home</NavLink>
+              <NavLink to="/product" style={navStyle}>Product</NavLink>
+              <NavLink to="/category" style={navStyle}>Categories</NavLink>
+              <NavLink to="/contact" style={navStyle}>Contact Us</NavLink>
+              <NavLink to="/feedback" style={navStyle}>Feedback</NavLink>
+            </div>
 
-              <NavLink to="/product" style={navStyle}>
-                Product
-              </NavLink>
-
-              <NavLink to="/category" style={navStyle}>
-                Categories
-              </NavLink>
-
-              <NavLink to="/contact" style={navStyle}>
-                Contact Us
-              </NavLink>
-
-              <NavLink to="/feedback" style={navStyle}>
-                Feedback
-              </NavLink>
-
-              <NavLink to="/logout" style={navStyle}>
-                Logout
-              </NavLink>
-
-              <Link
-                to="/login"
-                className="text-decoration-none text-center ms-3"
-              >
-                <div
-                  className="rounded-circle d-flex align-items-center justify-content-center mx-auto"
-                  style={{
-                    width: "45px",
-                    height: "45px",
-                    backgroundColor: "#e8f5f3",
-                    fontSize: "20px",
-                  }}
+            <div
+              className="d-flex align-items-center justify-content-end"
+              style={{ gap: "18px" }}
+            >
+              {customer ? (
+                <Link
+                  to="/customer-profile"
+                  className="text-decoration-none text-center"
                 >
-                  👤
-                </div>
-                <small
-                  className="fw-semibold"
-                  style={{ color: "#0f766e" }}
+                  <div style={iconBox}>👤</div>
+                  <span style={smallText}>{customer.name}</span>
+                </Link>
+              ) : (
+                <Link
+                  to="/customer-login"
+                  className="text-decoration-none text-center"
                 >
-                  Login
-                </small>
-              </Link>
+                  <div style={iconBox}>👤</div>
+                  <span style={smallText}>Login</span>
+                </Link>
+              )}
 
               <Link
                 to="/cart"
-                className="text-decoration-none text-center ms-3"
+                className="text-decoration-none text-center"
                 style={{ position: "relative" }}
               >
-                <div
-                  className="rounded-circle d-flex align-items-center justify-content-center mx-auto"
-                  style={{
-                    width: "45px",
-                    height: "45px",
-                    backgroundColor: "#e8f5f3",
-                    fontSize: "20px",
-                  }}
-                >
-                  🛒
-                </div>
+                <div style={iconBox}>🛒</div>
 
                 {cartCount > 0 && (
                   <span
@@ -133,26 +144,39 @@ function Header() {
                       top: "-5px",
                       right: "-7px",
                       borderRadius: "50%",
-                      fontSize: "11px",
+                      fontSize: "10px",
                     }}
                   >
                     {cartCount}
                   </span>
                 )}
 
-                <small
-                  className="fw-semibold"
-                  style={{ color: "#0f766e" }}
-                >
-                  Cart
-                </small>
+                <span style={smallText}>Cart</span>
               </Link>
+
+              {customer && (
+                <Link
+                  to="/logout"
+                  className="text-decoration-none"
+                  style={{
+                    color: "#0f766e",
+                    border: "1px solid #0f766e",
+                    borderRadius: "7px",
+                    padding: "10px 15px",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Logout
+                </Link>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ height: "90px" }}></div>
+      <div style={{ height: "95px" }}></div>
     </>
   );
 }

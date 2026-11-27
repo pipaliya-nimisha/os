@@ -1,38 +1,63 @@
+
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 function Home({ setSelectedCategory }) {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    const res = await axios.get(
+      "http://localhost:4000/tbl_category"
+    );
+    setCategories(res.data);
+  };
 
   const addToCart = async (product) => {
-  const res = await axios.get(
-    `http://localhost:4000/tbl_cart?productId=${product.id}`
-  );
+    const customer = JSON.parse(localStorage.getItem("customer") || "null");
 
-  if (res.data.length > 0) {
-    const cartItem = res.data[0];
+    if (!customer) {
+      toast.error("Please login first");
+      navigate("/customer-login");
+      return;
+    }
 
-    await axios.patch(
-      `http://localhost:4000/tbl_cart/${cartItem.id}`,
-      {
-        quantity: cartItem.quantity + 1,
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/tbl_cart?productId=${product.id}`
+      );
+
+      if (res.data.length > 0) {
+        const cartItem = res.data[0];
+
+        await axios.patch(
+          `http://localhost:4000/tbl_cart/${cartItem.id}`,
+          {
+            quantity: Number(cartItem.quantity) + 1,
+          }
+        );
+
+        toast.success("Quantity increased");
+      } else {
+        await axios.post("http://localhost:4000/tbl_cart", {
+          productId: product.id,
+          productName: product.name,
+          price: product.price,
+          quantity: 1,
+        });
+
+        toast.success(product.name + " added to cart");
       }
-    );
-
-    toast.success("Quantity increased");
-  } else {
-    await axios.post("http://localhost:4000/tbl_cart", {
-      productId: product.id,
-      productName: product.name,
-      price: product.price,
-      quantity: 1,
-    });
-
-    toast.success(product.name + " added to cart");
-  }
-};
+    } catch (error) {
+      toast.error("Unable to add product to cart");
+    }
+  };
 
   return (
     <>
@@ -174,165 +199,52 @@ function Home({ setSelectedCategory }) {
           </div>
 
           <div className="row justify-content-center g-4">
-            <div className="col-md-3">
+            {categories.map((item) => (
               <div
-                className="card text-center border-0 shadow-sm p-3"
-                style={{ borderRadius: "10px" }}
+                className="col-xl-3 col-lg-4 col-md-6"
+                key={item.id}
               >
-                <img
-                  src="/image/pen.jpg"
-                  alt="Pens"
-                  className="img-fluid"
-                  style={{
-                    height: "140px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <h4
-                  className="fw-bold mt-2"
-                  style={{ color: "#243447" }}
+                <div
+                  className="card text-center border-0 shadow-sm p-3 h-100"
+                  style={{ borderRadius: "10px" }}
                 >
-                  Pens
-                </h4>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="img-fluid"
+                    style={{
+                      height: "140px",
+                      objectFit: "contain",
+                    }}
+                  />
 
-                <p className="text-secondary">Smooth writing pens</p>
+                  <h4
+                    className="fw-bold mt-2"
+                    style={{ color: "#243447" }}
+                  >
+                    {item.name}
+                  </h4>
 
-                <button
-                  className="btn text-white"
-                  onClick={() => {
-                    setSelectedCategory("Pens");
-                    navigate("/product");
-                  }}
-                  style={{
-                    backgroundColor: "#0d9488",
-                    borderRadius: "6px",
-                  }}
-                >
-                  View Products
-                </button>
+                  <p className="text-secondary">
+                    {item.description}
+                  </p>
+
+                  <button
+                    className="btn text-white"
+                    onClick={() => {
+                      setSelectedCategory(item.name);
+                      navigate("/product");
+                    }}
+                    style={{
+                      backgroundColor: "#0d9488",
+                      borderRadius: "6px",
+                    }}
+                  >
+                    View Products
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div className="col-md-3">
-              <div
-                className="card text-center border-0 shadow-sm p-3"
-                style={{ borderRadius: "10px" }}
-              >
-                <img
-                  src="/image/markers.jpg"
-                  alt="Markers"
-                  className="img-fluid"
-                  style={{
-                    height: "140px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <h4
-                  className="fw-bold mt-2"
-                  style={{ color: "#243447" }}
-                >
-                  Markers
-                </h4>
-
-                <p className="text-secondary">Bright & long lasting</p>
-
-                <button
-                  className="btn text-white"
-                  onClick={() => {
-                    setSelectedCategory("Markers");
-                    navigate("/product");
-                  }}
-                  style={{
-                    backgroundColor: "#0d9488",
-                    borderRadius: "6px",
-                  }}
-                >
-                  View Products
-                </button>
-              </div>
-            </div>
-
-            <div className="col-md-3">
-              <div
-                className="card text-center border-0 shadow-sm p-3"
-                style={{ borderRadius: "10px" }}
-              >
-                <img
-                  src="/image/pencil.jpg"
-                  alt="Pencil"
-                  className="img-fluid"
-                  style={{
-                    height: "140px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <h4
-                  className="fw-bold mt-2"
-                  style={{ color: "#243447" }}
-                >
-                  Pencil
-                </h4>
-
-                <p className="text-secondary">Smooth writing pencils</p>
-
-                <button
-                  className="btn text-white"
-                  onClick={() => {
-                    setSelectedCategory("Pencil");
-                    navigate("/product");
-                  }}
-                  style={{
-                    backgroundColor: "#0d9488",
-                    borderRadius: "6px",
-                  }}
-                >
-                  View Products
-                </button>
-              </div>
-            </div>
-
-            <div className="col-md-3">
-              <div
-                className="card text-center border-0 shadow-sm p-3"
-                style={{ borderRadius: "10px" }}
-              >
-                <img
-                  src="/image/notebook.jpg"
-                  alt="Notebooks"
-                  className="img-fluid"
-                  style={{
-                    height: "140px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <h4
-                  className="fw-bold mt-2"
-                  style={{ color: "#243447" }}
-                >
-                  Notebooks
-                </h4>
-
-                <p className="text-secondary">Quality notebooks</p>
-
-                <button
-                  className="btn text-white"
-                  onClick={() => {
-                    setSelectedCategory("Notebooks");
-                    navigate("/product");
-                  }}
-                  style={{
-                    backgroundColor: "#0d9488",
-                    borderRadius: "6px",
-                  }}
-                >
-                  View Products
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -392,7 +304,7 @@ function Home({ setSelectedCategory }) {
                       fontWeight: "bold",
                     }}
                   >
-                    Premium Notebook
+                    Classmate Spiral Notebook
                   </h5>
 
                   <p
@@ -409,8 +321,8 @@ function Home({ setSelectedCategory }) {
                     className="btn text-white"
                     onClick={() =>
                       addToCart({
-                        id: 1,
-                        name: "Premium Notebook",
+                        id: "dkw_whIijTM",
+                        name: "Classmate Spiral Notebook",
                         price: 120,
                       })
                     }
@@ -467,7 +379,7 @@ function Home({ setSelectedCategory }) {
                     className="btn text-white"
                     onClick={() =>
                       addToCart({
-                        id: 2,
+                        id: "ZmMW-nqllXg",
                         name: "Premium Ball Pen",
                         price: 50,
                       })
@@ -508,7 +420,7 @@ function Home({ setSelectedCategory }) {
                       fontWeight: "bold",
                     }}
                   >
-                    Pencil Set
+                    Apsara Platinum Pencil
                   </h5>
 
                   <p
@@ -518,16 +430,16 @@ function Home({ setSelectedCategory }) {
                       fontWeight: "bold",
                     }}
                   >
-                    ₹80
+                    ₹10
                   </p>
 
                   <button
                     className="btn text-white"
                     onClick={() =>
                       addToCart({
-                        id: 3,
-                        name: "Pencil Set",
-                        price: 80,
+                        id: "x4vUAQXHhnw",
+                        name: "Apsara Platinum Pencil",
+                        price: 10,
                       })
                     }
                     style={{
@@ -550,8 +462,8 @@ function Home({ setSelectedCategory }) {
                 }}
               >
                 <img
-                  src="/image/artkit.jpg"
-                  alt="Art Kit"
+                  src="/image/m1.jpg"
+                  alt="Permanent Marker"
                   style={{
                     height: "220px",
                     objectFit: "contain",
@@ -566,7 +478,7 @@ function Home({ setSelectedCategory }) {
                       fontWeight: "bold",
                     }}
                   >
-                    Art Kit
+                    Permanent Marker
                   </h5>
 
                   <p
@@ -576,16 +488,16 @@ function Home({ setSelectedCategory }) {
                       fontWeight: "bold",
                     }}
                   >
-                    ₹250
+                    ₹45
                   </p>
 
                   <button
                     className="btn text-white"
                     onClick={() =>
                       addToCart({
-                        id: 4,
-                        name: "Art Kit",
-                        price: 250,
+                        id: "ii8-GEArbNQ",
+                        name: "Permanent Marker",
+                        price: 45,
                       })
                     }
                     style={{

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,11 +5,8 @@ function Logouta() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Remove admin login data
     localStorage.removeItem("admin");
     localStorage.removeItem("auth");
-
-    // Go to login page
     navigate("/login");
   };
 
@@ -82,54 +78,29 @@ function Logouta() {
   return (
     <div style={main}>
       <div style={box}>
-
-        {/* Logout Icon */}
         <div style={icon}>
           <i className="fa-solid fa-right-from-bracket"></i>
         </div>
 
-        {/* Heading */}
-        <h2
-          style={{
-            color: "#26364c",
-            margin: "0 0 10px",
-          }}
-        >
+        <h2 style={{ color: "#26364c", margin: "0 0 10px" }}>
           Logout
         </h2>
 
-        {/* Message */}
-        <p
-          style={{
-            color: "#98a2b1",
-            fontSize: "14px",
-            marginBottom: "25px",
-          }}
-        >
+        <p style={{ color: "#98a2b1", fontSize: "14px", marginBottom: "25px" }}>
           Are you sure you want to logout?
         </p>
 
-        {/* Logout Button */}
-        <button
-          style={logoutBtn}
-          onClick={handleLogout}
-        >
+        <button style={logoutBtn} onClick={handleLogout}>
           <i className="fa-solid fa-right-from-bracket"></i>
           &nbsp; Yes, Logout
         </button>
 
-        {/* Cancel Button */}
-        <button
-          style={cancelBtn}
-          onClick={handleCancel}
-        >
+        <button style={cancelBtn} onClick={handleCancel}>
           Cancel
         </button>
-
       </div>
     </div>
   );
 }
 
 export default Logouta;
-

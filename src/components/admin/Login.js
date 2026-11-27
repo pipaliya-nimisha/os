@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
@@ -19,59 +20,89 @@ function Login({ setAdminName }) {
       return;
     }
 
-    if (loginAs === "admin") {
+    try {
 
-      const res = await axios.get(
-        "http://localhost:4000/tbl_admin"
-      );
+      if (loginAs === "admin") {
 
-      const admin = res.data.find(
-        (item) =>
-          String(item.email).trim().toLowerCase() ===
+        const res = await axios.get(
+          "http://localhost:4000/tbl_admin"
+        );
+
+        const admin = res.data.find(
+          (item) =>
+            String(item.email).trim().toLowerCase() ===
             email.trim().toLowerCase() &&
-          String(item.password).trim() ===
+            String(item.password).trim() ===
             password.trim()
-      );
+        );
 
-      if (admin) {
+        if (admin) {
 
-        setAdminName(admin.name);
+          const adminData = {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email
+          };
 
-        toast.success("Admin Login Successful");
+          localStorage.setItem(
+            "admin",
+            JSON.stringify(adminData)
+          );
 
-        navigate("/admin/dashboard");
+          setAdminName(admin.name);
 
-      } else {
+          toast.success("Admin Login Successful");
 
-        toast.error("Invalid Admin Email or Password");
+          navigate("/admin/dashboard");
 
+        } else {
+
+          toast.error("Invalid Admin Email or Password");
+
+        }
+
+      } else if (loginAs === "customer") {
+
+        const res = await axios.get(
+          "http://localhost:4000/tbl_customer"
+        );
+
+        const customer = res.data.find(
+          (item) =>
+            String(item.email).trim().toLowerCase() ===
+            email.trim().toLowerCase() &&
+            String(item.password).trim() ===
+            password.trim()
+        );
+
+        if (customer) {
+
+          const customerData = {
+            id: customer.id,
+            name: customer.name,
+            email: customer.email
+          };
+
+          localStorage.setItem(
+            "customer",
+            JSON.stringify(customerData)
+          );
+
+          toast.success("Customer Login Successful");
+
+          navigate("/");
+
+        } else {
+
+          toast.error("Please Register First");
+
+        }
       }
 
-    } else if (loginAs === "customer") {
+    } catch (error) {
 
-      const res = await axios.get(
-        "http://localhost:4000/tbl_customer"
-      );
+      toast.error("Unable to connect to server");
 
-      const customer = res.data.find(
-        (item) =>
-          String(item.email).trim().toLowerCase() ===
-            email.trim().toLowerCase() &&
-          String(item.password).trim() ===
-            password.trim()
-      );
-
-      if (customer) {
-
-        toast.success("Customer Login Successful");
-
-        navigate("/");
-
-      } else {
-
-        toast.error("Please Register First");
-
-      }
     }
   };
 

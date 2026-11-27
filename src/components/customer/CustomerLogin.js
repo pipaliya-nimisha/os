@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +18,17 @@ function CustomerLogin() {
     );
 
     if (res.data.length > 0) {
+      const customer = res.data[0];
+
+      localStorage.setItem(
+        "customer",
+        JSON.stringify({
+          id: customer.id,
+          name: customer.name,
+          email: customer.email,
+        })
+      );
+
       toast.success("Login Successful");
       navigate("/");
     } else {
@@ -36,7 +48,6 @@ function CustomerLogin() {
         <div className="row justify-content-center">
           <div className="col-md-5 col-lg-4">
             <div className="bg-white p-4 rounded-4 shadow">
-
               <h2
                 className="text-center fw-bold mb-2"
                 style={{ color: "#0f766e" }}
@@ -49,7 +60,6 @@ function CustomerLogin() {
               </p>
 
               <form onSubmit={handleLogin}>
-
                 <div className="mb-3">
                   <label className="form-label fw-semibold">
                     Email
@@ -64,6 +74,7 @@ function CustomerLogin() {
                     required
                   />
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label fw-semibold">
                     Password
@@ -78,6 +89,7 @@ function CustomerLogin() {
                     required
                   />
                 </div>
+
                 <button
                   type="submit"
                   className="btn w-100 text-white fw-semibold py-2"
@@ -87,11 +99,10 @@ function CustomerLogin() {
                 >
                   Login
                 </button>
-
               </form>
+
               <p className="text-center text-muted mt-4 mb-0">
                 Don't have an account?{" "}
-
                 <Link
                   to="/register"
                   className="fw-semibold text-decoration-none"
@@ -102,7 +113,6 @@ function CustomerLogin() {
                   Register
                 </Link>
               </p>
-
             </div>
           </div>
         </div>
