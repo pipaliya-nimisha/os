@@ -1,17 +1,19 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Logouta() {
+function Logouta({ setAdminName }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("admin");
     localStorage.removeItem("auth");
+    setAdminName("");
     navigate("/login");
   };
 
   const handleCancel = () => {
-    navigate("/admin/Dashboard");
+    navigate("/admin/dashboard");
   };
 
   const main = {

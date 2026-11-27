@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 
 function Orders() {
@@ -125,7 +126,6 @@ function Orders() {
         <table style={table}>
           <thead>
             <tr>
-              <th style={th}>Order ID</th>
               <th style={th}>Customer</th>
               <th style={th}>Date</th>
               <th style={th}>Amount</th>
@@ -137,7 +137,6 @@ function Orders() {
           <tbody>
             {orders.map((item) => (
               <tr key={item.id}>
-                <td style={td}>#{item.id}</td>
                 <td style={td}>{item.customerName}</td>
                 <td style={td}>{item.date}</td>
                 <td style={td}>₹{item.amount}</td>

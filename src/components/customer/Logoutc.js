@@ -9,7 +9,7 @@ function Logoutc() {
   useEffect(() => {
     localStorage.removeItem("customer");
     toast.success("Logout Successful");
-    navigate("/customer-login");
+    navigate("/login");
   }, [navigate]);
 
   return null;

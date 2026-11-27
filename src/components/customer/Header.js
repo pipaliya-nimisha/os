@@ -121,7 +121,7 @@ function Header() {
                 </Link>
               ) : (
                 <Link
-                  to="/customer-login"
+                  to="/login"
                   className="text-decoration-none text-center"
                 >
                   <div style={iconBox}>👤</div>

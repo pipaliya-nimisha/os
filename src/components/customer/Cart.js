@@ -137,7 +137,6 @@ function Cart() {
       }
 
       setOrderSuccess({
-        orderId: orderId,
         customerName: customer.name,
         amount: total,
         payment: "Cash on Delivery"
@@ -162,7 +161,6 @@ function Cart() {
       }}
     >
       <div className="container">
-
         {orderSuccess ? (
           <div
             className="mx-auto text-center p-4 p-md-5"
@@ -199,11 +197,6 @@ function Cart() {
             <hr />
 
             <div className="text-start mt-4">
-              <div className="d-flex justify-content-between mb-3">
-                <strong>Order ID</strong>
-                <span>{orderSuccess.orderId}</span>
-              </div>
-
               <div className="d-flex justify-content-between mb-3">
                 <strong>Customer Name</strong>
                 <span>{orderSuccess.customerName}</span>
@@ -281,7 +274,6 @@ function Cart() {
               </div>
             ) : (
               <div className="row">
-
                 <div className="col-lg-8">
                   {cart.map((item) => (
                     <div
@@ -362,7 +354,6 @@ function Cart() {
 
                     <div className="d-flex justify-content-between mt-3">
                       <strong>Total Amount</strong>
-
                       <strong style={{ color: "#0d9488" }}>
                         ₹{total}
                       </strong>
@@ -399,12 +390,10 @@ function Cart() {
                     </div>
                   </div>
                 </div>
-
               </div>
             )}
           </>
         )}
-
       </div>
     </div>
   );

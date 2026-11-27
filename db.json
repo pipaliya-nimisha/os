@@ -136,7 +136,7 @@
       "name": "Classmate Spiral Notebook",
       "category": "Notebooks",
       "price": "120",
-      "stock": 79,
+      "stock": 72,
       "status": "Available",
       "image": "/image/book1.jpg"
     },
@@ -145,7 +145,7 @@
       "name": "Navneet Long Notebook",
       "category": "Notebooks",
       "price": "90",
-      "stock": 99,
+      "stock": 94,
       "status": "Available",
       "image": "/image/book2.jpg"
     },
@@ -154,7 +154,7 @@
       "name": "Campus Ruled Notebook",
       "category": "Notebooks",
       "price": "120",
-      "stock": 49,
+      "stock": 46,
       "status": "Available",
       "image": "/image/book3.jpg"
     },
@@ -163,7 +163,7 @@
       "name": "Premium Hardcover Notebook",
       "category": "Notebooks",
       "price": "200",
-      "stock": "49",
+      "stock": 47,
       "status": "Available",
       "image": "/image/book4.webp"
     },
@@ -172,7 +172,7 @@
       "name": "Premium Ball Pen",
       "category": "Pens",
       "price": "50",
-      "stock": 86,
+      "stock": 82,
       "status": "Available",
       "image": "/image/pen1.jpg"
     },
@@ -181,7 +181,7 @@
       "name": "Roller Ball Pen",
       "category": "Pens",
       "price": "65",
-      "stock": "30",
+      "stock": 28,
       "status": "Available",
       "image": "/image/pen2.avif"
     },
@@ -190,7 +190,7 @@
       "name": "Gel Ink Pen",
       "category": "Pens",
       "price": "80",
-      "stock": "80",
+      "stock": 78,
       "status": "Available",
       "image": "/image/pen3.jpg"
     },
@@ -199,7 +199,7 @@
       "name": "Fountain Pen",
       "category": "Pens",
       "price": "40",
-      "stock": "100",
+      "stock": 98,
       "status": "Available",
       "image": "/image/pen4.webp"
     },
@@ -226,7 +226,7 @@
       "name": "Apsara Platinum Pencil",
       "category": "Pencils",
       "price": "10",
-      "stock": "75",
+      "stock": 70,
       "status": "Available",
       "image": "/image/pencil1.avif"
     },
@@ -253,7 +253,7 @@
       "name": "Permanent Marker",
       "category": "Markers",
       "price": "45",
-      "stock": 86,
+      "stock": 85,
       "status": "Available",
       "image": "/image/m1.jpg"
     },
@@ -460,7 +460,7 @@
       "name": "Display File Folder",
       "category": "Files & Folders",
       "price": "400",
-      "stock": "99",
+      "stock": 98,
       "status": "Available",
       "image": "/image/f2.webp"
     },
@@ -469,7 +469,7 @@
       "name": "Glue Stick",
       "category": "Glue",
       "price": "90",
-      "stock": "95",
+      "stock": 94,
       "status": "Available",
       "image": "/image/g2.jpg"
     },
@@ -478,7 +478,7 @@
       "name": "White Craft Glue",
       "category": "Glue",
       "price": "100",
-      "stock": "65",
+      "stock": 64,
       "status": "Available",
       "image": "/image/g3.jpg"
     },
@@ -487,344 +487,112 @@
       "name": "Scientific Calculator",
       "category": "Calculators",
       "price": "500",
-      "stock": "45",
+      "stock": 44,
       "status": "Available",
       "image": "/image/c2.jpg"
     }
   ],
   "tbl_order": [
     {
-      "id": "1",
-      "customerName": "Jinu",
-      "date": "25-08-2026",
-      "amount": 500,
-      "status": "Pending",
-      "payment": "COD"
-    },
-    {
-      "id": "3",
-      "customerName": "Devangi",
-      "date": "25-08-2026",
-      "amount": 750,
-      "status": "Confirmed",
-      "payment": "Online"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 550,
-      "status": "Shipped",
-      "payment": "Cash on Delivery",
-      "id": "njfzSe46X0M"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 290,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "jMR5uQGiJc0"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 210,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "_geRVlEIQKY"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 530,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "c4M70fP2yw4"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 380,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "gkoi9WUjxqA"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 315,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "68PVi7H0TdY"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 600,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "IwzYE4YyLO4"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 600,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "3lrs65Z0LGs"
-    },
-    {
-      "customerId": "ldPofR08TsY",
-      "customerName": "kiya",
-      "date": "26/11/2026",
-      "amount": 310,
-      "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "dJb_TFgrC6c"
-    },
-    {
+      "id": "cO-F3UkfVA8",
       "customerId": "ldPofR08TsY",
       "customerName": "kiya",
       "date": "27/11/2026",
-      "amount": 100,
+      "amount": 60,
       "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "FSvOLBY1cgE"
+      "payment": "Cash on Delivery"
     },
     {
+      "id": "QhM3xQUuax4",
       "customerId": "ldPofR08TsY",
       "customerName": "kiya",
       "date": "27/11/2026",
-      "amount": 120,
+      "amount": 330,
       "status": "Pending",
-      "payment": "Cash on Delivery",
-      "id": "3pqcDouvRS0"
+      "payment": "Cash on Delivery"
     }
   ],
   "tbl_order_details": [
     {
-      "orderId": "njfzSe46X0M",
-      "productId": 3,
-      "productName": "Pencil Set",
-      "price": 80,
-      "quantity": 2,
-      "subtotal": 160,
-      "id": "mhX9vjVATwc"
-    },
-    {
-      "orderId": "njfzSe46X0M",
-      "productId": 4,
-      "productName": "Art Kit",
-      "price": 250,
-      "quantity": 1,
-      "subtotal": 250,
-      "id": "30vP5RB8vFM"
-    },
-    {
-      "orderId": "njfzSe46X0M",
-      "productId": 2,
+      "orderId": "1",
+      "productId": "ZmMW-nqllXg",
       "productName": "Premium Ball Pen",
       "price": 50,
       "quantity": 1,
       "subtotal": 50,
-      "id": "788zdpVUk2c"
+      "id": "vSox6j85_GE"
     },
     {
-      "orderId": "njfzSe46X0M",
-      "productId": "IUKU8nAGeCc",
-      "productName": "Navneet Long Notebook",
-      "price": 90,
+      "orderId": "1",
+      "productId": "x4vUAQXHhnw",
+      "productName": "Apsara Platinum Pencil",
+      "price": 10,
       "quantity": 1,
-      "subtotal": 90,
-      "id": "zHPSwdvlxaY"
+      "subtotal": 10,
+      "id": "JtHeA6EuyBY"
     },
     {
-      "orderId": "jMR5uQGiJc0",
+      "orderId": "1",
       "productId": "dkw_whIijTM",
       "productName": "Classmate Spiral Notebook",
       "price": 120,
-      "quantity": 2,
-      "subtotal": 240,
-      "id": "qkElXoH9TJ8"
-    },
-    {
-      "orderId": "jMR5uQGiJc0",
-      "productId": 2,
-      "productName": "Premium Ball Pen",
-      "price": 50,
       "quantity": 1,
-      "subtotal": 50,
-      "id": "oHu_TQInxec"
+      "subtotal": 120,
+      "id": "28BKXQoNV_8"
     },
     {
-      "orderId": "_geRVlEIQKY",
+      "orderId": "1",
       "productId": "IUKU8nAGeCc",
       "productName": "Navneet Long Notebook",
       "price": 90,
       "quantity": 1,
       "subtotal": 90,
-      "id": "2iaAWWdWlPA"
+      "id": "WbZvpZZnSQw"
     },
     {
-      "orderId": "_geRVlEIQKY",
+      "orderId": "1",
       "productId": "PrYah0iiV_Q",
       "productName": "Campus Ruled Notebook",
       "price": 120,
       "quantity": 1,
       "subtotal": 120,
-      "id": "coQi_-meMnI"
+      "id": "b8q2a5rme3g"
     },
     {
-      "orderId": "c4M70fP2yw4",
-      "productId": "IUKU8nAGeCc",
-      "productName": "Navneet Long Notebook",
-      "price": 90,
+      "orderId": "nYcVxaYEALk",
+      "productId": "lHSzGiOJ77w",
+      "productName": "Roller Ball Pen",
+      "price": 65,
       "quantity": 1,
-      "subtotal": 90,
-      "id": "QQvcunK7WVk"
+      "subtotal": 65,
+      "id": "Rl8MUdPb8FQ"
     },
     {
-      "orderId": "c4M70fP2yw4",
-      "productId": "PrYah0iiV_Q",
-      "productName": "Campus Ruled Notebook",
-      "price": 120,
-      "quantity": 2,
-      "subtotal": 240,
-      "id": "NGM2T5nusGI"
-    },
-    {
-      "orderId": "c4M70fP2yw4",
-      "productId": "v95Jn1ppVpY",
-      "productName": "Premium Hardcover Notebook",
-      "price": 200,
-      "quantity": 1,
-      "subtotal": 200,
-      "id": "Ux07fMgexRQ"
-    },
-    {
-      "orderId": "gkoi9WUjxqA",
-      "productId": 2,
-      "productName": "Premium Ball Pen",
-      "price": 50,
-      "quantity": 1,
-      "subtotal": 50,
-      "id": "gjJuHPf8mNg"
-    },
-    {
-      "orderId": "gkoi9WUjxqA",
-      "productId": 3,
-      "productName": "Pencil Set",
+      "orderId": "nYcVxaYEALk",
+      "productId": "_KJ7GOIiUO0",
+      "productName": "Gel Ink Pen",
       "price": 80,
       "quantity": 1,
       "subtotal": 80,
-      "id": "jnJLrlMPKkM"
+      "id": "MZh-8OHeqSc"
     },
     {
-      "orderId": "gkoi9WUjxqA",
-      "productId": 4,
-      "productName": "Art Kit",
-      "price": 250,
+      "orderId": "nYcVxaYEALk",
+      "productId": "tgUlWTPwRrg",
+      "productName": "Fountain Pen",
+      "price": 40,
       "quantity": 1,
-      "subtotal": 250,
-      "id": "z67UYM3HY9Q"
+      "subtotal": 40,
+      "id": "LTbT21VgS98"
     },
     {
-      "orderId": "68PVi7H0TdY",
-      "productId": "ii8-GEArbNQ",
-      "productName": "Permanent Marker",
-      "price": 45,
-      "quantity": 1,
-      "subtotal": 45,
-      "id": "tVchTp-wgtw"
-    },
-    {
-      "orderId": "68PVi7H0TdY",
-      "productId": "LKrE7rInC9M",
-      "productName": "Whiteboard Marker Set",
-      "price": 120,
-      "quantity": 1,
-      "subtotal": 120,
-      "id": "sM0Aa0v--z4"
-    },
-    {
-      "orderId": "68PVi7H0TdY",
-      "productId": "2N3j1ddqgb4",
-      "productName": "CD/DVD Marker",
-      "price": 150,
-      "quantity": 1,
-      "subtotal": 150,
-      "id": "Li_JkFiOq5Q"
-    },
-    {
-      "orderId": "IwzYE4YyLO4",
-      "productId": "dkw_whIijTM",
-      "productName": "Classmate Spiral Notebook",
-      "price": 120,
-      "quantity": 5,
-      "subtotal": 600,
-      "id": "zQhSQJ3k4oM"
-    },
-    {
-      "orderId": "3lrs65Z0LGs",
-      "productId": "dkw_whIijTM",
-      "productName": "Classmate Spiral Notebook",
-      "price": 120,
-      "quantity": 5,
-      "subtotal": 600,
-      "id": "7ue9BQWrMg0"
-    },
-    {
-      "orderId": "dJb_TFgrC6c",
-      "productId": "dkw_whIijTM",
-      "productName": "Classmate Spiral Notebook",
-      "price": 120,
-      "quantity": 1,
-      "subtotal": 120,
-      "id": "WT6X19M2E_c"
-    },
-    {
-      "orderId": "dJb_TFgrC6c",
+      "orderId": "PGaJV_JIrqI",
       "productId": "IUKU8nAGeCc",
       "productName": "Navneet Long Notebook",
       "price": 90,
       "quantity": 1,
       "subtotal": 90,
-      "id": "m6TltUWDQME"
-    },
-    {
-      "orderId": "dJb_TFgrC6c",
-      "productId": "ZmMW-nqllXg",
-      "productName": "Premium Ball Pen",
-      "price": 50,
-      "quantity": 2,
-      "subtotal": 100,
-      "id": "9slF6ICg6sI"
-    },
-    {
-      "orderId": "FSvOLBY1cgE",
-      "productId": "ZmMW-nqllXg",
-      "productName": "Premium Ball Pen",
-      "price": 50,
-      "quantity": 2,
-      "subtotal": 100,
-      "id": "FTj3V0-mgpI"
-    },
-    {
-      "orderId": "3pqcDouvRS0",
-      "productId": "PrYah0iiV_Q",
-      "productName": "Campus Ruled Notebook",
-      "price": 120,
-      "quantity": 1,
-      "subtotal": 120,
-      "id": "L4XVRWa68sA"
+      "id": "6avDF66PXWU"
     }
   ],
   "tbl_cart": [],

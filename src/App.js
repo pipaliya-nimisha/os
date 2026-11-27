@@ -23,21 +23,23 @@ import Contact from "./components/customer/Contact.js";
 import Header from "./components/customer/Header.js";
 import Footer from "./components/customer/Footer.js";
 import Register from "./components/customer/Register.js";
-import CustomerLogin from "./components/customer/CustomerLogin.js";
 import Cart from "./components/customer/Cart.js";
 import Logoutc from "./components/customer/Logoutc.js";
 import CustomerProfile from "./components/customer/CustomerProfile";
 
 function AdminProtectedRoute({ children }) {
-
   const admin = localStorage.getItem("admin");
 
   return admin ? children : <Navigate to="/login" replace />;
+}
 
+function CustomerProtectedRoute({ children }) {
+  const customer = localStorage.getItem("customer");
+
+  return customer ? children : <Navigate to="/login" replace />;
 }
 
 function App() {
-
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const [adminName, setAdminName] = useState(() => {
@@ -47,11 +49,9 @@ function App() {
 
   return (
     <BrowserRouter>
-
       <Toaster position="top-center" />
 
       <Routes>
-
         <Route
           path="/"
           element={
@@ -79,9 +79,7 @@ function App() {
           element={
             <>
               <Header />
-              <CustomerCategory
-                setSelectedCategory={setSelectedCategory}
-              />
+              <CustomerCategory setSelectedCategory={setSelectedCategory} />
               <Footer />
             </>
           }
@@ -109,18 +107,18 @@ function App() {
           }
         />
 
-        <Route path="/customer-login" element={<CustomerLogin />} />
-
         <Route path="/register" element={<Register />} />
 
         <Route
           path="/cart"
           element={
-            <>
-              <Header />
-              <Cart />
-              <Footer />
-            </>
+            <CustomerProtectedRoute>
+              <>
+                <Header />
+                <Cart />
+                <Footer />
+              </>
+            </CustomerProtectedRoute>
           }
         />
 
@@ -128,11 +126,6 @@ function App() {
 
         <Route
           path="/login"
-          element={<Login setAdminName={setAdminName} />}
-        />
-
-        <Route
-          path="/admin/login"
           element={<Login setAdminName={setAdminName} />}
         />
 
@@ -214,41 +207,43 @@ function App() {
         />
 
         <Route
-  path="/admin/profile"
-  element={
-    <AdminProtectedRoute>
-      <Sidebar>
-        <Profile
-          adminName={adminName}
-          setAdminName={setAdminName}
+          path="/admin/profile"
+          element={
+            <AdminProtectedRoute>
+              <Sidebar>
+                <Profile
+                  adminName={adminName}
+                  setAdminName={setAdminName}
+                />
+              </Sidebar>
+            </AdminProtectedRoute>
+          }
         />
-      </Sidebar>
-    </AdminProtectedRoute>
-  }
-/>
 
         <Route
-  path="/admin/logout"
-  element={
-    <AdminProtectedRoute>
-      <Logout setAdminName={setAdminName} />
-    </AdminProtectedRoute>
-  }
-/>
+          path="/admin/logout"
+          element={
+            <AdminProtectedRoute>
+              <Logout setAdminName={setAdminName} />
+            </AdminProtectedRoute>
+          }
+        />
 
-<Route
-  path="/customer-profile"
-  element={
-    <>
-      <Header />
-      <CustomerProfile />
-      <Footer />
-    </>
-  }
-/>
+        <Route
+          path="/customer-profile"
+          element={
+            <CustomerProtectedRoute>
+              <>
+                <Header />
+                <CustomerProfile />
+                <Footer />
+              </>
+            </CustomerProtectedRoute>
+          }
+        />
 
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-
     </BrowserRouter>
   );
 }
